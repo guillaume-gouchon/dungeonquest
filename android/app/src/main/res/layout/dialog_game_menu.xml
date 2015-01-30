@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_game_menu"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.glevel.dungeonhero.views.CustomTextView
+        style="@style/SplashScreenTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="@string/game_paused" />
+
+    <com.glevel.dungeonhero.views.CustomButton
+        android:id="@+id/resume_game_btn"
+        style="@style/HomeScreenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="@string/resume_game" />
+
+    <com.glevel.dungeonhero.views.CustomButton
+        android:id="@+id/leave_quest_btn"
+        style="@style/HomeScreenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="@string/leave_quest" />
+
+    <com.glevel.dungeonhero.views.CustomButton
+        android:id="@+id/exit_btn"
+        style="@style/HomeScreenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="@string/exit" />
+
+</LinearLayout>

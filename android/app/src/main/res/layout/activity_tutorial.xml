@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/activity_game" />
+
+    <com.glevel.dungeonhero.views.CustomTextView
+        android:id="@+id/tutorial_hint"
+        android:background="@drawable/bg_gui"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="80dp"
+        android:padding="8dp"
+        android:textSize="14sp" />
+
+</RelativeLayout>

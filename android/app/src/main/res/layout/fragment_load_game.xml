@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <ListView
+        android:id="@+id/gamesList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:childDivider="@color/link_pressed"
+        android:dividerHeight="0dp"
+        android:choiceMode="singleChoice"
+        android:drawSelectorOnTop="false"
+        android:scrollbars="none"
+        android:divider="@android:color/transparent"
+        android:listSelector="@android:color/transparent"
+        android:overScrollMode="never"></ListView>
+
+</LinearLayout>

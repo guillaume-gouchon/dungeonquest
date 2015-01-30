@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/storms"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_village"
+        android:tint="#cc000000" />
+
+    <ImageView
+        android:id="@+id/grave"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:alpha="0.4"
+        android:src="@drawable/ic_death" />
+
+    <com.glevel.dungeonhero.views.CustomTitle
+        android:id="@+id/title"
+        style="@style/GameOverTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/game_over_title" />
+
+    <LinearLayout
+        android:layout_below="@+id/title"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp">
+
+        <com.glevel.dungeonhero.views.CustomButton
+            android:id="@+id/retry_btn"
+            style="@style/BackButton"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:text="@string/retry" />
+
+        <com.glevel.dungeonhero.views.CustomButton
+            android:id="@+id/exit_btn"
+            style="@style/BackButton"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:text="@string/exit"
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
+</RelativeLayout>

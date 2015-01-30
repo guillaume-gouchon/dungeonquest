@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="9" height="9" tilewidth="40" tileheight="40">
+ <tileset firstgid="1" name="tileset2" tilewidth="40" tileheight="40">
+  <image source="tileset.png" width="600" height="280"/>
+  <tile id="0">
+   <properties>
+    <property name="DUNGEON_FLOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="DUNGEON_FLOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="DUNGEON_FLOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="DUNGEON_FLOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="DUNGEON_FLOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="DUNGEON_FLOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="DOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="52">
+   <properties>
+    <property name="DOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="71">
+   <properties>
+    <property name="DOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="72">
+   <properties>
+    <property name="DOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="74">
+   <properties>
+    <property name="DOOR" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="9" height="9">
+  <data encoding="base64" compression="zlib">
+   eJxLZGBgSKQSZgNiJiBmgbJhfGY0NaxQMZgcKxTD1MDkGZHMY0RTAxNnRrKLFaoO3S6YXiYkfdjc70mmvwF8xRHa
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="9" height="9">
+  <data encoding="base64" compression="zlib">
+   eJyFzDEOgkAQQNE9gqLWIChSARHESgsFK0gg0EHQyP3vwN9kCkIBxcvsTH52o5TawsBuMrU9DjBh4YgaDWzh4AQfAUL8MchbuyKSJlygm8dK85LmudLkKGQ/w8UFHkpUaNGhR4wbEtzxxW/27xspMnwm9xFC1xBe
+  </data>
+ </layer>
+</map>

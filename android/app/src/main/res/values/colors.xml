@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_text_color">#eee</color>
+    <color name="secondary_text_color">#ddd</color>
+
+    <!-- Buttons -->
+    <color name="bg_btn_edge">#66000000</color>
+    <color name="bg_btn_edge_pressed">#99000000</color>
+    <color name="bg_btn_center">#ee000000</color>
+    <color name="bg_btn_center_pressed">#aabbbbbb</color>
+    <color name="bg_btn_disabled">#33000000</color>
+    <color name="text_radio_btn_inactive">#55ffffff</color>
+
+    <color name="bg_gui">#cc000000</color>
+
+    <color name="bg_popup_btn">#111</color>
+    <color name="bg_popup_btn_pressed">#222</color>
+
+    <color name="link">#155A73</color>
+    <color name="link_pressed">#aa155A73</color>
+
+    <color name="text_discussion_answer_pressed">#77A867</color>
+    <color name="green">#84dd38</color>
+    <color name="grey">#aabbbbbb</color>
+    <color name="white">#ffffff</color>
+    <color name="red">#D10000</color>2\
+    <color name="black">#000000</color>
+    <color name="darkGreen">#5A9626</color>
+    <color name="blue">#6BB3D6</color>
+    <color name="bg_game_menu">#aa000000</color>
+
+    <color name="bg_level_0">#aa000000</color>
+    <color name="bg_level_1">#aaEDEA39</color>
+    <color name="bg_level_2">#aaFF9F38</color>
+    <color name="bg_level_3">#aaD10000</color>
+    <color name="bg_level_4">#aa5A9626</color>
+    <color name="bg_level_5">#aa6BB3D6</color>
+    <color name="bg_level_6">#aa6B53D6</color>
+
+</resources>
