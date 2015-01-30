@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.glevel.dungeonhero"
+    package="com.giggs.heroquest"
     android:installLocation="preferExternal">
 
     <uses-permission android:name="com.android.vending.BILLING" />
@@ -25,31 +25,41 @@
 
         <activity
             android:name=".activities.SplashActivity"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.HomeActivity" />
-        <activity android:name=".activities.BookChooserActivity" />
-        <activity android:name=".activities.GameOverActivity" />
-        <activity android:name=".activities.ShopActivity" />
-        <activity android:name=".activities.NewGameActivity" />
-        <activity android:name=".activities.BestiaryActivity" />
+        <activity
+            android:name=".activities.HomeActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".activities.AdventureActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".activities.GameOverActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".activities.ShopActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".activities.NewGameActivity"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".activities.games.GameActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".activities.games.TutorialQuest"
-            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
-        <activity
-            android:name=".activities.games.IntroductionQuest"
-            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"></activity>
+
         <provider
             android:name=".providers.MyContentProvider"
-            android:authorities="com.glevel.dungeonhero"
+            android:authorities="com.giggs.heroquest"
             android:exported="false" />
 
     </application>

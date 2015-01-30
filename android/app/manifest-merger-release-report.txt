@@ -53,7 +53,7 @@ MERGED from com.google.android.gms:play-services:6.5.87:21:9
 		ADDED from AndroidManifest.xml:23:13
 	android:value
 		ADDED from AndroidManifest.xml:24:13
-activity#com.glevel.dungeonhero.activities.SplashActivity
+activity#com.giggs.heroquest.activities.SplashActivity
 ADDED from AndroidManifest.xml:26:9
 	android:noHistory
 		ADDED from AndroidManifest.xml:28:13
@@ -69,49 +69,49 @@ category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:32:17
 	android:name
 		ADDED from AndroidManifest.xml:32:27
-activity#com.glevel.dungeonhero.activities.HomeActivity
+activity#com.giggs.heroquest.activities.HomeActivity
 ADDED from AndroidManifest.xml:35:9
 	android:name
 		ADDED from AndroidManifest.xml:35:19
-activity#com.glevel.dungeonhero.activities.BookChooserActivity
+activity#com.giggs.heroquest.activities.BookChooserActivity
 ADDED from AndroidManifest.xml:36:9
 	android:name
 		ADDED from AndroidManifest.xml:36:19
-activity#com.glevel.dungeonhero.activities.GameOverActivity
+activity#com.giggs.heroquest.activities.GameOverActivity
 ADDED from AndroidManifest.xml:37:9
 	android:name
 		ADDED from AndroidManifest.xml:37:19
-activity#com.glevel.dungeonhero.activities.ShopActivity
+activity#com.giggs.heroquest.activities.ShopActivity
 ADDED from AndroidManifest.xml:38:9
 	android:name
 		ADDED from AndroidManifest.xml:38:19
-activity#com.glevel.dungeonhero.activities.NewGameActivity
+activity#com.giggs.heroquest.activities.NewGameActivity
 ADDED from AndroidManifest.xml:39:9
 	android:name
 		ADDED from AndroidManifest.xml:39:19
-activity#com.glevel.dungeonhero.activities.BestiaryActivity
+activity#com.giggs.heroquest.activities.BestiaryActivity
 ADDED from AndroidManifest.xml:40:9
 	android:name
 		ADDED from AndroidManifest.xml:40:19
-activity#com.glevel.dungeonhero.activities.games.GameActivity
+activity#com.giggs.heroquest.activities.games.GameActivity
 ADDED from AndroidManifest.xml:41:9
 	android:configChanges
 		ADDED from AndroidManifest.xml:43:13
 	android:name
 		ADDED from AndroidManifest.xml:42:13
-activity#com.glevel.dungeonhero.activities.games.TutorialQuest
+activity#com.giggs.heroquest.activities.games.TutorialQuest
 ADDED from AndroidManifest.xml:44:9
 	android:configChanges
 		ADDED from AndroidManifest.xml:46:13
 	android:name
 		ADDED from AndroidManifest.xml:45:13
-activity#com.glevel.dungeonhero.activities.games.IntroductionQuest
+activity#com.giggs.heroquest.activities.games.IntroductionQuest
 ADDED from AndroidManifest.xml:47:9
 	android:configChanges
 		ADDED from AndroidManifest.xml:49:13
 	android:name
 		ADDED from AndroidManifest.xml:48:13
-provider#com.glevel.dungeonhero.providers.MyContentProvider
+provider#com.giggs.heroquest.providers.MyContentProvider
 ADDED from AndroidManifest.xml:50:9
 	android:exported
 		ADDED from AndroidManifest.xml:53:13

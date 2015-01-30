@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_cave"
+    android:padding="10dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:background="@color/bg_btn_edge_pressed"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <com.giggs.heroquest.views.CustomTextView
+            android:id="@+id/hero_name"
+            style="@style/HeroTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder"
+            android:drawablePadding="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="18sp"
+            android:layout_marginLeft="12dp" />
+
+        <LinearLayout
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+
+            <com.giggs.heroquest.views.HintTextView
+                android:id="@+id/hp"
+                style="@style/HeroStat"
+                android:drawableLeft="@drawable/ic_health"
+                custom:textHint="@string/hp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <com.giggs.heroquest.views.HintTextView
+                android:id="@+id/spirit"
+                style="@style/HeroStat"
+                android:drawableLeft="@drawable/ic_spirit"
+                custom:textHint="@string/spirit"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <com.giggs.heroquest.views.HintTextView
+                android:id="@+id/attack"
+                style="@style/HeroStat"
+                android:drawableLeft="@drawable/ic_axe"
+                custom:textHint="@string/attack"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <com.giggs.heroquest.views.HintTextView
+                android:id="@+id/defense"
+                style="@style/HeroStat"
+                android:drawableLeft="@drawable/ic_shield"
+                custom:textHint="@string/defense"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.giggs.heroquest.views.CustomTextView
+            android:id="@+id/buy_button"
+            style="@style/Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/buy_full_game"
+            android:padding="10dp"
+            android:drawablePadding="10dp"
+            android:textSize="15sp"
+            android:layout_marginBottom="5dp"
+            android:drawableLeft="@drawable/ic_double_axe" />
+
+        <com.giggs.heroquest.views.CustomTextView
+            android:id="@+id/shop_button"
+            style="@style/Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/visit_shop"
+            android:padding="10dp"
+            android:drawablePadding="10dp"
+            android:textSize="15sp"
+            android:drawableLeft="@drawable/ic_coins" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/bg_btn_edge_pressed"
+        android:padding="5dp"
+        android:layout_marginLeft="5dp">
+
+        <com.giggs.heroquest.views.CustomTextView
+            style="@style/HeroTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/which_quest"
+            android:textSize="15sp" />
+
+        <ListView
+            android:layout_marginTop="10dp"
+            android:id="@+id/quests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:childDivider="@color/link_pressed"
+            android:dividerHeight="0dp"
+            android:choiceMode="singleChoice"
+            android:drawSelectorOnTop="false"
+            android:scrollbars="none"
+            android:divider="@android:color/transparent"
+            android:listSelector="@android:color/transparent"
+            android:overScrollMode="never"></ListView>
+    </LinearLayout>
+</LinearLayout>

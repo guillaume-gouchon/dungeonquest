@@ -23,7 +23,7 @@
             android:orientation="horizontal"></LinearLayout>
     </LinearLayout>
 
-    <com.glevel.dungeonhero.views.CustomTextView
+    <com.giggs.heroquest.views.CustomTextView
         android:id="@+id/hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

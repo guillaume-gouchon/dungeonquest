@@ -20,58 +20,15 @@
         android:padding="7dp">
 
         <include
-            android:id="@+id/map"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/bag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            layout="@layout/in_game_map_button" />
-
-        <include
             android:id="@+id/bag"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             layout="@layout/in_game_bag_button" />
-
-        <LinearLayout
-            android:id="@+id/skillButtonsLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/bag"
-            android:gravity="left|center_vertical"></LinearLayout>
-
-        <include
-            android:id="@+id/hero"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            layout="@layout/in_game_hero_button" />
-
-        <include
-            android:id="@+id/selectedElement"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            layout="@layout/in_game_selected_element" />
-
-        <include
-            android:id="@+id/queue"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            layout="@layout/in_game_queue" />
     </RelativeLayout>
 
-    <com.glevel.dungeonhero.views.CustomTextView
+    <com.giggs.heroquest.views.CustomTextView
         android:id="@+id/bigLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

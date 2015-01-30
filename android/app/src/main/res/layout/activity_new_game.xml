@@ -9,23 +9,24 @@
         android:id="@+id/storms"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_village"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_home"
         android:tint="#cc000000" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:background="@drawable/bg_home_flash">
 
-        <com.glevel.dungeonhero.views.CustomCarousel
+        <com.giggs.heroquest.views.CustomCarousel
             android:id="@+id/heroes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             custom:nbColumns="2" />
 
-        <com.glevel.dungeonhero.views.CustomTextView
+        <com.giggs.heroquest.views.CustomTextView
             android:id="@+id/chooseHeroMessage"
             style="@style/AnimatedMessage"
             android:layout_centerInParent="true"

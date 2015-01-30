@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.glevel.dungeonhero.views.CustomEditText
+    <com.giggs.heroquest.views.CustomEditText
         android:id="@+id/heroNameInput"
         style="@style/PopupMessage"
         android:gravity="left|center_vertical"
@@ -18,7 +18,7 @@
         android:background="@color/black"
         android:inputType="textNoSuggestions" />
 
-    <com.glevel.dungeonhero.views.CustomTextView
+    <com.giggs.heroquest.views.CustomTextView
         android:id="@+id/ok_btn"
         style="@style/PopupButton"
         android:layout_width="match_parent"

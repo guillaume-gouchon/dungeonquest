@@ -5,7 +5,7 @@
 
     <include layout="@layout/activity_game" />
 
-    <com.glevel.dungeonhero.views.CustomTextView
+    <com.giggs.heroquest.views.CustomTextView
         android:id="@+id/tutorial_hint"
         android:background="@drawable/bg_gui"
         android:layout_width="wrap_content"

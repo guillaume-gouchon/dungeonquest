@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">Dungeon Hero</string>
+    <string name="app_name">Dungeon Quest</string>
     <string name="app_publisher">G-Level</string>
     <string name="id">id</string>
     <string name="item">item</string>
@@ -29,17 +29,11 @@
     <string name="rate_message">If you enjoy playing %s, please take a moment to rate it.\n\nThanks for your support\u00A0!</string>
 
     <!-- About Dialog -->
-    <string name="about_title">About Dungeon Hero</string>
-    <string name="about_credits">Game and Music by <a href="http://gouchon.com">Guillaume Gouchon</a>.\n\nMetal Music by Outsider, listen <a href="http://music.gouchon.com">here</a>.\n\nYou can suggest your own quests\non the <a href="https://www.facebook.com/dungeonheroII">Facebook Page</a>.</string>
+    <string name="about_title">About Dungeon Quest</string>
+    <string name="about_credits">Game and Music by <a href="http://gouchon.com">Guillaume Gouchon</a></string>
     <string name="about_contact">Feel free to <a href="mailto:guillaume.gouchon@gmail.com">contact me</a> if you have any issue or question.</string>
-    <string name="about_other_sources">The game uses AndEngine game engine by Nicolas Gramlich.\nGame icons by <a href="http://game-icons.net">game-icons.net</a>.\nBackground art by Q_x.\nLauncher icon by <a href="http://sonialahcene.com">Sonia Lahcene</a>.\nDungeon tileset by <a href="http://www.lostgarden.com/2006/07/more-free-game-graphics.html">Daniel Cook</a>.</string>
+    <string name="about_other_sources">The game uses AndEngine game engine by Nicolas Gramlich.\nGame icons by <a href="http://game-icons.net">game-icons.net</a>.\nDungeon tileset by <a href="http://www.lostgarden.com/2006/07/more-free-game-graphics.html">Daniel Cook</a>.</string>
     <string name="about_version">Version : %s</string>
-
-    <!-- Google Game Services Integration -->
-    <string name="gamehelper_sign_in_failed">Failed to sign in. Please check your network connection and try again.</string>
-    <string name="gamehelper_app_misconfigured">The application is incorrectly configured. Check that the package name and signing certificate match the client ID created in Developer Console. Also, if the application is not yet published, check that the account you are trying to sign in with is listed as a tester account. See logs for more information.</string>
-    <string name="gamehelper_license_failed">License check failed.</string>
-    <string name="gamehelper_unknown_error">Unknown error.</string>
 
     <!-- Share app -->
     <string name="share_subject">Check out %s on Android\u00A0!</string>
@@ -50,74 +44,50 @@
     <string name="load_game">Load Game</string>
     <string name="settings">Options</string>
     <string name="back">Back</string>
-    <string name="advertisement">If you enjoy playing this game,\nplease like the <a href="https://www.facebook.com/dungeonheroII">Facebook Page</a> and suggest your own quests\u00A0!</string>
-    <string name="login">Login</string>
-    <string name="logout">Logout</string>
-    <string name="achievements">Trophees</string>
+    <string name="advertisement">If you enjoy playing this game,\nyou can like my other RPG <a href="https://play.google.com/store/apps/details?id=com.glevel.dungeonhero">Dungeon Hero</a>\u00A0!</string>
     <string name="loading_saved_games">Loading...</string>
 
     <!-- Settings -->
     <string name="music_volume">Music / Sound</string>
     <string name="music_off">Off</string>
     <string name="music_on">On</string>
-    <string name="about">About Dungeon Hero</string>
+    <string name="about">About Dungeon Quest</string>
     <string name="rate_app">Rate the app</string>
     <string name="share">Share</string>
-    <string name="screen_orientation">Screen orientation in game</string>
-    <string name="landscape">Landscape</string>
-    <string name="portrait">Portrait</string>
-    <string name="music_type">Type of Music</string>
-    <string name="symphonic">Symphonic</string>
-    <string name="metal">Death Metal</string>
 
     <!-- New Game -->
     <string name="hint_carousel">Swipe right</string>
     <string name="choose_hero_message">Choose a Hero</string>
-    <string name="hero_name_input">Enter your hero name...</string>
-    <string name="buy_hero">Buy the %s</string>
-    <string name="buy_all_heroes">Buy all 5 Heroes\n(30% discount\u00A0!)</string>
-    <string name="buy_reminder"><i>(by buying a hero, you will fill my fridge with one more beer)</i></string>
-    <string name="unblock_hero">Get 3 stars at all the quests with the %s\n\nor</string>
+    <string name="hero_name_input">Enter your name, adventurer...</string>
 
-    <!-- Book Chooser -->
+    <!-- Adventure Screen -->
     <string name="choose_book_message">Choose a Quest</string>
     <string name="ask_tutorial">It is recommended to do the tutorial in order to know how to play\u00A0!\nWould you like to do it now\u00A0?</string>
     <string name="visit_shop">Visit the Shop</string>
-    <string name="shop">Shop</string>
-    <string name="bestiary">Bestiary</string>
-    <string name="enter_quest">Enter Quest</string>
-    <string name="congratulations_unlock">Congratulations\u00A0!\n\nYou have unlocked\nthe %s !</string>
-    <string name="congratulations_finish_game">Congratulations\u00A0!\n\nYou have finished the game with all the characters !\n\nThe village of Gundin is now safe and your name will be reminded for decades there.\nSee you at the next episode for new epic adventures, and thanks for playing %s\u00A0!</string>
-
-    <!-- Bestiary -->
-    <string name="bestiary_header">My trophees\u00A0!</string>
+    <string name="buy_full_game">Buy full game</string>
+    <string name="congratulations_finish_game">Congratulations\u00A0!\n\nYou have finished the game !\n\nTry to finish it with all the charactesrs.\nThanks for playing %s\u00A0!</string>
+    <string name="which_quest">Choose a Quest to enter</string>
 
     <!-- Story -->
-    <string name="skip">Skip</string>
-    <string name="replay">Replay</string>
+    <string name="play">Start</string>
 
     <!-- Game Over -->
-    <string name="retry">Retry floor</string>
+    <string name="retry">Retry</string>
     <string name="exit">Exit</string>
-    <string name="game_over_title">Game Over</string>
 
     <!-- Shop -->
-    <string name="shop_intro_port">Hey adventurer, welcome to the Easy Dungeon shop\u00A0!\n\nHere are today\'s offers.</string>
-    <string name="shop_intro">Hey adventurer, welcome to the Easy Dungeon shop\u00A0! Here are today\'s offers.</string>
-    <string name="shop_outro">Have a good death..euh day\u00A0!</string>
     <string name="your_bag">Your Bag</string>
     <string name="buy_item_for">Buy item for %s gold coins</string>
     <string name="sell_item_for">Sell item for %s gold coins</string>
     <string name="transaction_confirmation">Are you sure you want to %1$s %2$s\u00A0?</string>
-    <string name="merchant">Merchant</string>
     <string name="buy">buy</string>
     <string name="sell">sell</string>
 
     <!-- Characteristics -->
     <string name="hp">Health points</string>
-    <string name="strength">Strength : used to deal damages, equip heavy items</string>
-    <string name="dexterity">Dexterity : used to dodge, react, aim</string>
-    <string name="spirit">Spirit : used to react, focus, gain skills</string>
+    <string name="spirit">Spirit : used to react, to resist to magic and to cast spells</string>
+    <string name="attack">Attack : used to deal damages</string>
+    <string name="defense">Defense : used to avoid and block attacks</string>
     <string name="frags">Frags</string>
 
     <!-- Game -->

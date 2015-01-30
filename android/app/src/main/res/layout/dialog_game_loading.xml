@@ -8,13 +8,13 @@
     android:gravity="center">
 
 
-    <com.glevel.dungeonhero.views.CustomTitle
+    <com.giggs.heroquest.views.CustomTitle
         style="@style/LoadingTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/loading_game" />
 
-    <com.glevel.dungeonhero.views.CustomTitle
+    <com.giggs.heroquest.views.CustomTitle
         style="@style/LoadingTitle"
         android:id="@+id/loadingDots"
         android:layout_width="wrap_content"

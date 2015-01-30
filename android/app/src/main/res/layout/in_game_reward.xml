@@ -3,7 +3,6 @@
     android:id="@id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_reward"
     android:orientation="vertical"
     android:padding="30dp">
 
@@ -15,30 +14,14 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <com.glevel.dungeonhero.views.CustomTextView
+        <com.giggs.heroquest.views.CustomTextView
             android:id="@+id/item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/placeholder"
             style="@style/PopupMessage" />
 
-        <com.glevel.dungeonhero.views.CustomTextView
-            android:id="@+id/gold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/placeholder"
-            android:drawableTop="@drawable/ic_coin"
-            style="@style/PopupMessage" />
-
-        <com.glevel.dungeonhero.views.CustomTextView
-            android:id="@+id/xp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/placeholder"
-            style="@style/PopupMessage"
-            android:textColor="@color/blue" />
-
-        <com.glevel.dungeonhero.views.CustomTextView
+        <com.giggs.heroquest.views.CustomTextView
             android:id="@+id/dismiss_button"
             style="@style/PopupButton"
             android:layout_width="wrap_content"

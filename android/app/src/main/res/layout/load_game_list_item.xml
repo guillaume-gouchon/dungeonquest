@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:padding="5dp">
 
-    <com.glevel.dungeonhero.views.CustomTextView
+    <com.giggs.heroquest.views.CustomTextView
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

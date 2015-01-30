@@ -3,7 +3,6 @@
     android:id="@id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_bag"
     android:padding="5dp"
     android:orientation="vertical">
 
@@ -17,34 +16,6 @@
         android:paddingBottom="5dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
-
-        <LinearLayout
-            android:id="@+id/equipment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <include
-                android:id="@+id/weapon1"
-                layout="@layout/in_game_item" />
-
-            <include
-                android:id="@+id/weapon2"
-                layout="@layout/in_game_item" />
-
-            <include
-                android:id="@+id/armor"
-                layout="@layout/in_game_item" />
-
-            <include
-                android:id="@+id/ring1"
-                layout="@layout/in_game_item" />
-
-            <include
-                android:id="@+id/ring2"
-                layout="@layout/in_game_item" />
-        </LinearLayout>
 
         <GridLayout
             android:id="@+id/bag"
@@ -83,15 +54,5 @@
 
             <include layout="@layout/in_game_item" />
         </GridLayout>
-
-        <com.glevel.dungeonhero.views.CustomTextView
-            android:id="@+id/gold_amount"
-            style="@style/PopupMessage"
-            android:layout_marginTop="3dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
-            android:drawableLeft="@drawable/ic_coin"
-            android:padding="7dp" />
     </LinearLayout>
 </LinearLayout>

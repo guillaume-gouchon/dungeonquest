@@ -7,7 +7,7 @@
     android:padding="10dp"
     android:gravity="center">
 
-    <com.glevel.dungeonhero.views.CustomTextView
+    <com.giggs.heroquest.views.CustomTextView
         style="@style/PopupMessage"
         android:id="@+id/name"
         android:layout_width="wrap_content"
@@ -20,7 +20,7 @@
         android:layout_height="2dp"
         android:layout_width="match_parent" />
 
-    <com.glevel.dungeonhero.views.CustomTextView
+    <com.giggs.heroquest.views.CustomTextView
         style="@style/PopupDescription"
         android:id="@+id/description"
         android:layout_width="match_parent"
@@ -35,27 +35,27 @@
         android:padding="5dp"
         android:layout_gravity="left">
 
-        <com.glevel.dungeonhero.views.HintTextView
+        <com.giggs.heroquest.views.HintTextView
             android:visibility="gone"
             style="@style/HeroStat" />
 
-        <com.glevel.dungeonhero.views.HintTextView
+        <com.giggs.heroquest.views.HintTextView
             android:visibility="gone"
             style="@style/HeroStat" />
 
-        <com.glevel.dungeonhero.views.HintTextView
+        <com.giggs.heroquest.views.HintTextView
             android:visibility="gone"
             style="@style/HeroStat" />
 
-        <com.glevel.dungeonhero.views.HintTextView
+        <com.giggs.heroquest.views.HintTextView
             android:visibility="gone"
             style="@style/HeroStat" />
 
-        <com.glevel.dungeonhero.views.HintTextView
+        <com.giggs.heroquest.views.HintTextView
             android:visibility="gone"
             style="@style/HeroStat" />
 
-        <com.glevel.dungeonhero.views.HintTextView
+        <com.giggs.heroquest.views.HintTextView
             android:visibility="gone"
             style="@style/HeroStat" />
     </GridLayout>
@@ -68,15 +68,15 @@
         android:padding="5dp"
         android:layout_gravity="left">
 
-        <com.glevel.dungeonhero.views.HintTextView
+        <com.giggs.heroquest.views.HintTextView
             android:visibility="gone"
             style="@style/HeroStat" />
 
-        <com.glevel.dungeonhero.views.HintTextView
+        <com.giggs.heroquest.views.HintTextView
             android:visibility="gone"
             style="@style/HeroStat" />
 
-        <com.glevel.dungeonhero.views.HintTextView
+        <com.giggs.heroquest.views.HintTextView
             android:visibility="gone"
             style="@style/HeroStat" />
     </GridLayout>
@@ -88,7 +88,7 @@
         android:gravity="center"
         android:layout_marginTop="10dp">
 
-        <com.glevel.dungeonhero.views.CustomTextView
+        <com.giggs.heroquest.views.CustomTextView
             android:id="@+id/main_action_btn"
             style="@style/PopupButton"
             android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
             android:text="@string/placeholder"
             android:visibility="gone" />
 
-        <com.glevel.dungeonhero.views.CustomTextView
+        <com.giggs.heroquest.views.CustomTextView
             android:id="@+id/secondary_action_btn"
             style="@style/PopupButton"
             android:layout_width="wrap_content"

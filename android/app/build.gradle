@@ -3,20 +3,20 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         debug {
-            keyAlias 'dungeon'
-            keyPassword 'putain'
-            storeFile file('/home/guillaume/dungeon_debug.jks')
-            storePassword 'putain'
+            keyAlias 'heroquest'
+            keyPassword 'couilleburne'
+            storeFile file('/home/guillaume/dq.keystore')
+            storePassword 'couilleburne'
         }
     }
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
     defaultConfig {
-        applicationId "com.glevel.dungeonhero"
+        applicationId "com.giggs.heroquest"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 27
-        versionName "1.0.1"
+        versionCode 100
+        versionName "3.0.0"
     }
     buildTypes {
         release {

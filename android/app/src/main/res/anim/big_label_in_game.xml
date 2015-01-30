@@ -2,23 +2,22 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:fillAfter="true"
     android:fillBefore="true"
-    android:startOffset="100" >
+    android:startOffset="100">
+
+    <translate
+        android:duration="300"
+        android:fromYDelta="100%"
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:toYDelta="0%p" />
 
     <scale
         android:duration="400"
-        android:fromXScale="0"
-        android:fromYScale="0"
+        android:fromXScale="1"
+        android:fromYScale="1"
         android:pivotX="50%"
-        android:pivotY="50%"
-        android:toXScale="1"
-        android:toYScale="1" />
-
-    <translate
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:duration="250"
-        android:fromYDelta="0%"
-        android:interpolator="@android:anim/accelerate_interpolator"
         android:startOffset="1000"
-        android:toYDelta="-100%p" />
+        android:pivotY="50%"
+        android:toXScale="4"
+        android:toYScale="4" />
 
 </set>
