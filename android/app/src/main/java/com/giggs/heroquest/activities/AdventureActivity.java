@@ -93,9 +93,9 @@ public class AdventureActivity extends MyActivity implements OnClickListener, On
         Log.d(TAG, "nb quests done = " + nbQuestsDone);
 
         // show victory dialog
-        if (nbQuestsDone == GameConstants.NB_QUESTS) {
+//        if (nbQuestsDone == GameConstants.NB_QUESTS) {
             showVictoryDialog();
-        }
+//        }
 
         setupUI();
 
@@ -232,7 +232,6 @@ public class AdventureActivity extends MyActivity implements OnClickListener, On
             dialog.setContentView(R.layout.dialog_victory);
             TextView title = (TextView) dialog.findViewById(R.id.title);
             title.setText(getString(R.string.congratulations_finish_game, getString(R.string.app_name)));
-            title.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_star, 0, R.drawable.ic_launcher);
             dialog.show();
             mSharedPrefs.edit().putString(GameConstants.FINISH_GAME_PREFS, "" + GameConstants.NB_QUESTS).apply();
         }

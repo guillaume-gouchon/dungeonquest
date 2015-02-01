@@ -9,7 +9,7 @@
     android:gravity="center">
 
     <com.giggs.heroquest.views.CustomTextView
-        android:drawableTop="@drawable/ic_star"
+        android:drawableTop="@drawable/ic_three_stars"
         android:drawableBottom="@drawable/ic_launcher"
         android:drawablePadding="10dp"
         android:id="@+id/title"

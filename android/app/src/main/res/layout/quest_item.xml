@@ -12,7 +12,6 @@
         android:id="@+id/done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_star"
         android:padding="12dp"
         android:layout_marginRight="8dp" />
 
