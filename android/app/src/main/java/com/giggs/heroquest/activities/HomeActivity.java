@@ -139,8 +139,8 @@ public class HomeActivity extends MyActivity implements OnClickListener, LoadGam
     private void setupUI() {
         mStormsBg = (ImageView) findViewById(R.id.storms);
 
-        mMainButtonAnimationRightIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
-        mMainButtonAnimationLeftIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        mMainButtonAnimationRightIn = AnimationUtils.loadAnimation(this, R.anim.bottom_in);
+        mMainButtonAnimationLeftIn = AnimationUtils.loadAnimation(this, R.anim.bottom_in);
         mMainButtonAnimationRightOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
         mMainButtonAnimationLeftOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
 
@@ -280,7 +280,7 @@ public class HomeActivity extends MyActivity implements OnClickListener, LoadGam
         super.onResume();
 
         // init storm effect
-        mStormEffect = ApplicationUtils.addStormBackgroundAtmosphere(mStormsBg, 150, 50);
+        mStormEffect = ApplicationUtils.addStormBackgroundAtmosphere(mStormsBg, 200, 50);
     }
 
     @Override

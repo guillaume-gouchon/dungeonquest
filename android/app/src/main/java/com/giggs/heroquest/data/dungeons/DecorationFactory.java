@@ -3,7 +3,6 @@ package com.giggs.heroquest.data.dungeons;
 import com.giggs.heroquest.data.items.ItemFactory;
 import com.giggs.heroquest.models.Reward;
 import com.giggs.heroquest.models.dungeons.decorations.Decoration;
-import com.giggs.heroquest.models.dungeons.decorations.Light;
 import com.giggs.heroquest.models.dungeons.decorations.Searchable;
 import com.giggs.heroquest.models.items.Item;
 
@@ -17,16 +16,11 @@ public class DecorationFactory {
 
     public static List<Decoration> getAll() {
         List<Decoration> lst = new ArrayList<>();
-        lst.add(buildLight());
         lst.add(buildTable(null));
         lst.add(buildPot(null));
         lst.add(buildSmallChest(null));
         lst.add(buildStatue(null));
         return lst;
-    }
-
-    public static Decoration buildLight() {
-        return new Light("light");
     }
 
     public static Decoration buildPot(Reward reward) {
@@ -58,13 +52,13 @@ public class DecorationFactory {
         // create random reward
         Reward reward = null;
         int gold = 0;
-        Item item = ItemFactory.getRandomItem(threatLevel);
-        if (item == null) {
-            gold = (int) (threatLevel * 25 * (int) (Math.random() * 4));
-        }
-        if (item != null || gold > 0) {
-            reward = new Reward(item, gold, 0);
-        }
+////        Item item = ItemFactory.getRandomItem(threatLevel);
+//        if (item == null) {
+//            gold = (int) (threatLevel * 25 * (int) (Math.random() * 4));
+//        }
+//        if (item != null || gold > 0) {
+//            reward = new Reward(item, gold, 0);
+//        }
 
         int random = (int) (Math.random() * 4);
         switch (random) {

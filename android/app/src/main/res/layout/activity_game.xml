@@ -37,5 +37,4 @@
         android:gravity="center"
         android:padding="30dp"
         android:textSize="28sp" />
-
 </RelativeLayout>

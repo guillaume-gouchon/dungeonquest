@@ -6,22 +6,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giggs.heroquest.MyActivity;
 import com.giggs.heroquest.R;
+import com.giggs.heroquest.activities.adapters.ItemsAdapter;
+import com.giggs.heroquest.data.items.ItemFactory;
 import com.giggs.heroquest.game.gui.items.ItemInfoInShop;
 import com.giggs.heroquest.models.Game;
-import com.giggs.heroquest.models.characters.Hero;
 import com.giggs.heroquest.models.items.Item;
-import com.giggs.heroquest.utils.ApplicationUtils;
+import com.giggs.heroquest.models.items.equipments.weapons.Weapon;
 import com.giggs.heroquest.utils.MusicManager;
 import com.giggs.heroquest.views.CustomAlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import it.sephiroth.android.library.widget.AdapterView;
+import it.sephiroth.android.library.widget.HListView;
 
 public class ShopActivity extends MyActivity implements OnClickListener {
 
@@ -29,15 +31,15 @@ public class ShopActivity extends MyActivity implements OnClickListener {
 
     private Game mGame;
     private List<Item> mItemsOffered = new ArrayList<>();
+    private ItemsAdapter mOffersAdapter;
+    private ItemsAdapter mBagAdapter;
 
     /**
      * UI
      */
-    private ImageView mStormsBg;
     private TextView mGoldAmount;
-    private Runnable mStormEffect;
-    private ViewGroup mOffers, mBag;
     private Dialog mItemInfoDialog;
+    private HListView mOffersListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,19 +56,29 @@ public class ShopActivity extends MyActivity implements OnClickListener {
     }
 
     private void setupUI() {
-        mStormsBg = (ImageView) findViewById(R.id.storms);
+        mOffersListView = (HListView) findViewById(R.id.offers);
+        mOffersAdapter = new ItemsAdapter(getApplicationContext(), R.layout.item, mItemsOffered);
+        mOffersListView.setAdapter(mOffersAdapter);
+        mOffersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                showItemInfo(mOffersAdapter.getItem(position), false);
+            }
+        });
 
-        mOffers = (ViewGroup) findViewById(R.id.shop_offers);
-        mBag = (ViewGroup) findViewById(R.id.bag);
+        HListView bagItemsListView = (HListView) findViewById(R.id.bag);
+        mBagAdapter = new ItemsAdapter(getApplicationContext(), R.layout.item, mGame.getHero().getItems());
+        bagItemsListView.setAdapter(mBagAdapter);
+        bagItemsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                showItemInfo(mBagAdapter.getItem(position), true);
+            }
+        });
+
         mGoldAmount = (TextView) findViewById(R.id.gold_amount);
 
         findViewById(R.id.back_button).setOnClickListener(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mStormEffect = ApplicationUtils.addStormBackgroundAtmosphere(mStormsBg, 150, 50);
     }
 
     @Override
@@ -77,7 +89,6 @@ public class ShopActivity extends MyActivity implements OnClickListener {
     @Override
     protected void onPause() {
         super.onPause();
-        mStormsBg.removeCallbacks(mStormEffect);
 
         if (mItemInfoDialog != null) {
             mItemInfoDialog.dismiss();
@@ -97,12 +108,6 @@ public class ShopActivity extends MyActivity implements OnClickListener {
                 goBackToBookChooser();
                 break;
         }
-
-        if (v.getTag(R.string.sell_item) != null) {
-            showItemInfo((Item) v.getTag(R.string.sell_item), true);
-        } else if (v.getTag(R.string.buy_item) != null) {
-            showItemInfo((Item) v.getTag(R.string.buy_item), false);
-        }
     }
 
     private void goBackToBookChooser() {
@@ -117,41 +122,22 @@ public class ShopActivity extends MyActivity implements OnClickListener {
     }
 
     private void updateOffers() {
-        //TODO : get offers
-        for (int n = 0; n < 10; n++) {
-            updateItemLayout(mOffers.getChildAt(n), mItemsOffered.get(n), false);
+        mItemsOffered = ItemFactory.getAvailableItemsInShop(mGame.getHero().getHeroType());
+
+        // remove already owned items
+        List<Item> copy = new ArrayList<>(mItemsOffered);
+        for (Item item : copy) {
+            if (item instanceof Weapon && mGame.getHero().hasItem(item)) {
+                mItemsOffered.remove(item);
+            }
         }
+
+        mOffersAdapter = new ItemsAdapter(getApplicationContext(), R.layout.item, mItemsOffered);
+        mOffersListView.setAdapter(mOffersAdapter);
     }
 
     private void updateBag() {
-        Hero hero = mGame.getHero();
-        Item item;
-        for (int n = 5; n < mBag.getChildCount(); n++) {
-            item = null;
-            if (n - 5 < hero.getItems().size()) {
-                item = hero.getItems().get(n - 5);
-            }
-            updateItemLayout(mBag.getChildAt(n), item, true);
-        }
-    }
-
-    private void updateItemLayout(View itemView, Item item, boolean isSellingItem) {
-        View background = itemView.findViewById(R.id.background);
-        ImageView image = (ImageView) itemView.findViewById(R.id.image);
-
-        itemView.setTag(isSellingItem ? R.string.sell_item : R.string.buy_item, item);
-
-        if (item != null) {
-            background.setBackgroundColor(getResources().getColor(item.getColor()));
-            image.setImageResource(item.getImage(getResources()));
-            itemView.setEnabled(true);
-            itemView.setOnClickListener(this);
-        } else if (itemView.isEnabled()) {
-            background.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-            image.setImageResource(0);
-            itemView.setEnabled(false);
-            itemView.setOnClickListener(null);
-        }
+        mBagAdapter.notifyDataSetChanged();
     }
 
     public void showItemInfo(final Item item, final boolean isSelling) {
@@ -186,7 +172,6 @@ public class ShopActivity extends MyActivity implements OnClickListener {
     private void buyItem(Item item) {
         mGame.getHero().addGold(-item.getPrice());
         mGame.getHero().getItems().add(item);
-        mItemsOffered.set(mItemsOffered.indexOf(item), null);
         updateGoldAmount();
         updateBag();
         updateOffers();
@@ -197,6 +182,7 @@ public class ShopActivity extends MyActivity implements OnClickListener {
         mGame.getHero().getItems().remove(item);
         updateGoldAmount();
         updateBag();
+        updateOffers();
     }
 
 }

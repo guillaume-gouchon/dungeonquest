@@ -19,13 +19,12 @@ import java.util.List;
 public class Hero extends Unit {
 
     private static final long serialVersionUID = -5970005172767341685L;
-
     private final HeroTypes heroType;
     protected List<String> frags = new ArrayList<>();
     private String heroName;
 
-    public Hero(String identifier, Ranks ranks, int hp, int currentHP, int attack, int defense, int spirit, int movement, HeroTypes heroType) {
-        super(identifier, ranks, hp, currentHP, attack, defense, spirit, movement);
+    public Hero(String identifier, Ranks ranks, int hp, int currentHP, int attack, int defense, int spirit, HeroTypes heroType) {
+        super(identifier, ranks, hp, currentHP, attack, defense, spirit, 0);
         this.heroType = heroType;
 
         // add some healing potions
@@ -99,6 +98,19 @@ public class Hero extends Unit {
         }
         for (Requirement requirement : equipment.getRequirements()) {
             if (requirement instanceof HeroRequirement && heroType == ((HeroRequirement) requirement).getHeroType()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public HeroTypes getHeroType() {
+        return heroType;
+    }
+
+    public boolean hasItem(Item item) {
+        for (Item myItem : items) {
+            if (myItem.getIdentifier().equals(item.getIdentifier())) {
                 return true;
             }
         }

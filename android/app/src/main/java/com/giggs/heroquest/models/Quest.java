@@ -2,8 +2,6 @@ package com.giggs.heroquest.models;
 
 import android.content.res.Resources;
 
-import com.giggs.heroquest.activities.games.GameActivity;
-
 /**
  * Created by guillaume ON 10/3/14.
  */
@@ -14,9 +12,9 @@ public class Quest extends StorableResource {
     private static final String TAG = "Quest";
 
     private final int id;
+    private String introText;
     private final String outroText;
     private final Class activityClass;
-    private String introText;
     private boolean isDone;
     private boolean isAvailable;
 
@@ -78,7 +76,7 @@ public class Quest extends StorableResource {
             this.identifier = identifier;
             this.intro = "";
             this.outro = "";
-            this.activityClass = GameActivity.class;
+//            this.activityClass = GameActivity.class;
             this.isAvailable = false;
         }
 

@@ -48,14 +48,14 @@
         <activity
             android:name=".activities.NewGameActivity"
             android:screenOrientation="landscape" />
-        <activity
-            android:name=".activities.games.GameActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="landscape"></activity>
-        <activity
-            android:name=".activities.games.TutorialQuest"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="landscape"></activity>
+        <!--<activity-->
+        <!--android:name=".activities.games.GameActivity"-->
+        <!--android:configChanges="orientation|keyboardHidden|screenSize"-->
+        <!--android:screenOrientation="landscape"></activity>-->
+        <!--<activity-->
+        <!--android:name=".activities.games.TutorialQuest"-->
+        <!--android:configChanges="orientation|keyboardHidden|screenSize"-->
+        <!--android:screenOrientation="landscape"></activity>-->
 
         <provider
             android:name=".providers.MyContentProvider"

@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="10dp"
-    android:gravity="center">
+    android:padding="2dp"
+    android:gravity="center"
+    android:background="@drawable/bg_btn">
 
 
     <ImageView
@@ -13,8 +14,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_star"
         android:padding="12dp"
-        android:tint="#ddd"
-        android:layout_marginRight="15dp" />
+        android:layout_marginRight="8dp" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/placeholder"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:gravity="left" />
 
         <com.giggs.heroquest.views.CustomTextView
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/placeholder"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
     <ImageView

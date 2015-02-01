@@ -7,7 +7,7 @@ import com.giggs.heroquest.models.items.equipments.Equipment;
 /**
  * Created by guillaume ON 10/6/14.
  */
-public abstract class Item extends StorableResource {
+public class Item extends StorableResource {
 
     private static final long serialVersionUID = -7794186148059317585L;
 
@@ -37,7 +37,7 @@ public abstract class Item extends StorableResource {
     }
 
     public int getSellPrice() {
-        return price / 4;
+        return price / 2;
     }
 
 }

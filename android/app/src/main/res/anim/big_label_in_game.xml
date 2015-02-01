@@ -5,7 +5,7 @@
     android:startOffset="100">
 
     <translate
-        android:duration="300"
+        android:duration="400"
         android:fromYDelta="100%"
         android:interpolator="@android:anim/accelerate_interpolator"
         android:toYDelta="0%p" />
@@ -15,9 +15,9 @@
         android:fromXScale="1"
         android:fromYScale="1"
         android:pivotX="50%"
-        android:startOffset="1000"
+        android:startOffset="900"
         android:pivotY="50%"
-        android:toXScale="4"
-        android:toYScale="4" />
+        android:toXScale="5"
+        android:toYScale="5" />
 
 </set>

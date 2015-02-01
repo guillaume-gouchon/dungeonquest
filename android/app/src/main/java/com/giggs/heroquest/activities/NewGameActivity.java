@@ -1,14 +1,13 @@
 package com.giggs.heroquest.activities;
 
-import android.app.AlertDialog;
-import android.content.Context;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -36,7 +35,7 @@ public class NewGameActivity extends MyActivity {
      */
     private ImageView mStormsBg;
     private Runnable mStormEffect;
-    private AlertDialog mHeroNameDialog;
+    private Dialog mHeroNameDialog;
 
     /**
      * Callbacks
@@ -66,17 +65,33 @@ public class NewGameActivity extends MyActivity {
 
         // init carousel
         CustomCarousel heroesCarousel = (CustomCarousel) findViewById(R.id.heroes);
-        HeroesAdapter heroesAdapter = new HeroesAdapter(this, R.layout.hero_chooser_item, mLstHeroes, mOnHeroSelectedListener);
+        HeroesAdapter heroesAdapter = new HeroesAdapter(this, R.layout.hero_item, mLstHeroes, mOnHeroSelectedListener);
         heroesCarousel.setAdapter(heroesAdapter);
 
         // start message animation
-        findViewById(R.id.chooseHeroMessage).startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.big_label_in_game));
+        Animation bigMessageAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.big_label_in_game);
+        bigMessageAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                findViewById(R.id.chooseHeroMessage).setAnimation(null);
+                findViewById(R.id.chooseHeroMessage).setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        findViewById(R.id.chooseHeroMessage).startAnimation(bigMessageAnimation);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mStormEffect = ApplicationUtils.addStormBackgroundAtmosphere(mStormsBg, 150, 50);
+        mStormEffect = ApplicationUtils.addStormBackgroundAtmosphere(mStormsBg, 200, 50);
     }
 
     @Override
@@ -101,12 +116,10 @@ public class NewGameActivity extends MyActivity {
     }
 
     private void showNameInputDialog(final Hero selectedHero) {
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.dialog_hero_name_input, null);
+        mHeroNameDialog = new Dialog(this, R.style.Dialog);
+        mHeroNameDialog.setContentView(R.layout.dialog_hero_name_input);
 
-        mHeroNameDialog = new AlertDialog.Builder(this, R.style.Dialog).setView(view).create();
-
-        final EditText heroNameInput = (EditText) view.findViewById(R.id.heroNameInput);
+        final EditText heroNameInput = (EditText) mHeroNameDialog.findViewById(R.id.heroNameInput);
         heroNameInput.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         ApplicationUtils.showKeyboard(this, heroNameInput);
         heroNameInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -122,7 +135,7 @@ public class NewGameActivity extends MyActivity {
             }
         });
 
-        view.findViewById(R.id.ok_btn).setOnClickListener(new OnClickListener() {
+        mHeroNameDialog.findViewById(R.id.ok_btn).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 MusicManager.playSound(getApplicationContext(), R.raw.button_sound);

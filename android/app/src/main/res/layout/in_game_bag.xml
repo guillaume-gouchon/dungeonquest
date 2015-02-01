@@ -23,36 +23,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
             android:columnCount="5">
-
-            <include layout="@layout/in_game_item" />
-
-            <include layout="@layout/in_game_item" />
-
-            <include layout="@layout/in_game_item" />
-
-            <include layout="@layout/in_game_item" />
-
-            <include layout="@layout/in_game_item" />
-
-            <include layout="@layout/in_game_item" />
-
-            <include layout="@layout/in_game_item" />
-
-            <include layout="@layout/in_game_item" />
-
-            <include layout="@layout/in_game_item" />
-
-            <include layout="@layout/in_game_item" />
-
-            <include layout="@layout/in_game_item" />
-
-            <include layout="@layout/in_game_item" />
-
-            <include layout="@layout/in_game_item" />
-
-            <include layout="@layout/in_game_item" />
-
-            <include layout="@layout/in_game_item" />
         </GridLayout>
     </LinearLayout>
 </LinearLayout>

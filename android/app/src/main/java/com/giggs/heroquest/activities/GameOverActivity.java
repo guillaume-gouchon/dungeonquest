@@ -53,7 +53,7 @@ public class GameOverActivity extends MyActivity implements View.OnClickListener
     @Override
     public void onResume() {
         super.onResume();
-        mStormEffect = ApplicationUtils.addStormBackgroundAtmosphere(mStormsBg, 150, 50);
+        mStormEffect = ApplicationUtils.addStormBackgroundAtmosphere(mStormsBg, 200, 50);
     }
 
     @Override

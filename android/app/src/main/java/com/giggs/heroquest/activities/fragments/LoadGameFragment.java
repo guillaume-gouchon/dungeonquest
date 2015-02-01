@@ -1,15 +1,15 @@
 package com.giggs.heroquest.activities.fragments;
 
 import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.LoaderManager;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +22,6 @@ import android.widget.ListView;
 import com.giggs.heroquest.R;
 import com.giggs.heroquest.activities.AdventureActivity;
 import com.giggs.heroquest.activities.adapters.LoadGamesAdapter;
-import com.giggs.heroquest.activities.games.GameActivity;
 import com.giggs.heroquest.models.Game;
 import com.giggs.heroquest.providers.MyContentProvider;
 import com.giggs.heroquest.utils.ApplicationUtils;
@@ -117,7 +116,7 @@ public class LoadGameFragment extends DialogFragment implements LoaderManager.Lo
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         Log.d(TAG, "Loader finished");
         if (mAdapter != null && cursor != null) {
-            mAdapter.swapCursor(cursor);
+            mAdapter.changeCursor(cursor);
         }
     }
 
@@ -125,7 +124,7 @@ public class LoadGameFragment extends DialogFragment implements LoaderManager.Lo
     public void onLoaderReset(Loader<Cursor> loader) {
         Log.d(TAG, "Loader reset");
         if (mAdapter != null) {
-            mAdapter.swapCursor(null);
+            mAdapter.changeCursor(null);
         }
     }
 
@@ -134,7 +133,7 @@ public class LoadGameFragment extends DialogFragment implements LoaderManager.Lo
         if (game.getQuest() == null) {
             intent = new Intent(getActivity(), AdventureActivity.class);
         } else {
-            intent = new Intent(getActivity(), game.getQuest() != null ? game.getQuest().getActivityClass() : GameActivity.class);
+            intent = null;//new Intent(getActivity(), game.getQuest() != null ? game.getQuest().getActivityClass() : GameActivity.class);
         }
         intent.putExtra(Game.class.getName(), game);
         startActivity(intent);

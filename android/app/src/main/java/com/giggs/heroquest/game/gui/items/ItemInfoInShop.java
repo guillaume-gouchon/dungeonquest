@@ -8,6 +8,7 @@ import com.giggs.heroquest.R;
 import com.giggs.heroquest.game.GameConstants;
 import com.giggs.heroquest.models.characters.Hero;
 import com.giggs.heroquest.models.items.Item;
+import com.giggs.heroquest.models.items.Mercenary;
 
 /**
  * Created by guillaume on 1/14/15.
@@ -19,7 +20,11 @@ public class ItemInfoInShop extends ItemInfo {
 
         // actions
         TextView mainActionButton = (TextView) findViewById(R.id.main_action_btn);
-        mainActionButton.setText(isSelling ? context.getString(R.string.sell_item_for, item.getSellPrice()) : context.getString(R.string.buy_item_for, item.getPrice()));
+        if (item instanceof Mercenary) {
+            mainActionButton.setText(isSelling ? context.getString(R.string.cancel_hire_for, item.getSellPrice()) : context.getString(R.string.hire_for, item.getPrice()));
+        } else {
+            mainActionButton.setText(isSelling ? context.getString(R.string.sell_item_for, item.getSellPrice()) : context.getString(R.string.buy_item_for, item.getPrice()));
+        }
         mainActionButton.setEnabled(isSelling || hero.getGold() >= item.getPrice() && hero.getItems().size() < GameConstants.NB_ITEMS_MAX_IN_BAG);
         mainActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

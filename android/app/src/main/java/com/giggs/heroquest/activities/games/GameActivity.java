@@ -1,5 +1,4 @@
-//TODO
-// package com.giggs.heroquest.activities.games;
+//package com.giggs.heroquest.activities.games;
 //
 //import android.content.Intent;
 //import android.os.Bundle;
@@ -18,11 +17,9 @@
 //import com.giggs.heroquest.game.base.interfaces.OnActionExecuted;
 //import com.giggs.heroquest.game.graphics.SelectionCircle;
 //import com.giggs.heroquest.game.gui.items.ItemInfoInGame;
-//import com.giggs.heroquest.models.Chapter;
 //import com.giggs.heroquest.models.Game;
 //import com.giggs.heroquest.models.characters.Hero;
 //import com.giggs.heroquest.models.characters.Monster;
-//import com.giggs.heroquest.models.characters.Pnj;
 //import com.giggs.heroquest.models.characters.Ranks;
 //import com.giggs.heroquest.models.characters.Unit;
 //import com.giggs.heroquest.models.dungeons.Directions;
@@ -37,7 +34,6 @@
 //import com.giggs.heroquest.models.items.Characteristics;
 //import com.giggs.heroquest.models.items.Item;
 //import com.giggs.heroquest.models.items.consumables.Potion;
-//import com.giggs.heroquest.models.items.equipments.Equipment;
 //import com.giggs.heroquest.models.skills.ActiveSkill;
 //import com.giggs.heroquest.models.skills.Skill;
 //import com.giggs.heroquest.utils.ApplicationUtils;
@@ -81,28 +77,14 @@
 //            // used fot testing only
 //            mGame = new Game();
 //            mGame.setHero(HeroFactory.buildDwarfWarrior());
-//            mGame.setQuest(BookFactory.buildVanarkBook());
+//            mGame.setQuest(BookFactory.buildTutorial());
 //        }
 //
-//        if (mGame.getDungeon() == null) {
-//            // new dungeon
-//            Chapter chapter = mGame.getBook().getActiveChapter();
-//
-//            // create dungeon
-//            chapter.createDungeon();
-//            mGame.setDungeon(chapter.getDungeon());
-//
+//        if (mGame.getQuest() == null) {
 //            // copy hero object for reset dungeon after game-over
 //            mHero = (Hero) ApplicationUtils.deepCopy(mGame.getHero());
-//
-//            mDungeon = mGame.getDungeon();
-//
 //            mHero.reset();
-//        } else {
-//            mDungeon = mGame.getDungeon();
 //        }
-//        mRoom = mDungeon.getCurrentRoom();
-//        Log.d(TAG, "current room " + mRoom);
 //    }
 //
 //    @Override
@@ -143,8 +125,7 @@
 //        if (mHero != null) {
 //            List<Unit> heroes = new ArrayList<>();
 //            heroes.add(mHero);
-//            mDungeon.moveIn(mTmxTiledMap, heroes);
-//            addSpecialGameElements();
+//            // TODO move in team
 //        } else {
 //            mRoom.initRoom(mTmxTiledMap, null, 0);
 //        }
@@ -186,9 +167,6 @@
 //        startGame();
 //    }
 //
-//    protected void addSpecialGameElements() {
-//    }
-//
 //    public void addElementToScene(GameElement gameElement) {
 //        Log.d(TAG, "add element to scene = " + gameElement.getIdentifier());
 //        gameElement.createSprite(getVertexBufferObjectManager());
@@ -209,22 +187,13 @@
 //            mRoom.getQueue().remove(mActiveCharacter);
 //            mRoom.getQueue().add(0, mActiveCharacter);
 //        }
-//        mGame.setDungeon(mDungeon);
+//        mGame.setQuest(mDungeon);
 //        super.onPause();
 //    }
 //
 //    @Override
 //    protected int[] getMusicResource() {
-//        if (mSharedPrefs.getBoolean(GameConstants.GAME_PREFS_METAL_MUSIC, false)) {
-//            return new int[]{R.raw.adventure1_metal, R.raw.adventure2_metal, R.raw.adventure3_metal, R.raw.adventure4};
-//        } else {
-//            return new int[]{R.raw.adventure1, R.raw.adventure2, R.raw.adventure3, R.raw.adventure4};
-//        }
-//    }
-//
-//    @Override
-//    public void endGame() {
-//        super.endGame();
+//        return new int[]{R.raw.adventure1, R.raw.adventure2, R.raw.adventure3, R.raw.adventure4};
 //    }
 //
 //    @Override
@@ -251,9 +220,6 @@
 //    public void onClick(View view) {
 //        if (mInputManager.ismIsEnabled()) {
 //            switch (view.getId()) {
-//                case R.id.hero:
-//                    mGUIManager.showHeroInfo(mHero);
-//                    break;
 //                case R.id.bag:
 //                    mGUIManager.showBag(mHero);
 //                    break;
@@ -266,30 +232,6 @@
 //                    @Override
 //                    public void onActionExecuted(ItemInfoInGame.ItemActionsInGame action) {
 //                        switch (action) {
-//                            case UNEQUIP:
-//                                boolean success = mHero.removeEquipment((Equipment) item);
-//                                if (!success) {
-//                                    mActionDispatcher.getItemOrDropIt(item);
-//                                }
-//                                mGUIManager.updateBag(mHero);
-//                                break;
-//
-//                            case EQUIP:
-//                                Item dropItem = mHero.equip((Equipment) item);
-//                                if (dropItem != null) {
-//                                    mActionDispatcher.getItemOrDropIt(item);
-//                                }
-//                                mGUIManager.updateBag(mHero);
-//                                // update reachable targets
-//                                updateActionTiles();
-//                                break;
-//
-//                            case DROP:
-//                                mHero.drop(item);
-//                                mGUIManager.updateBag(mHero);
-//                                mActionDispatcher.dropItem(item);
-//                                break;
-//
 //                            case DRINK:
 //                                mGUIManager.hideBag();
 //                                drinkPotion((Potion) item);
@@ -315,10 +257,6 @@
 //        if (view.getTag(R.string.skill) != null) {
 //            Log.d(TAG, "Show improve skill dialog");
 //            mGUIManager.showImproveSkillDialog((com.giggs.heroquest.models.skills.Skill) view.getTag(R.string.skill));
-//        }
-//
-//        if (view.getId() == R.id.map) {
-//            mGUIManager.showDungeonMap();
 //        }
 //    }
 //
@@ -346,14 +284,6 @@
 //
 //        mGUIManager.hideLoadingScreen();
 //        mGUIManager.updateSkillButtons();
-//
-//        // auto-talk
-//        for (GameElement element : mRoom.getObjects()) {
-//            if (element instanceof Pnj && ((Pnj) element).isAutoTalk() && ((Pnj) element).getDiscussions().size() > 0 && !((Pnj) element).getDiscussions().get(0).isPermanent()) {
-//                mActionDispatcher.talkTo((Pnj) element);
-//                return;
-//            }
-//        }
 //
 //        nextTurn();
 //    }

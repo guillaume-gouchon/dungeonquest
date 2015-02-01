@@ -24,29 +24,7 @@ public class ItemInfoInGame extends ItemInfo {
 
         if (item instanceof Equipment) {
             final Equipment equipment = (Equipment) item;
-            if (hero.isEquipped(equipment)) {
-                // unequip stuff
-                mainActionButton.setText(R.string.unequip);
-                mainActionButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onItemActionSelected.onActionExecuted(ItemActionsInGame.UNEQUIP);
-                        dismiss();
-                    }
-                });
-                mainActionButton.setVisibility(View.VISIBLE);
-            } else if (hero.canEquipItem(equipment)) {
-                // equip stuff
-                mainActionButton.setText(R.string.equip);
-                mainActionButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onItemActionSelected.onActionExecuted(ItemActionsInGame.EQUIP);
-                        dismiss();
-                    }
-                });
-                mainActionButton.setVisibility(View.VISIBLE);
-            }
+
         } else if (item instanceof Potion) {
             // drink potion
             mainActionButton.setText(R.string.drink);
@@ -60,22 +38,11 @@ public class ItemInfoInGame extends ItemInfo {
             mainActionButton.setVisibility(View.VISIBLE);
         }
 
-        if (!(item instanceof Equipment) || !hero.isEquipped((Equipment) item) && item.isDroppable()) {
-            // drop item
-            secondaryActionButton.setText(R.string.drop);
-            secondaryActionButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemActionSelected.onActionExecuted(ItemActionsInGame.DROP);
-                    dismiss();
-                }
-            });
-            secondaryActionButton.setVisibility(View.VISIBLE);
-        }
+
     }
 
     public enum ItemActionsInGame {
-        EQUIP, UNEQUIP, DROP, DRINK
+        USE, DRINK
     }
 
     public static interface OnItemActionSelected {

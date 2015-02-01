@@ -14,6 +14,7 @@
     <string name="skill">skill</string>
     <string name="use_skill">use_skill</string>
     <string name="potion">potion</string>
+    <string name="ok">Ok</string>
 
     <!-- Contact -->
     <string name="mail_address">guillaume.gouchon@gmail.com</string>
@@ -30,7 +31,7 @@
 
     <!-- About Dialog -->
     <string name="about_title">About Dungeon Quest</string>
-    <string name="about_credits">Game and Music by <a href="http://gouchon.com">Guillaume Gouchon</a></string>
+    <string name="about_credits">Game and Music by <a href="http://gouchon.com">Guillaume Gouchon</a>.</string>
     <string name="about_contact">Feel free to <a href="mailto:guillaume.gouchon@gmail.com">contact me</a> if you have any issue or question.</string>
     <string name="about_other_sources">The game uses AndEngine game engine by Nicolas Gramlich.\nGame icons by <a href="http://game-icons.net">game-icons.net</a>.\nDungeon tileset by <a href="http://www.lostgarden.com/2006/07/more-free-game-graphics.html">Daniel Cook</a>.</string>
     <string name="about_version">Version : %s</string>
@@ -44,7 +45,7 @@
     <string name="load_game">Load Game</string>
     <string name="settings">Options</string>
     <string name="back">Back</string>
-    <string name="advertisement">If you enjoy playing this game,\nyou can like my other RPG <a href="https://play.google.com/store/apps/details?id=com.glevel.dungeonhero">Dungeon Hero</a>\u00A0!</string>
+    <string name="advertisement">If you enjoy playing this game,\nyou would like my other RPG\n<a href="https://play.google.com/store/apps/details?id=com.glevel.dungeonhero">Dungeon Hero</a>\u00A0!</string>
     <string name="loading_saved_games">Loading...</string>
 
     <!-- Settings -->
@@ -61,10 +62,9 @@
     <string name="hero_name_input">Enter your name, adventurer...</string>
 
     <!-- Adventure Screen -->
-    <string name="choose_book_message">Choose a Quest</string>
     <string name="ask_tutorial">It is recommended to do the tutorial in order to know how to play\u00A0!\nWould you like to do it now\u00A0?</string>
     <string name="visit_shop">Visit the Shop</string>
-    <string name="buy_full_game">Buy full game</string>
+    <string name="buy_full_game">Buy Full Game</string>
     <string name="congratulations_finish_game">Congratulations\u00A0!\n\nYou have finished the game !\n\nTry to finish it with all the charactesrs.\nThanks for playing %s\u00A0!</string>
     <string name="which_quest">Choose a Quest to enter</string>
 
@@ -77,11 +77,14 @@
 
     <!-- Shop -->
     <string name="your_bag">Your Bag</string>
-    <string name="buy_item_for">Buy item for %s gold coins</string>
-    <string name="sell_item_for">Sell item for %s gold coins</string>
+    <string name="buy_item_for">Buy for %s gold coins</string>
+    <string name="sell_item_for">Sell for %s gold coins</string>
+    <string name="hire_for">Hire for %s gold coins</string>
+    <string name="cancel_hire_for">Lay off for %s gold coins</string>
     <string name="transaction_confirmation">Are you sure you want to %1$s %2$s\u00A0?</string>
     <string name="buy">buy</string>
     <string name="sell">sell</string>
+    <string name="shop">Shop</string>
 
     <!-- Characteristics -->
     <string name="hp">Health points</string>
@@ -138,29 +141,24 @@
     <string name="drink">Drink</string>
     <string name="sleep_effect">zzz</string>
     <string name="chance_stun">Bonus to stun target</string>
-    <string name="two_handed">Two-handed</string>
-    <string name="two_handed_description">Both hands are needed to use this item</string>
-    <string name="thing_name_with_level">%1$s (lvl %2$s)</string>
-
-    <!-- Discussions -->
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="discussion_is_over">I don\'t want to talk to you anymore.</string>
-    <string name="ok">Ok</string>
 
     <!-- Heroes -->
-    <string name="berserker">Berserker</string>
-    <string name="dwarf_warrior">Dwarf Warrior</string>
-    <string name="elf_ranger">Elf Ranger</string>
-    <string name="wizard">Wizard</string>
-    <string name="thief">Thief</string>
-    <string name="druid">Druid</string>
-    <string name="berserker_description">You are the Berserker, a fearless tribal warrior fighting his foes with rage and fury.</string>
-    <string name="dwarf_warrior_description">You are the Dwarf Warrior, a tough close-combat fighter but weak against magic.</string>
-    <string name="elf_ranger_description">You are the Elf Ranger, a versatile adventurer with range attack skills as well as magical abilities.</string>
-    <string name="wizard_description">You are the Wizard, a great sorcerer specialized in offensive spells. Be sure to keep your distance during fights though.</string>
-    <string name="thief_description">You are the Thief, a silent but deadly adventurer who can hide herself from her enemies.</string>
-    <string name="druid_description">You are the Druid, a strong spell caster who uses her knowledge of natural energies to defeat her foes.</string>
+    <string name="barbarian">The Barbarian</string>
+    <string name="dwarf">The Dwarf</string>
+    <string name="elf">The Elf</string>
+    <string name="wizard">The Wizard</string>
+    <string name="thief">The Human</string>
+    <string name="wood_elf">The Wood Elf</string>
+    <string name="drow">The Drow</string>
+    <string name="gnome">The Gnome</string>
+    <string name="barbarian_description">You are the Barbarian warrior, the greatest fighter of all. Your strength and your rage will terrify your enemies, but beware of magic as your sword is useless against it.</string>
+    <string name="elf_description">You are the Elf, a master of both sword and magic. You must use both wisely if you want to triumph.</string>
+    <string name="wizard_description">You are the Wizard. You are able to cast many spells, however, you are weak in close-combat. Therefore, you must use your magic and avoid physical confrontations.</string>
+    <string name="dwarf_description">You are the Dwarf Explorer. Good warrior, you have the unique ability to disarm traps.</string>
+    <string name="thief_description">You are the Human Rogue, a silent and deadly assassin which can turn herself invisible to her enemies.</string>
+    <string name="wood_elf_description">You are the Wood Elf Beastmaster, a shaman who understands deeply the animal spirit. Your powerful companions will help during fights.</string>
+    <string name="drow_description">Naturally akin to darkness, the drow makes one of the most deadly assassins. You are more effective in one-to-one fights as well as against the slowest creatures.</string>
+    <string name="gnome_description">You are the Gnome illusionist. If your mind shield is not disorienting enough your opponents, you can cast several hypnotizing spells and summon illusions to help you in battle. Anyway, your magic shield will protect you as long as you have some spirit points left.</string>
 
     <!-- Decorations -->
     <string name="light">Candelabra</string>
@@ -170,135 +168,119 @@
     <string name="small_chest">Small Chest</string>
     <string name="statue">Statue</string>
 
-    <!-- Monsters -->
-    <string name="goblin">Goblin</string>
-    <string name="orc">Orc</string>
-    <string name="orc_captain">Orc Captain</string>
-    <string name="troll">Troll</string>
-    <string name="ogre">Ogre</string>
-    <string name="ogre_king">Ogre King</string>
-    <string name="chaos_warrior">Chaos Warrior</string>
-    <string name="chaos_wizard">Chaos Wizard</string>
-    <string name="gargoyle">Gargoyle</string>
-    <string name="demon">Demon</string>
-    <string name="demon_king">Master Demon</string>
-
-    <!-- Weapons -->
-    <string name="axe">Axe</string>
+    <!-- Items -->
     <string name="battle_axe">Battle Axe</string>
-    <string name="boomerang">Boomerang</string>
-    <string name="bow">Bow</string>
     <string name="broad_sword">Broad Sword</string>
     <string name="crossbow">Crossbow</string>
-    <string name="dagger">Dagger</string>
-    <string name="large_shield">Large Shield</string>
-    <string name="long_sword">Long Sword</string>
-    <string name="round_shield">Round Shield</string>
-    <string name="short_sword">Short Sword</string>
-    <string name="shuriken">Shuriken</string>
-    <string name="spear">Spear</string>
-    <string name="spiked_mace">Morgenstern</string>
-    <string name="throwing_daggers">Throwing Dagger</string>
+    <string name="crossbow_description">Range attack.</string>
+    <string name="helmet">Helmet</string>
+    <string name="shield">Shield</string>
+    <string name="shield_description">Cannot be used with the Battle Axe.</string>
     <string name="wizard_staff">Wizard Staff</string>
-    <string name="claws">Claws</string>
-
-    <!-- Armors -->
-    <string name="robe">Cloak</string>
-    <string name="leather_vest">Leather Vest</string>
-    <string name="leather_plastron">Leather Plastron</string>
     <string name="chainmail">Chainmail</string>
-    <string name="lamellar">Lamellar</string>
     <string name="breast_plate">Breast Plate</string>
+    <string name="breast_plate_description">You roll 1 less die of movement with the breast plate.</string>
+    <string name="bracers">Bracers</string>
+    <string name="cloak">Cloak</string>
+    <string name="toolbox">Toolbox</string>
+    <string name="toolbox_description">You can remove traps with the toolbox.</string>
+    <string name="spirit_blade">Spirit Blade</string>
+    <string name="spirit_blade_description">Roll 4 attack dice against undead.</string>
+    <string name="protection_talisman">Talisman of Protection</string>
+
+    <!-- Treasure Cards -->
+    <string name="tr_wandering_monster">Wandering Monster</string>
+    <string name="tr_wandering_monster_description">As you are busy searching, a monster stalks up on you and attacks...</string>
+    <string name="tr_treasure_horde">Treasure Horde !</string>
+    <string name="tr_treasure_horde_description">Luck is with you. A small treasure chest you find under an old fur contains 100 gold coins.</string>
+    <string name="tr_gem">Gem !</string>
+    <string name="tr_gem_description">Tucked into the toe of an old boot you find a small gem worth 35 gold coins.</string>
+    <string name="tr_jewles">Jewles</string>
+    <string name="tr_jewles_description">You find a small wooden box which contains 50 gold coins worth of jewels.</string>
+    <string name="tr_gold">Gold !</string>
+    <string name="tr_gold_1_description">A meagre haul of just 10 gold coins is found in the pocket of a smelly worn jerkin.</string>
+    <string name="tr_gold_2_description">Amidst the clutter, the old rags, the greasy fur robes and soiled blankets, you find 25 gold coins.</string>
+    <string name="tr_gold_3_description">A rummage through several items of clothing reveals 20 gold coins.</string>
+    <string name="tr_gold_4_description">In a pouch behind a loose stone, you find 50 gold coins.</string>
+    <string name="tr_gold_5_description">Foolishly left unhidden lies a small box containing 25 gold coins.</string>
+    <string name="tr_nothing">Nothing</string>
+    <string name="tr_nothing_description">Despite a thorough search, you find nothing...</string>
+    <string name="tr_trap_1">Trap !</string>
+    <string name="tr_trap_1_description">You feel the gentle pressure of a trip wire against your leg. You spin around... but it is too late.</string>
+    <string name="tr_trap_2">Hazard !</string>
+    <string name="tr_trap_2_description">While you are searching, a hidden arrow shoots from the wall striking you...</string>
+    <string name="tr_magic_trap">Magical trap !</string>
+    <string name="tr_magic_trap_description">A fireburst appears in the room and explodes...</string>
 
     <!-- Potions -->
-    <string name="force_potion">Potion of Force</string>
-    <string name="force_potion_description">Boosts up your strength for a small amount of time.</string>
-    <string name="greater_healing_potion">Greater Healing Potion</string>
-    <string name="greater_healing_potion_description">Makes recover 30 health points.</string>
+    <string name="bat_potion">Bat Blood</string>
+    <string name="bat_potion_description">Your teeth are growing... and you are now feeling thirsty...</string>
+    <string name="strength_potion">Potion of Strength</string>
+    <string name="strength_potion_description">Boosts up your attack for a small amount of time.</string>
     <string name="healing_potion">Healing Potion</string>
-    <string name="healing_potion_description">Makes recover 15 health points.</string>
-    <string name="heroic_potion">Heroic Potion</string>
-    <string name="heroic_potion_description">Once drunk, this potion makes you feel heroic. You can play twice in a row.</string>
-    <string name="invisibility_potion">Potion of Invisibility</string>
-    <string name="invisibility_potion_description">This grey liquid turns you invisible for a small amount of time.</string>
-    <string name="luck_potion">Potion of Luck</string>
-    <string name="luck_potion_description">You are feeling lucky; it is easier for you to avoid attacks.</string>
-    <string name="magic_shield_potion">Potion of Magic Shield</string>
-    <string name="magic_shield_potion_description">If you drink this mixture, an invisible magic shield will appear around you and will protect you for a small amount of time.</string>
-    <string name="recovery_potion">Potion of Recovery</string>
-    <string name="recovery_potion_description">Restores all your skills.</string>
+    <string name="healing_potion_description">Makes recover 4 health points.</string>
+    <string name="heroic_brew">Heroic Brew</string>
+    <string name="heroic_brew_description">Once drunk, this potion makes you feel heroic. You can play twice in a row.</string>
     <string name="speed_potion">Potion of Speed</string>
-    <string name="speed_potion_description">This sparkling potion will make you feel light as a feather, increasing your movement for a small amount of time.</string>
-    <string name="unknown_liquid">Unknown Liquid</string>
-    <string name="unknown_liquid_description">Who knows what it is...</string>
-
-    <!-- Rings -->
-    <string name="dodge_ring">Ring of Evasion</string>
-    <string name="dodge_ring_description">This ring makes the wearer look blurry, dodging attacks more easily.</string>
-    <string name="speed_ring">Ring of Haste</string>
-    <string name="speed_ring_description">The wearer feels lighter.</string>
-    <string name="protection_ring">Ring of Fire</string>
-    <string name="protection_ring_description">A shield of fire surrounds the wearer.</string>
-    <string name="critical_ring">Harmful Ring</string>
-    <string name="critical_ring_description">The wearer detects more easily the weaknesses of its opponents.</string>
-    <string name="damage_ring">Ring of Insanity</string>
-    <string name="damage_ring_description">The wearer feels unstoppable.</string>
-    <string name="initiative_ring">Ring of Acuity</string>
-    <string name="initiative_ring_description">The wearer sees its senses being stimulated.</string>
-    <string name="strength_ring">Ring of Strength</string>
-    <string name="strength_ring_description">The wearer feels stronger.</string>
-    <string name="dexterity_ring">Ring of Dexterity</string>
-    <string name="dexterity_ring_description">The wearer feels more accurate.</string>
-    <string name="spirit_ring">Ring of Spirit</string>
-    <string name="spirit_ring_description">The wearer feels more clever.</string>
-    <string name="king_ring">Ring of Kings</string>
-    <string name="king_ring_description">The wearer feels far more powerful.</string>
+    <string name="speed_potion_description">This sparkling potion will make you feel light as a feather, doubling your movement for a small amount of time.</string>
+    <string name="holy_water">Holy Water</string>
+    <string name="holy_water_description">Throw it on an undead to kill it instantly.</string>
+    <string name="resilience_potion">Potion of Defense</string>
+    <string name="resilience_potion_description">Boosts up your defense for a small amount of time.</string>
 
     <!-- Skills -->
-    <string name="berserker_rage">Rage of the Berserker</string>
-    <string name="berserker_rage_description">You become enraged : you are able to deal more damages but your defense is slightly decreased.</string>
-    <string name="swirl_swords">Swirl of Swords</string>
-    <string name="swirl_swords_description">Inflicts heavy damages to all the creatures around you.</string>
-    <string name="war_cry">War Cry</string>
-    <string name="war_cry_description">You cry out loudly to intimidate your opponents.</string>
-    <string name="fatal_blow">Fatal Blow</string>
-    <string name="fatal_blow_description">Increases greatly your chances of dealing critical hits.</string>
+    <string name="courage">Courage</string>
+    <string name="courage_description">Grants 2 extra attack dice for a small amount of time.</string>
+    <string name="fireball">Fireball</string>
+    <string name="fireball_description">Inflicts heavy damages to a single target.</string>
+    <string name="fire_of_wrath">Fire of Wrath</string>
+    <string name="fire_of_wrath_description">Inflicts 1 die of damage to a single target.</string>
+    <string name="sleep">Sleep</string>
+    <string name="sleep_description">Puts one monster to sleep.</string>
+    <string name="teleport">Teleport</string>
+    <string name="teleport_description">Teleports yourself in a random new place.</string>
+    <string name="healing_water">Water of Healing</string>
+    <string name="healing_water_description">Restores up to 4 health points.</string>
+    <string name="genie">Genie</string>
+    <string name="genie_description">Conjures up a Genie who attacks a target with 5 attack dice..</string>
+    <string name="tempest">Tempest</string>
+    <string name="tempest_description">Envelops any enemy who will then miss his next turn.</string>
+    <string name="swift_wind">Swift Wind</string>
+    <string name="swift_wind_description">Doubles your movement speed for a small amount of time.</string>
+    <string name="heal_body">Heal Body</string>
+    <string name="heal_body_description">Restores up to 4 health points.</string>
+    <string name="rock_skin">Rock Skin</string>
+    <string name="rock_skin_description">Grants 2 extra defense dice for a small amount of time.</string>
+    <string name="terror">Terror</string>
+    <string name="terror_description">Target an enemy. He then loses 1 health point if he fails a spirit test.</string>
+    <string name="darkness_winds">Winds of Darkness</string>
+    <string name="darkness_winds_description">Surrounded by the dark enchanted winds, you are unreachable....</string>
+    <string name="wiggy">Wiggy the Werewolf</string>
+    <string name="wiggy_description">Invokes Wiggy, a powerful fighting companion.</string>
+    <string name="ziggy">Ziggy the Rat</string>
+    <string name="ziggy_description">Invokes Ziggy, an exploration companion.</string>
+    <string name="medical_plants">Medical Plants</string>
+    <string name="medical_plants_description">Restores up to 3 health points.</string>
+    <string name="focus">Focus</string>
+    <string name="focus_description">Restores up to 8 spirit points.</string>
+    <string name="soul_torture">Soul Torture</string>
+    <string name="soul_torture_description">Target and adjacent tiles\' occupants have to pass a spirit test or lose 1 health point.</string>
+    <string name="mirror_image">Mirror Image</string>
+    <string name="mirror_image_description">Invokes a mirror image of yourself next to you.</string>
+    <string name="nightmare">Nightmare</string>
+    <string name="nightmare_description">Attacks with 1 die a target and adjacent tiles\' occupants.</string>
     <string name="camouflage">Camouflage</string>
     <string name="camouflage_description">You hide yourself under your cloak, becoming invisible to your enemies\' eyes.</string>
-    <string name="poisonous_darts">Poisonous Darts</string>
-    <string name="poisonous_darts_description">You throw a poisonous dart on an enemy, dealing poisonous damages over time.</string>
-    <string name="dodge_master">Dodge Master</string>
-    <string name="dodge_master_description">You avoid your opponents\' attacks as a leaf blowing in the wind.</string>
-    <string name="ground_slam">Ground Slam</string>
-    <string name="ground_slam_description">You hit the ground vigorously, stunning and dealing damages to nearby enemies.</string>
-    <string name="parry_science">Parry Science</string>
-    <string name="parry_science_description">You study the art of parrying, increasing your chances to block an attack.</string>
-    <string name="drunken_master">Drunken Master</string>
-    <string name="drunken_master_description">You drink a large amount of Dwarf Ale, healing your wounds but decreasing your reflexes for some time.</string>
-    <string name="frost_arrow">Frost Arrow</string>
-    <string name="frost_arrow_description">You shoot a frost arrow on an opponent, dealing damages and slowing him down drastically.</string>
-    <string name="charm">Charm</string>
-    <string name="charm_description">You use your natural charm to disturb an enemy\'s mind.</string>
-    <string name="star_fall">Star Fall</string>
-    <string name="star_fall_description">You invoke a rain of blazing stars on your enemies.</string>
-    <string name="paralysing_plant">Paralysing Plants</string>
-    <string name="paralysing_plant_description">Paralysing plants suddenly grow around your enemies, stopping them and slowing them down.</string>
-    <string name="healing_plants">Healing Plants</string>
-    <string name="healing_plants_description">You use your knowledge of natural things to heal your wounds with the vegetation around you.</string>
-    <string name="wolf_howl">Wolf Howl</string>
-    <string name="wolf_howl_description">You invoke the wolf spirit, boosting your chances of dealing critical hits and dodging attacks for a small amount of time.</string>
-    <string name="crow_curse">Curse of the Crow</string>
-    <string name="crow_curse_description">You invoke the spirit of the Crow to curse your opponents, decreasing their attack and defense for some time.</string>
-    <string name="fireball">Fireball</string>
-    <string name="fireball_description">You cast a fireball on your enemies, dealing damages and burning them over time.</string>
-    <string name="sleep">Sleep</string>
-    <string name="sleep_description">You make one target sleep deeply.</string>
-    <string name="thunder_storm">Thunder Storm</string>
-    <string name="thunder_storm_description">You invoke a thunder storm on your opponents, dealing electrical damages to them.</string>
-    <string name="stone_skin">Stone Skin</string>
-    <string name="stone_skin_description">Your skin becomes stone for some time, increasing your armor drastically.</string>
-    <string name="terror">Terror of Blarzog</string>
-    <string name="terror_description">You enters your enemies\'s mind and install terror in them, stunning your opponents and dealing damages to them over time.</string>
+
+    <!-- Mercenaries -->
+    <string name="crossbowman">Crossbowman</string>
+    <string name="swordsman">Swordsman</string>
+    <string name="scout">Scout</string>
+    <string name="halberdier">Halberdier</string>
+    <string name="crossbowman_description">A mercenary with a good ranged attack.</string>
+    <string name="swordsman_description">A skilled but slow bodyguard.</string>
+    <string name="scout_description">A fast explorer who can disarm traps.</string>
+    <string name="halberdier_description">A tough versatile fighter.</string>
 
     <!-- Tutorial -->
     <string name="tutorial">Tutorial</string>
@@ -314,165 +296,4 @@
         <item>Be sure to remember these last points:\n- If you are ever feeling lost, you can check the dungeon map with the button at the top of the screen.\n- You will get skills in your next adventures; these are powerful but they can only be used once a dungeon floor, so keep them for the most dangerous places.\n\nReach the stairs now to finish the tutorial.</item>
     </string-array>
     <string name="tutorial_failed">You did not do what was expected !\n\nYou failed at the tutorial :) !</string>
-
-    <!-- Initiation Quest -->
-    <string name="initiation_quest">The Initiation</string>
-    <string name="initiation_intro">Finally, you decided to jump ahead; you set aside your boring life to become a rootless adventurer, looking for gold and glory through the three kingdoms.\n\nOn the road to the first tavern, you met an old man asking for help.\nHis daughter Lubrice has been kidnapped by an Orc Chief from the nearby mountains, and he is begging you to bring her back alive.\n\nLooks like your first Quest begins\u00A0!</string>
-    <string name="initiation_outro">Well done, your first quest is a success\u00A0!\n\nYou left the caverns straight away and arrived at the nearest village in the evening.\n\nAfter a few pints at the tavern, you had a well-deserved sleep.\n\nYour thirst for adventures has to wait until the next day.</string>
-    <string name="tutorial_character">Alhagar the Mighty</string>
-    <string name="initiation_chapter_1">Wow, this guy seems hurt to death... let\'s talk to him.</string>
-    <string name="initiation_chapter_1_outro">Ah ah\u00A0! It\'s a good start\u00A0!</string>
-    <string name="initiation_chapter_2">Let\'s find out where the Orc Chief is hiding and then save the girl\u00A0!</string>
-    <string name="initiation_tutorial_intro">Hey adventurer, don\'t do the same mistakes as me...\n\nDo you want I tell you some tips\u00A0?</string>
-    <string name="initiation_tutorial_tips">Experience is primordial : new levels will increase your health points, characteristics and will give you skill points to improve or to learn new skills.\n\nConcerning weapons, remember not to fight with range weapons in close combat, and try to use a shield with your second arm cause a weapon will deal less damage with this arm.</string>
-    <string name="initiation_tutorial_outro">Aaargh, so it is time for me now...</string>
-    <string name="initiation_tutorial_outro_reward">Thanks for that... Take this Potion of Force to help you in your next fights... May the force be with you... Aaaaargh...</string>
-    <string name="initiation_tutorial_thanks">Thanks</string>
-    <string name="ok_get_it">Ok, I get it</string>
-    <string name="initiation_die_weak">Die, you are so weak compared to me\u00A0!\n<i>(finish him)</i></string>
-    <string name="initiation_pray">I will pray for you, mighty warrior.</string>
-    <string name="initiation_quest_girl">Lubrice</string>
-    <string name="initiation_girl_1">Who are you\u00A0? Are you here to save me\u00A0?</string>
-    <string name="initiation_girl_1_answer_1">Why would I save you\u00A0?</string>
-    <string name="initiation_girl_1_answer_2">Yes, your father sent me here to rescue you</string>
-    <string name="initiation_girl_1_answer_3">No, I\'ll just steal your gold and leave\u00A0!</string>
-    <string name="initiation_girl_11">We are poor farmers, we don\'t have much to give you...</string>
-    <string name="initiation_girl_11_answer_1">Everyone has something special...\n<i>(kiss her)</i></string>
-    <string name="initiation_girl_11_answer_2">And this ring on your hand\u00A0?\n<i>(point her green emerald ring)</i></string>
-    <string name="initiation_girl_12">Thanks brave adventurer, your name and your glorious acts will be renowned in all the kingdom\u00A0!</string>
-    <string name="initiation_girl_12_answer_1">No problem my lady, let\'s leave this place now\u00A0!</string>
-    <string name="initiation_girl_13">Pleeeaaaaase\u00A0! Don\'t leave me with these creatures\u00A0!</string>
-    <string name="initiation_girl_13_answer_1">You are not that rich but your gold will be well spent at the tavern; have a good stay\u00A0!</string>
-    <string name="initiation_girl_111">I prefer a troll than you, a sweaty stinky adventurer\u00A0!\n<i>(she slaps you)</i></string>
-    <string name="initiation_girl_111_answer_1">Ouch... damn, I should take a bath</string>
-    <string name="initiation_girl_112">It was a gift from my beloved mother... before she got run over by a herd of savage pigs...</string>
-    <string name="initiation_girl_112_answer_1">Such a nice ending\u00A0! Ok, let\'s leave this place now</string>
-
-    <!-- Sons of Vanark -->
-    <string name="sons_quest">Sons of Vanark</string>
-    <string name="sons_intro">A group of bandits known as Sons of Vanark is terrorizing the village of Gundin. Led by Vanark, a mighty chaos warrior, they regularly attack and rob the villagers, riding some tall and noisy horses.\n\nGundin\'s mayor is offering you 250 gold coins if you manage to put them out of harm.\n\nAfter a few hours of walking through the nearby forests, you finally find the entrance of their lair, ready to stop their dreadful wrongdoing.</string>
-    <string name="sons_outro">The town of Gundin is now safe thanks to you\u00A0!\n\nThe mayor gave you the 250 gold coins at your return, advising you to not spend everything at the tavern\u00A0!</string>
-    <string name="tiggy">Tiggy</string>
-    <string name="dark_elven_dagger">Dark Elven Dagger</string>
-    <string name="dark_elven_dagger_description">A Dark Elven poisonous black blade.</string>
-    <string name="tiggy_1">Who the hell are you\u00A0?</string>
-    <string name="tiggy_1_answer_1">I am the new mechanician</string>
-    <string name="tiggy_1_answer_2">I am your deepest fear\u00A0!</string>
-    <string name="tiggy_1_answer_3">I am here for business. Where is your boss\u00A0?</string>
-    <string name="tiggy_11">Ah\u00A0? Alright so you must be able to tell me which village is our next target\u00A0?</string>
-    <string name="tiggy_11_wrong">Ahah, such a bad liar\u00A0! Prepare to die\u00A0!</string>
-    <string name="tiggy_11_wrong_answer_1">You first</string>
-    <string name="tiggy_11_right">Good, take that and bring it to Vanark. He is waiting for you downstairs.</string>
-    <string name="tiggy_12">Damn, who forgot again to close this entrance door\u00A0? ...</string>
-    <string name="tiggy_12_answer_1"><i>(charge him)</i></string>
-    <string name="tiggy_13">We are closed, go away.</string>
-    <string name="tiggy_131">You again\u00A0? You\'re pissing me off.</string>
-    <string name="sov_ring">SOV ring</string>
-    <string name="sov_ring_description">A silver ring with a skull and the letters SOV on it.</string>
-    <string name="potential_sword">Sword of Potential 12V</string>
-    <string name="potential_sword_description">A one-handed long sword enlightened in blue. When you take it, your hairs are getting dishevelled. Deals some damages overtime.</string>
-    <string name="sons_chapter_1_outro">I am missing the tavern...\nLet\'s finish this quest quickly\u00A0!</string>
-    <string name="sons_chapter_2_outro">Nothing can stop me\u00A0!\nLet\'s head back to Gundin.</string>
-    <string name="vanark">Vanark</string>
-    <string name="vanark_1">Who dares disturbing the rest of  Vanark the Great\u00A0? Get you ass ready to be kicked\u00A0!</string>
-    <string name="vanark_1_answer_1">For Gundin\u00A0!</string>
-    <string name="vanark_1_answer_2">For the Greater Good\u00A0!</string>
-    <string name="vanark_1_answer_3">For Profit\u00A0!</string>
-
-    <!-- The Balrog -->
-    <string name="balrog_quest">The Balrog\'s Lair</string>
-    <string name="balrog_intro">Last night at the tavern, you were as usual playing dice and losing all your gold when one of your opponents proposed you a deal to get back what was yours (including your sword and your horse... yes, you lost a lot that night\u00A0!).\n\n\'All you have to do is to get rid of a monster living in a cave not far from here\' did he tell you, an easy task for you\u00A0!\nThe problem is that you accepted the deal before the bar tenant warns you that the monster was a  mighty Balrog...</string>
-    <string name="balrog_outro">Happy to be still alive, you went back to Gundin and celebrated your victory over evil (and what a victory) at the tavern. Will you play dice again\u00A0?</string>
-    <string name="white_wizard">The White Wizard</string>
-    <string name="white_wizard_1">What is greater than God,\nmore evil than the devil,\nthe poor have it,\nthe rich need it,\nand if you eat it, you\'ll die\u00A0?</string>
-    <string name="white_wizard_2">Feed me and I live, yet give me a drink and I die.\n\nWho am I\u00A0?</string>
-    <string name="white_wizard_3">If you have me, you want to share me.\nIf you share me, you haven\'t got me.\n\nWhat am I\u00A0?</string>
-    <string name="white_wizard_right">Good. Find the other me.</string>
-    <string name="white_wizard_wrong">You are wrong my friend... Farewell</string>
-    <string name="white_wizard_right_final">Good answer. I have no more riddle to ask you...</string>
-    <string name="white_wizard_right_reward">It appears that you have answered right to all my riddles. Take this as a reward. I hope this item will help you during your next adventures.</string>
-    <string name="white_wizard_wrong_answer">Damn\u00A0!</string>
-    <string name="mithril_armor">Mithril Armor</string>
-    <string name="mithril_armor_description">A mithril armor forged by the dwarves a few centuries ago. It is light and very protective.</string>
-    <string name="balrog_chapter_1_intro">Do I really have to accomplish this quest\u00A0?\nBalrogs are for adventurers which are at least level 200\u00A0!</string>
-    <string name="balrog_chapter_1_outro">Such a strange White Wizard, I am sure I have already seen him somewhere...</string>
-    <string name="balrog_chapter_2_intro">I can smell the Balrog\'s magic from there...</string>
-    <string name="balrog_chapter_2_outro">Ok, let\'s tell everyone that I defeated a real Balrog... Maybe should I fake some scares on my face\u00A0?</string>
-    <string name="balrog">Balrog the Goblin</string>
-    <string name="balrog_1">Waaaaaaaaaagh\u00A0!\n\nWhat\u00A0? What did you expect\u00A0? The developer did not have the budget for a Balrog sprite... you know what it is, indie gaming... \n\nI am Balrog the goblin, what can I do for you\u00A0?</string>
-    <string name="balrog_1_answer_1">Die mighty demon\u00A0!</string>
-    <string name="balrog_1_answer_2">I heard that goblins know how to play tavern games...</string>
-    <string name="balrog_12">You\'re right\u00A0! I am the best dice player of all the area, that\'s why tavern people hate me\u00A0!\n\nI hope you were not sent there by some angry losers to kill me, were you\u00A0?</string>
-    <string name="balrog_12_answer_1">No, no... I was visiting your lair</string>
-    <string name="balrog_12_answer_2">Yes, and I\'ll stop you from winning everyone\'s gold just for fun\u00A0! You\'re a monster\u00A0!</string>
-    <string name="balrog_121">Alright, then what do you want from me\u00A0?</string>
-    <string name="balrog_121_answer_1">Teach me how to play dice the correct way</string>
-    <string name="balrog_121_answer_2">Let\'s play\u00A0!</string>
-    <string name="balrog_1211">(Balrog the goblin taught you how to play dice)\n\nGood, say hello to all my friends from Gundin for me\u00A0! See you.</string>
-    <string name="balrog_1212">(after a few games and after having lost half of your gold)</string>
-    <string name="balrog_1212_answer_1">but... you are cheating\u00A0! You\'ll pay for this\u00A0!</string>
-    <string name="balrog_answer_fight">I hate adventurers... Why are they so aggressive\u00A0?</string>
-
-    <!-- Old Wizard's Quest -->
-    <string name="wizard_quest">The Quest of the Strange Old Man</string>
-    <string name="wizard_intro">As you are finishing your pint and hailing the innkeeper for the next one, a strange old man wearing a long black cloak is sitting at your table.\n\nAfter some talking, it appears that he is Xsar, the famous wizard, and that he is looking for some special ingredients, a rare species of mushrooms, in order to brew a potion.\n\nAfter pointing out on your map the location, he proposes you 200 gold coins for this simple quest.</string>
-    <string name="wizard_outro"></string>
-    <string name="wizard_chapter_1_intro">A strange place to find some mushrooms...</string>
-    <string name="wizard_chapter_1_outro">There must be rare species of mushrooms in this cave. Everyone seems to be looking for them.</string>
-    <string name="wizard_chapter_2_outro">Why do I only meet insane people in this village\u00A0?</string>
-    <string name="elven_throwing_daggers">Elven Throwing Dagger</string>
-    <string name="elven_throwing_daggers_description">This dagger is soaked with a powerful poison.</string>
-    <string name="minsk">Minsk</string>
-    <string name="minsk_1">Another adventurer here\u00A0? This is MY quest\u00A0!</string>
-    <string name="minsk_1_answer_1">Ok, let\'s fight then...</string>
-    <string name="montaron">Montaron</string>
-    <string name="montaron_1">Ahah\u00A0! You really thought I was not violent and crazy\u00A0?</string>
-    <string name="montaron_1_answer_1">I just wanted to talk...</string>
-    <string name="xsar">Xsar the Fool</string>
-    <string name="xsar_1">Good evening adventurer\u00A0!\nIn fact, I was not looking for mushrooms as my special recipe; YOU will be my special recipe\u00A0!</string>
-    <string name="xsar_1_answer_1">Reminder for myself : avoid this kind of mushrooms...</string>
-
-    <!-- The Partnership -->
-    <string name="partnership_quest">Brothers in Arms</string>
-    <string name="partnership_intro">You were just arriving at the inn when a tavern fight occured. Not this time, you told to yourself, and you headed directly to the bar.\n\nSuddenly a man rushed at you but you managed to get him on the ground.\n\'Damn, you are the kind of person I need\u00A0! Nice to meet you, I am Link\', he told you.\nHe then convinced you, in exchange of some ales, to follow him into the dungeon of the Lord of Doom, a powerful undead creature.\n\nYou finally agreed on a 50-50 deal on the loot and started the adventure...</string>
-    <string name="partnership_outro"></string>
-    <string name="partnership_chapter_1_intro">It is just the start of the quest, and Link has already gone solo... Let\'s find him\u00A0!</string>
-    <string name="partnership_chapter_2_outro">Next time I\'ll do it on my own, I have done the most part of the job\u00A0!</string>
-    <string name="link">Link</string>
-    <string name="link_1">Come help me\u00A0! I am out-numbered\u00A0!</string>
-    <string name="link_1_answer_1">I am here\u00A0!</string>
-    <string name="link_2">Thanks for the little help\u00A0!</string>
-    <string name="link_2_answer_1">No worries...</string>
-    <string name="link_3">Sorry I have already emptied this treasure chest\u00A0! You\'ll take the next one (if any...)</string>
-    <string name="link_3_answer_1"><i>(get angry)</i></string>
-    <string name="link_4">It was a cool Quest, no\u00A0? Did you enjoy it\u00A0?</string>
-    <string name="link_4_answer_1">All the dungeons look alike...</string>
-    <string name="link_4_answer_2">I\'ll better enjoy your death\u00A0!</string>
-    <string name="link_41">Ok then, see you at the tavern\u00A0!</string>
-    <string name="link_42">Why are people so evil\u00A0?</string>
-    <string name="link_42_answer_1">You should have shared the loot\u00A0!</string>
-    <string name="zelda">Princess</string>
-    <string name="zelda_1">Free me and I give you a kiss\u00A0!</string>
-    <string name="zelda_1_answer_1">Fine for me\u00A0!</string>
-    <string name="zelda_1_answer_2">I prefer gold coins</string>
-    <string name="zelda_11"><i>(the princess gives you a kiss)</i>\n\nIt is always working with adventurers\u00A0!\nNo need to propose them gold.</string>
-    <string name="zelda_11_answer_1">Damn...</string>
-    <string name="zelda_12">Oh... you are far more clever than the other guy who keeps saving me usually...\n\nYou are right, nothing is free in this world, here is your gold.</string>
-    <string name="zelda_12_answer_1">The poor Princess trick cannot work all the time\u00A0! Please stay safe for once.</string>
-    <string name="doom_lord">Lord of Doom</string>
-    <string name="doom_lord_1">Eaaaattttiiiiiing... Braaaaaaaain...</string>
-    <string name="doom_lord_1_answer_1">I have none of this\u00A0! Charge\u00A0!</string>
-    <string name="doom_lord_1_answer_2">It is not good for the breath...</string>
-
-    <!-- The Dreamer must awake -->
-    <string name="dreamer_quest">The Dreamer must awake</string>
-    <string name="dreamer_intro">You are awakening in a jail surrounded of glass.\n\nA few seconds later, you are in a dungeon which looks familiar to you...\n\nThen, people you may know arrive silently around you and disappear... What is it all about\u00A0?</string>
-    <string name="dreamer_outro">You finally awaken at the table of the inn, your half empty glass of beer waiting for you.\n\nIt was just a dream, yes, only a strange dream...\n\nLastly, you take the decision not to drink this type of Ale anymore\u00A0!</string>
-    <string name="dreamer_chapter_1_intro">I must escape this dream.\nI can feel something strange in it... maybe magic.</string>
-    <string name="dreamer_chapter_2_intro">When would I wake up\u00A0?</string>
-    <string name="dreamer_ghost_1">...</string>
-    <string name="dreamer_ghost_1_answer_1">...</string>
-    <string name="zangdar">Zangdar the Great</string>
-    <string name="zangdar_1">You are the first one to go this deep into his own nightmare.\n\nDo you really think you can beat me while are you asleep\u00A0?</string>
-    <string name="zangdar_1_answer_1">Be gone from my mind, evil wizard\u00A0!</string>
 </resources>

@@ -2,7 +2,6 @@ package com.giggs.heroquest.models.items.equipments;
 
 import android.content.Context;
 
-import com.giggs.heroquest.R;
 import com.giggs.heroquest.models.Levelable;
 import com.giggs.heroquest.models.effects.Effect;
 import com.giggs.heroquest.models.items.Item;
@@ -27,23 +26,6 @@ public abstract class Equipment extends Item implements Levelable {
         this.level = level;
     }
 
-    public static int getEquipmentEmptyImage(int index) {
-        switch (index) {
-            case 0:
-                return R.drawable.ic_weapon;
-            case 1:
-                return R.drawable.ic_weapon;
-            case 2:
-                return R.drawable.ic_armor;
-            case 3:
-                return R.drawable.ic_ring;
-            case 4:
-                return R.drawable.ic_ring;
-            default:
-                return 0;
-        }
-    }
-
     public void addEffect(Effect effect) {
         effects.add(effect);
     }
@@ -63,10 +45,6 @@ public abstract class Equipment extends Item implements Levelable {
     @Override
     public int getLevel() {
         return level;
-    }
-
-    public String getNameWithLevel(Context context) {
-        return context.getString(getName(context.getResources())) + (level > 0 ? "\u00A0+" + level : "");
     }
 
 }

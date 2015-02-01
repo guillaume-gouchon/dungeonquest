@@ -27,15 +27,6 @@ public class GameMenu extends Dialog implements View.OnClickListener {
         resumeGameBtn.setAnimation(menuButtonAnimation);
         resumeGameBtn.setOnClickListener(this);
 
-        // leave quest button
-        View leaveQuestBtn = findViewById(R.id.leave_quest_btn);
-        if (leaveQuestCallback != null) {
-            leaveQuestBtn.setAnimation(menuButtonAnimation);
-            leaveQuestBtn.setOnClickListener(leaveQuestCallback);
-        } else {
-            leaveQuestBtn.setVisibility(View.GONE);
-        }
-
         // exit button
         View exitButton = findViewById(R.id.exit_btn);
         exitButton.setAnimation(menuButtonAnimation);

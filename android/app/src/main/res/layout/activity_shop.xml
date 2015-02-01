@@ -13,124 +13,110 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp"
             android:orientation="vertical"
             android:gravity="center_horizontal">
-
-            <com.giggs.heroquest.views.CustomTextView
-                android:id="@+id/back_button"
-                style="@style/Button"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="@string/exit"
-                android:padding="5dp"
-                android:textSize="18sp"
-                android:layout_gravity="right" />
-
-            <GridLayout
-                android:id="@+id/shop_offers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:columnCount="8">
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-            </GridLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="20dp">
+                android:padding="5dp">
 
                 <com.giggs.heroquest.views.CustomTextView
                     style="@style/HeroTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/your_bag"
+                    android:text="@string/shop"
+                    android:padding="8dp"
                     android:drawablePadding="10dp"
+                    android:gravity="left|center_vertical"
                     android:textSize="14sp"
-                    android:textColor="@color/white"
-                    android:drawableLeft="@drawable/ic_bag" />
+                    android:background="@color/bg_btn_edge_pressed"
+                    android:drawableLeft="@drawable/ic_helmet" />
 
                 <View
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="1dp" />
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
 
                 <com.giggs.heroquest.views.CustomTextView
-                    style="@style/HeroTitle"
-                    android:id="@+id/gold_amount"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/back_button"
+                    style="@style/Button"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/placeholder"
-                    android:drawablePadding="10dp"
-                    android:textSize="18sp"
-                    android:textColor="@color/white"
-                    android:drawableLeft="@drawable/ic_coins" />
+                    android:text="@string/exit"
+                    android:padding="5dp"
+                    android:textSize="18sp" />
             </LinearLayout>
 
-            <GridLayout
-                android:id="@+id/bag"
-                android:layout_width="wrap_content"
+            <it.sephiroth.android.library.widget.HListView
+                android:layout_marginTop="5dp"
+                android:id="@+id/offers"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="10">
+                android:dividerHeight="0dp"
+                android:choiceMode="singleChoice"
+                android:drawSelectorOnTop="false"
+                android:scrollbars="none"
+                android:divider="@android:color/transparent"
+                android:listSelector="@android:color/transparent"
+                android:overScrollMode="never"
+                android:paddingLeft="5dp" />
 
-                <include layout="@layout/in_game_item" />
+            <LinearLayout
+                android:background="@color/bg_btn_edge_pressed"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:padding="5dp"
+                android:layout_margin="5dp">
 
-                <include layout="@layout/in_game_item" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                <include layout="@layout/in_game_item" />
+                    <com.giggs.heroquest.views.CustomTextView
+                        style="@style/HeroTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/your_bag"
+                        android:drawablePadding="10dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:drawableLeft="@drawable/ic_bag" />
 
-                <include layout="@layout/in_game_item" />
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="1dp" />
 
-                <include layout="@layout/in_game_item" />
+                    <com.giggs.heroquest.views.CustomTextView
+                        style="@style/HeroTitle"
+                        android:id="@+id/gold_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/placeholder"
+                        android:drawablePadding="10dp"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                        android:drawableLeft="@drawable/ic_coins" />
+                </LinearLayout>
 
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-
-                <include layout="@layout/in_game_item" />
-            </GridLayout>
+                <it.sephiroth.android.library.widget.HListView
+                    android:id="@+id/bag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:dividerHeight="0dp"
+                    android:choiceMode="singleChoice"
+                    android:drawSelectorOnTop="false"
+                    android:scrollbars="none"
+                    android:divider="@android:color/transparent"
+                    android:listSelector="@android:color/transparent"
+                    android:overScrollMode="never" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

@@ -1,7 +1,5 @@
 package com.giggs.heroquest.data.characters;
 
-import com.giggs.heroquest.data.items.ArmorFactory;
-import com.giggs.heroquest.data.items.WeaponFactory;
 import com.giggs.heroquest.models.characters.Hero;
 import com.giggs.heroquest.models.characters.Ranks;
 
@@ -14,79 +12,55 @@ import java.util.List;
 public class HeroFactory {
 
     public static List<Hero> getAll() {
-        List<Hero> lst = new ArrayList<Hero>();
-        lst.add(buildBerserker());
-        lst.add(buildElfRanger());
+        List<Hero> lst = new ArrayList<>();
+        lst.add(buildBarbarian());
+        lst.add(buildElf());
         lst.add(buildWizard());
+        lst.add(buildDwarf());
         lst.add(buildThief());
-        lst.add(buildDwarfWarrior());
-        lst.add(buildDruid());
+        lst.add(buildDrow());
+        lst.add(buildWoodElf());
+        lst.add(buildGnome());
         return lst;
     }
 
-    public static Hero buildBerserker() {
-        Hero hero = new Hero("berserker", Ranks.ME, 22, 22, 13, 11, 6, 4, null, 0, 1, Hero.HeroTypes.STR_DEX);
-        hero.equip(WeaponFactory.buildBroadSword(0));
-        hero.equip(ArmorFactory.buildLeatherVest(0));
-        hero.getSkills().add(SkillFactory.buildRage());
-        hero.getSkills().add(SkillFactory.buildSwirlOfSwords());
-        hero.getSkills().add(SkillFactory.buildWarcry());
+    public static Hero buildBarbarian() {
+        Hero hero = new Hero("barbarian", Ranks.ME, 8, 8, 3, 2, 2, Hero.HeroTypes.STR);
         return hero;
     }
 
-    public static Hero buildDwarfWarrior() {
-        Hero hero = new Hero("dwarf_warrior", Ranks.ME, 28, 28, 15, 6, 9, 3, "dwarf_warrior", 0, 1, Hero.HeroTypes.STR);
-        hero.equip(WeaponFactory.buildAxe(0));
-        hero.equip(WeaponFactory.buildRoundShield(0));
-        hero.equip(ArmorFactory.buildLeatherVest(0));
-        hero.getSkills().add(SkillFactory.buildGroundSlam());
-        hero.getSkills().add(SkillFactory.buildParryScience());
-        hero.getSkills().add(SkillFactory.buildDrunkenMaster());
-        return hero;
-    }
-
-    public static Hero buildElfRanger() {
-        Hero hero = new Hero("elf_ranger", Ranks.ME, 16, 16, 6, 13, 11, 5, "elf_ranger", 0, 1, Hero.HeroTypes.DEX_SPI);
-        hero.equip(WeaponFactory.buildBow(0));
-        hero.equip(ArmorFactory.buildLeatherVest(0));
-        hero.getSkills().add(SkillFactory.buildFrostArrow());
-        hero.getSkills().add(SkillFactory.buildCharm());
-        hero.getSkills().add(SkillFactory.buildDodgeMaster());
-        hero.getSkills().add(SkillFactory.buildStarFall());
+    public static Hero buildElf() {
+        Hero hero = new Hero("elf", Ranks.ME, 6, 6, 2, 2, 4, Hero.HeroTypes.STR);
         return hero;
     }
 
     public static Hero buildWizard() {
-        Hero hero = new Hero("wizard", Ranks.ME, 16, 16, 6, 10, 14, 4, "wizard", 0, 1, Hero.HeroTypes.SPI);
-        hero.equip(WeaponFactory.buildWizardStaff(0));
-        hero.equip(ArmorFactory.buildRobe(0));
-        hero.getSkills().add(SkillFactory.buildFireball());
-        hero.getSkills().add(SkillFactory.buildSleep());
-        hero.getSkills().add(SkillFactory.buildThunderStorm());
-        hero.getSkills().add(SkillFactory.buildStoneSkin());
-        hero.getSkills().add(SkillFactory.buildTerror());
+        Hero hero = new Hero("wizard", Ranks.ME, 4, 4, 1, 2, 6, Hero.HeroTypes.SPI);
         return hero;
     }
 
-    public static Hero buildDruid() {
-        Hero hero = new Hero("druid", Ranks.ME, 18, 18, 11, 8, 11, 4, "druid", 0, 1, Hero.HeroTypes.STR_SPI);
-        hero.equip(WeaponFactory.buildWizardStaff(0));
-        hero.equip(ArmorFactory.buildLeatherVest(0));
-        hero.getSkills().add(SkillFactory.buildParalysingPlants());
-        hero.getSkills().add(SkillFactory.buildHealingHerbs());
-        hero.getSkills().add(SkillFactory.buildWolfHowl());
-        hero.getSkills().add(SkillFactory.buildCrowCurse());
+    public static Hero buildDwarf() {
+        Hero hero = new Hero("dwarf", Ranks.ME, 6, 6, 2, 2, 4, Hero.HeroTypes.STR);
         return hero;
     }
 
     public static Hero buildThief() {
-        Hero hero = new Hero("thief", Ranks.ME, 20, 20, 8, 14, 8, 5, "thief", 0, 1, Hero.HeroTypes.DEX);
-        hero.equip(WeaponFactory.buildDagger(0));
-        hero.equip(ArmorFactory.buildLeatherVest(0));
-        hero.getSkills().add(SkillFactory.buildCamouflage());
-        hero.getSkills().add(SkillFactory.buildFatalBlow());
-        hero.getSkills().add(SkillFactory.buildPoisonousDarts());
-        hero.getSkills().add(SkillFactory.buildDodgeMaster());
+        Hero hero = new Hero("thief", Ranks.ME, 5, 5, 1, 2, 4, Hero.HeroTypes.STR);
+        return hero;
+    }
+
+    private static Hero buildWoodElf() {
+        Hero hero = new Hero("wood_elf", Ranks.ME, 5, 5, 2, 2, 5, Hero.HeroTypes.SPI);
+        return hero;
+    }
+
+    private static Hero buildDrow() {
+        Hero hero = new Hero("drow", Ranks.ME, 5, 5, 2, 2, 4, Hero.HeroTypes.STR);
+        return hero;
+    }
+
+    private static Hero buildGnome() {
+        Hero hero = new Hero("gnome", Ranks.ME, 3, 3, 1, 2, 7, Hero.HeroTypes.SPI);
         return hero;
     }
 

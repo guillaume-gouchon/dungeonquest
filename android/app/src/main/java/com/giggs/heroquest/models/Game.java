@@ -3,6 +3,7 @@ package com.giggs.heroquest.models;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.giggs.heroquest.data.characters.AllyFactory;
 import com.giggs.heroquest.data.characters.MonsterFactory;
 import com.giggs.heroquest.data.dungeons.DecorationFactory;
 import com.giggs.heroquest.game.base.GameElement;
@@ -88,6 +89,11 @@ public class Game extends DatabaseResource {
 
         // load monsters
         for (GameElement element : MonsterFactory.getAll()) {
+            toLoad.add(element);
+        }
+
+        // load allies
+        for (GameElement element : AllyFactory.getAll()) {
             toLoad.add(element);
         }
 

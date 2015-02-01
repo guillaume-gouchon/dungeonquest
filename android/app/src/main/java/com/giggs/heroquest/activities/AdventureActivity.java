@@ -12,20 +12,18 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.giggs.heroquest.MyActivity;
 import com.giggs.heroquest.R;
 import com.giggs.heroquest.activities.adapters.QuestsAdapter;
-import com.giggs.heroquest.data.BookFactory;
+import com.giggs.heroquest.data.QuestFactory;
 import com.giggs.heroquest.game.GameConstants;
 import com.giggs.heroquest.game.gui.GameMenu;
 import com.giggs.heroquest.models.Game;
 import com.giggs.heroquest.models.Quest;
 import com.giggs.heroquest.providers.MyContentProvider;
-import com.giggs.heroquest.utils.ApplicationUtils;
 import com.giggs.heroquest.utils.MusicManager;
 import com.giggs.heroquest.utils.billing.InAppBillingHelper;
 import com.giggs.heroquest.utils.billing.OnBillingServiceConnectedListener;
@@ -46,8 +44,6 @@ public class AdventureActivity extends MyActivity implements OnClickListener, On
     /**
      * UI
      */
-    private ImageView mStormsBg;
-    private Runnable mStormEffect;
     private Dialog mGameMenuDialog;
     private CustomAlertDialog mTutorialDialog;
 
@@ -58,12 +54,16 @@ public class AdventureActivity extends MyActivity implements OnClickListener, On
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Quest selectedBook = mLstQuests.get(position);
-            if (position != 0 && mSharedPrefs.getInt(GameConstants.TUTORIAL_DONE, 0) == 0) {
-                showTutorialDialog(selectedBook);
+            if (selectedBook.isAvailable()) {
+                if (position != 0 && mSharedPrefs.getInt(GameConstants.TUTORIAL_DONE, 0) == 0) {
+                    showTutorialDialog(selectedBook);
+                } else {
+                    onBookSelected(selectedBook);
+                }
+                mSharedPrefs.edit().putInt(GameConstants.TUTORIAL_DONE, 1).apply();
             } else {
-                onBookSelected(selectedBook);
+                mInAppBillingHelper.purchaseItem(GameConstants.FULL_GAME_PRODUCT_ID);
             }
-            mSharedPrefs.edit().putInt(GameConstants.TUTORIAL_DONE, 1).apply();
         }
     };
 
@@ -81,7 +81,7 @@ public class AdventureActivity extends MyActivity implements OnClickListener, On
         mGame.setId(ContentUris.parseId(gameUri));
 
         // retrieve quests
-        mLstQuests = BookFactory.getAll();
+        mLstQuests = QuestFactory.getAll();
         int nbQuestsDone = 0;
         for (Quest book : mLstQuests) {
             if (mGame.getBooksDone().get(book.getId()) != null) {
@@ -103,27 +103,25 @@ public class AdventureActivity extends MyActivity implements OnClickListener, On
     }
 
     private void setupUI() {
-        mStormsBg = (ImageView) findViewById(R.id.storms);
-
         ListView questsListView = (ListView) findViewById(R.id.quests);
         mQuestsAdapter = new QuestsAdapter(getApplicationContext(), R.layout.quest_item, mLstQuests);
         questsListView.setAdapter(mQuestsAdapter);
         questsListView.setOnItemClickListener(mOnStorySelectedListener);
 
         findViewById(R.id.shop_button).setOnClickListener(this);
+        findViewById(R.id.buy_full_game_button).setOnClickListener(this);
 
         TextView heroNameTV = (TextView) findViewById(R.id.hero_name);
         heroNameTV.setText(mGame.getHero().getHeroName());
         heroNameTV.setCompoundDrawablesWithIntrinsicBounds(mGame.getHero().getImage(getResources()), 0, 0, 0);
-        // TODO add characteriscs
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mStormEffect = ApplicationUtils.addStormBackgroundAtmosphere(mStormsBg, 150, 50);
+        ((TextView) findViewById(R.id.hp)).setText("" + mGame.getHero().getHp());
+        ((TextView) findViewById(R.id.spirit)).setText("" + mGame.getHero().getSpirit());
+        ((TextView) findViewById(R.id.attack)).setText("" + mGame.getHero().getAttack());
+        ((TextView) findViewById(R.id.defense)).setText("" + mGame.getHero().getDefense());
+        ((TextView) findViewById(R.id.gold)).setText("" + mGame.getHero().getGold());
+        ((TextView) findViewById(R.id.frags)).setText("" + mGame.getHero().getFrags().size());
     }
-
 
     @Override
     protected void onDestroy() {
@@ -142,8 +140,6 @@ public class AdventureActivity extends MyActivity implements OnClickListener, On
         super.onPause();
 
         getContentResolver().insert(MyContentProvider.URI_GAMES, mGame.toContentValues());
-
-        mStormsBg.removeCallbacks(mStormEffect);
 
         if (mGameMenuDialog != null) {
             mGameMenuDialog.dismiss();
@@ -170,6 +166,10 @@ public class AdventureActivity extends MyActivity implements OnClickListener, On
                 startActivity(intent);
                 finish();
                 break;
+
+            case R.id.buy_full_game_button:
+                mInAppBillingHelper.purchaseItem(GameConstants.FULL_GAME_PRODUCT_ID);
+                break;
         }
     }
 
@@ -181,6 +181,8 @@ public class AdventureActivity extends MyActivity implements OnClickListener, On
                 quest.setAvailable(true);
             }
             mQuestsAdapter.notifyDataSetChanged();
+        } else {
+            findViewById(R.id.buy_full_game_button).setVisibility(View.VISIBLE);
         }
     }
 
@@ -193,7 +195,7 @@ public class AdventureActivity extends MyActivity implements OnClickListener, On
                 if (which == R.id.ok_btn) {
                     // go to tutorial
                     dialog.dismiss();
-                    onBookSelected(BookFactory.buildTutorial());
+                    onBookSelected(QuestFactory.buildTutorial());
                 } else {
                     dialog.dismiss();
                     onBookSelected(selectedBook);

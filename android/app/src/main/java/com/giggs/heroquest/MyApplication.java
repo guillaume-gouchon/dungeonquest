@@ -23,7 +23,7 @@ public class MyApplication extends Application {
     private void loadFonts() {
         FONTS.splash = Typeface.createFromAsset(getAssets(), "fonts/font_splash.ttf");
         FONTS.main = Typeface.createFromAsset(getAssets(), "fonts/font_main.ttf");
-        FONTS.text = Typeface.createFromAsset(getAssets(), "fonts/font_text.otf");
+        FONTS.text = Typeface.createFromAsset(getAssets(), "fonts/font_text.ttf");
     }
 
     public static class FONTS {

@@ -1,9 +1,8 @@
 package com.giggs.heroquest.activities.fragments;
 
-import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giggs.heroquest.R;
-import com.giggs.heroquest.activities.AdventureActivity;
-import com.giggs.heroquest.activities.games.GameActivity;
-import com.giggs.heroquest.models.Game;
 import com.giggs.heroquest.utils.ApplicationUtils;
 
 public class StoryFragment extends DialogFragment implements View.OnClickListener {
@@ -85,15 +81,15 @@ public class StoryFragment extends DialogFragment implements View.OnClickListene
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        if (mIsOutro) {
-            Intent intent = new Intent(getActivity(), AdventureActivity.class);
-            intent.putExtra(Game.class.getName(), ((GameActivity) getActivity()).getGame());
-            getActivity().startActivity(intent);
-            getActivity().finish();
-        } else {
-            ((GameActivity) getActivity()).showChapterIntro();
-        }
+//        super.onDismiss(dialog);
+//        if (mIsOutro) {
+//            Intent intent = new Intent(getActivity(), AdventureActivity.class);
+//            intent.putExtra(Game.class.getName(), ((GameActivity) getActivity()).getGame());
+//            getActivity().startActivity(intent);
+//            getActivity().finish();
+//        } else {
+//            ((GameActivity) getActivity()).showChapterIntro();
+//        }
     }
 
     @Override
