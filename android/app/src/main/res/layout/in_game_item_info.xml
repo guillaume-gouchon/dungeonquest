@@ -49,6 +49,16 @@
                     android:scaleType="centerInside"
                     android:padding="5dp" />
 
+                <com.giggs.heroquest.views.HintTextView
+                    android:id="@+id/stats"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/placeholder"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:visibility="gone" />
+
                 <com.giggs.heroquest.views.CustomTextView
                     android:id="@+id/description"
                     android:layout_width="match_parent"

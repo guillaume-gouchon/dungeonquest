@@ -8,7 +8,6 @@ import com.giggs.heroquest.R;
 import com.giggs.heroquest.models.characters.Hero;
 import com.giggs.heroquest.models.items.Item;
 import com.giggs.heroquest.models.items.consumables.Potion;
-import com.giggs.heroquest.models.items.equipments.Equipment;
 
 /**
  * Created by guillaume on 1/14/15.
@@ -22,10 +21,7 @@ public class ItemInfoInGame extends ItemInfo {
         TextView mainActionButton = (TextView) findViewById(R.id.main_action_btn);
         TextView secondaryActionButton = (TextView) findViewById(R.id.secondary_action_btn);
 
-        if (item instanceof Equipment) {
-            final Equipment equipment = (Equipment) item;
-
-        } else if (item instanceof Potion) {
+        if (item instanceof Potion) {
             // drink potion
             mainActionButton.setText(R.string.drink);
             mainActionButton.setOnClickListener(new View.OnClickListener() {

@@ -2,6 +2,8 @@ package com.giggs.heroquest.models.characters;
 
 import android.util.Log;
 
+import com.giggs.heroquest.data.characters.AllyFactory;
+import com.giggs.heroquest.data.items.ItemFactory;
 import com.giggs.heroquest.game.base.GameElement;
 import com.giggs.heroquest.game.graphics.UnitSprite;
 import com.giggs.heroquest.models.FightResult;
@@ -15,7 +17,6 @@ import com.giggs.heroquest.models.items.Item;
 import com.giggs.heroquest.models.items.consumables.Consumable;
 import com.giggs.heroquest.models.items.equipments.Equipment;
 import com.giggs.heroquest.models.skills.ActiveSkill;
-import com.giggs.heroquest.models.skills.PassiveSkill;
 import com.giggs.heroquest.models.skills.Skill;
 import com.giggs.heroquest.utils.pathfinding.MovingElement;
 
@@ -203,24 +204,8 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
         return buffs;
     }
 
-    public int calculateProtection() {
-        return Math.max(0, getBonusesFromBuffsAndEquipments(Characteristics.PROTECTION));
-    }
-
-    public int calculateInitiative() {
-        return getSpirit() + getBonusesFromBuffsAndEquipments(Characteristics.INITIATIVE);
-    }
-
     public int calculateMovement() {
         return Math.max(1, movement + getBonusesFromBuffsAndEquipments(Characteristics.MOVEMENT));
-    }
-
-    public int calculateDodge() {
-        return Math.max(5, Math.min(80, (getDefense() - 10) * 4) + getBonusesFromBuffsAndEquipments(Characteristics.DODGE));
-    }
-
-    public int calculateCritical() {
-        return Math.max(0, 5 + getBonusesFromBuffsAndEquipments(Characteristics.CRITICAL));
     }
 
     private int getBonusesFromBuffsAndEquipments(Characteristics characteristic) {
@@ -230,28 +215,25 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
                 bonus += buff.getValue();
             }
         }
-
-        for (Skill skill : skills) {
-            if (skill.getLevel() > 0 && skill instanceof PassiveSkill && skill.getEffect().getTarget() == characteristic) {
-                Effect effect = skill.getEffect();
-                bonus += effect.getValue();
-            }
-        }
-
-        // TODO : best equipment only
+//TODO
         Equipment equipment;
+        int base = getCharacteristic(characteristic);
         for (int n = 0; n < items.size(); n++) {
             if (items.get(n) != null && items.get(n) instanceof Equipment) {
                 equipment = (Equipment) items.get(n);
                 for (Effect buff : equipment.getEffects()) {
-                    if (buff.getTarget() == characteristic) {
-                        bonus += buff.getValue();
-                    }
+//                    if (buff.getTarget() == characteristic) {
+//                        if (buff.getValue() == 1) {
+//                            bonus++;
+//                        } else {
+//                            base = Math.max(base, buff.getValue());
+//                        }
+//                    }
                 }
             }
         }
 
-        return bonus;
+        return base + bonus;
     }
 
     public void initNewTurn() {
@@ -318,6 +300,19 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
             }
         }
         return null;
+    }
+
+    public boolean hasItem(Item item) {
+        for (Item myItem : items) {
+            if (myItem.getIdentifier().equals(item.getIdentifier())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isRangeAttack() {
+        return hasItem(ItemFactory.buildCrossbow()) || identifier.equals(AllyFactory.buildCrossbowman().getIdentifier());
     }
 
 }

@@ -1,6 +1,15 @@
 package com.giggs.heroquest.models;
 
 import android.content.res.Resources;
+import android.util.Log;
+
+import com.giggs.heroquest.game.base.GameElement;
+import com.giggs.heroquest.models.characters.Ranks;
+import com.giggs.heroquest.models.characters.Unit;
+import com.giggs.heroquest.models.dungeons.Tile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by guillaume ON 10/3/14.
@@ -17,6 +26,11 @@ public class Quest extends StorableResource {
     private final Class activityClass;
     private boolean isDone;
     private boolean isAvailable;
+
+    private String tmxName;
+    private Tile[][] tiles = null;
+    private transient List<GameElement> objects;
+    private List<Unit> queue = new ArrayList<>();
 
     private Quest(Builder builder) {
         super(builder.identifier);
@@ -37,6 +51,9 @@ public class Quest extends StorableResource {
         return StorableResource.getResource(resources, introText, false);
     }
 
+    public int getOutroText(Resources resources) {
+        return StorableResource.getResource(resources, outroText, false);
+    }
 
     public int getId() {
         return id;
@@ -104,6 +121,50 @@ public class Quest extends StorableResource {
             return new Quest(this);
         }
 
+    }
+
+    public Tile[][] getTiles() {
+        return tiles;
+    }
+
+    public String getTmxName() {
+        return tmxName;
+    }
+
+    public List<Unit> getQueue() {
+        return queue;
+    }
+
+    public List<GameElement> getObjects() {
+        return objects;
+    }
+
+    public void addGameElement(GameElement gameElement, Tile tile) {
+        gameElement.setTilePosition(tile);
+        if (!queue.contains(gameElement) && gameElement instanceof Unit) {
+            queue.add((Unit) gameElement);
+            Log.d(TAG, "queue size =" + queue.size());
+        }
+
+        if (!objects.contains(gameElement)) {
+            objects.add(gameElement);
+        }
+    }
+
+    public synchronized void removeElement(GameElement gameElement) {
+        objects.remove(gameElement);
+        if (gameElement instanceof Unit) {
+            queue.remove(gameElement);
+        }
+    }
+
+    public boolean isSafe() {
+        for (Unit unit : queue) {
+            if (unit.getRank() == Ranks.ENEMY) {
+                return isSafe;
+            }
+        }
+        return true;
     }
 
 }

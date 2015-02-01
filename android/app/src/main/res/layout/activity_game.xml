@@ -9,11 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <View
-        android:id="@+id/foreground_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,6 +21,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             layout="@layout/in_game_bag_button" />
+
+        <LinearLayout
+            android:id="@+id/skillButtonsLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/bag"
+            android:gravity="left|center_vertical"></LinearLayout>
+
+        <include
+            android:id="@+id/queue"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/in_game_queue" />
+
+        <LinearLayout
+            android:id="@+id/life"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"></LinearLayout>
+
+        <com.giggs.heroquest.views.CustomTextView
+            android:id="@+id/spirit"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@+id/life"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_spirit" />
     </RelativeLayout>
 
     <com.giggs.heroquest.views.CustomTextView

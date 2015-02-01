@@ -93,9 +93,9 @@ public class AdventureActivity extends MyActivity implements OnClickListener, On
         Log.d(TAG, "nb quests done = " + nbQuestsDone);
 
         // show victory dialog
-//        if (nbQuestsDone == GameConstants.NB_QUESTS) {
+        if (nbQuestsDone == GameConstants.NB_QUESTS) {
             showVictoryDialog();
-//        }
+        }
 
         setupUI();
 

@@ -108,15 +108,6 @@ public class Hero extends Unit {
         return heroType;
     }
 
-    public boolean hasItem(Item item) {
-        for (Item myItem : items) {
-            if (myItem.getIdentifier().equals(item.getIdentifier())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public enum HeroTypes {
         STR, DEX, SPI, STR_DEX, STR_SPI, DEX_SPI
     }

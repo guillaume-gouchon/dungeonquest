@@ -17,12 +17,16 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
 
-        <GridLayout
+        <it.sephiroth.android.library.widget.HListView
             android:id="@+id/bag"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:columnCount="5">
-        </GridLayout>
+            android:dividerHeight="0dp"
+            android:choiceMode="singleChoice"
+            android:drawSelectorOnTop="false"
+            android:scrollbars="none"
+            android:divider="@android:color/transparent"
+            android:listSelector="@android:color/transparent"
+            android:overScrollMode="never" />
     </LinearLayout>
 </LinearLayout>
