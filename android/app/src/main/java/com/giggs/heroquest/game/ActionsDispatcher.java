@@ -89,30 +89,11 @@ public class ActionsDispatcher implements UserActionListener {
             } else if (tile.getContent() != null && tile.getContent().getRank() == Ranks.ME && mSelectedTile == tile && tile.getSubContent().size() == 0) {
                 // end movement
                 mGameActivity.nextTurn();
-            } else if (!isMoving && tile.getAction() != null && tile.getAction() != Actions.NONE) {
+            } else if (!isMoving && tile.getAction() != null) {
                 executeAction(tile);
-            } else {
-                if (mGameActivity.getQuest().isSafe() && mGameActivity.getActiveCharacter().getRank() == Ranks.ME && mGameActivity.getActiveCharacter().getTilePosition() == tile && tile.getSubContent().size() > 0
-                        && tile.getSubContent().get(0) instanceof Stairs) {
-                    enterStairs();
-                } else if (mGameActivity.getQuest().isSafe()) {
-                    if (mGameActivity.getActiveCharacter().canMoveIn(tile)) {
-                        if (isMoving) {
-                            mNextTile = tile;
-                            mGameActivity.runOnUpdateThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    hideActionTiles();
-                                    showSpecialActions();
-                                    addActionToTile(Actions.NONE, mNextTile);
-                                }
-                            });
-                        } else {
-                            addActionToTile(Actions.NONE, tile);
-                            move(tile);
-                        }
-                    }
-                }
+            } else if (mGameActivity.getQuest().isSafe() && mGameActivity.getActiveCharacter().getRank() == Ranks.ME && mGameActivity.getActiveCharacter().getTilePosition() == tile && tile.getSubContent().size() > 0
+                    && tile.getSubContent().get(0) instanceof Stairs) {
+                enterStairs();
             }
         }
     }
@@ -141,9 +122,8 @@ public class ActionsDispatcher implements UserActionListener {
 
     private void move(Tile tile) {
         Log.d(TAG, "move to " + tile.getX() + "," + tile.getY());
-        if (!mGameActivity.getQuest().isSafe()) {
-            setInputEnabled(false);
-        }
+        setInputEnabled(false);
+
         List<Tile> path = new AStar<Tile>().search(mGameActivity.getQuest().getTiles(), mGameActivity.getActiveCharacter().getTilePosition(), tile, false, mGameActivity.getActiveCharacter());
         if (path != null) {
             isMoving = true;
@@ -152,7 +132,6 @@ public class ActionsDispatcher implements UserActionListener {
 
                 @Override
                 public void onActionDone(boolean success) {
-                    setInputEnabled(true);
                     isMoving = false;
                     if (!done) {
                         done = true;
@@ -162,10 +141,8 @@ public class ActionsDispatcher implements UserActionListener {
                         } else if (mGameActivity.getQuest().isSafe() && mGameActivity.getActiveCharacter().getRank() == Ranks.ME && mGameActivity.getActiveCharacter().getTilePosition().getSubContent().size() > 0
                                 && mGameActivity.getActiveCharacter().getTilePosition().getSubContent().get(0) instanceof Stairs) {
                             enterStairs();
-                        } else if (mGameActivity.getQuest().isSafe()) {
-                            hideActionTiles();
-                            showSpecialActions();
                         }
+                        mGameActivity.nextTurn();
                     }
                 }
             });
@@ -202,7 +179,7 @@ public class ActionsDispatcher implements UserActionListener {
             @Override
             public void onActionDone(boolean success) {
                 isMoving = false;
-                    if (success && (mGameActivity.getActiveCharacter().isRangeAttack() || mGameActivity.getActiveCharacter().isNextTo(tile))) {
+                if (success && (mGameActivity.getActiveCharacter().isRangeAttack() || mGameActivity.getActiveCharacter().isNextTo(tile))) {
                     final Unit target = (Unit) tile.getContent();
                     FightResult fightResult = mGameActivity.getActiveCharacter().attack(target);
                     animateFight(mGameActivity.getActiveCharacter(), target, fightResult, new OnActionExecuted() {
@@ -238,9 +215,7 @@ public class ActionsDispatcher implements UserActionListener {
 
     private void search(final Tile tile) {
         Log.d(TAG, "search");
-        if (!mGameActivity.getQuest().isSafe()) {
-            setInputEnabled(false);
-        }
+        setInputEnabled(false);
 
         goCloserTo(tile, new OnActionExecuted() {
             @Override
@@ -300,7 +275,7 @@ public class ActionsDispatcher implements UserActionListener {
         } else {
             Set<Tile> adjacentTiles = MathUtils.getAdjacentNodes(mGameActivity.getQuest().getTiles(), tile, 1, false, mGameActivity.getActiveCharacter());
             for (Tile adjacent : adjacentTiles) {
-                if (mGameActivity.getQuest().isSafe() || adjacent.getAction() == Actions.MOVE) {
+                if (adjacent.getAction() == Actions.MOVE) {
                     List<Tile> path = new AStar<Tile>().search(mGameActivity.getQuest().getTiles(), mGameActivity.getActiveCharacter().getTilePosition(), adjacent, false, mGameActivity.getActiveCharacter());
                     if (path != null && (shortestPath == null || path.size() < shortestPath.size())) {
                         shortestPath = path;
@@ -377,7 +352,7 @@ public class ActionsDispatcher implements UserActionListener {
     public void showSpecialActions() {
         for (GameElement gameElement : mGameActivity.getQuest().getObjects()) {
             if (mGameActivity.getActiveCharacter() != gameElement
-                    && ((mGameActivity.getQuest().isSafe() || MathUtils.calcManhattanDistance(gameElement.getTilePosition(), mGameActivity.getActiveCharacter().getTilePosition()) <= mGameActivity.getActiveCharacter().calculateMovement() + 1)
+                    && ((MathUtils.calcManhattanDistance(gameElement.getTilePosition(), mGameActivity.getActiveCharacter().getTilePosition()) <= mGameActivity.getActiveCharacter().calculateMovement() + 1)
                     || mGameActivity.getActiveCharacter().isRangeAttack() && gameElement.isEnemy(mGameActivity.getActiveCharacter()))) {
                 addAvailableAction(gameElement);
             }
@@ -396,7 +371,7 @@ public class ActionsDispatcher implements UserActionListener {
     }
 
     private void addAvailableAction(GameElement gameElement) {
-        boolean isActionPossible = mGameActivity.getQuest().isSafe() || mGameActivity.getActiveCharacter().isNextTo(gameElement.getTilePosition())
+        boolean isActionPossible = mGameActivity.getActiveCharacter().isNextTo(gameElement.getTilePosition())
                 || mGameActivity.getActiveCharacter().isRangeAttack() && gameElement.isEnemy(mGameActivity.getActiveCharacter());
         if (!isActionPossible) {
             Set<Tile> adjacentTiles = MathUtils.getAdjacentNodes(mGameActivity.getQuest().getTiles(), gameElement.getTilePosition(), 1, false, mGameActivity.getActiveCharacter());
@@ -567,9 +542,6 @@ public class ActionsDispatcher implements UserActionListener {
         if (reward.getGold() > 0) {
             mGameActivity.playSound("coins", false);
             mGameActivity.drawAnimatedText(mGameActivity.getHero().getSprite().getX() - 4 * GameConstants.PIXEL_BY_TILE / 3, mGameActivity.getHero().getSprite().getY() - GameConstants.PIXEL_BY_TILE, "+" + reward.getGold() + " gold", Color.YELLOW, 0.4f, 50, -0.15f);
-        }
-        if (reward.getXp() > 0) {
-            mGameActivity.drawAnimatedText(mGameActivity.getHero().getSprite().getX() + GameConstants.PIXEL_BY_TILE / 2, mGameActivity.getHero().getSprite().getY() - GameConstants.PIXEL_BY_TILE, "+" + reward.getXp() + "xp", new Color(1.0f, 1.0f, 1.0f), 0.4f, 50, -0.15f);
         }
     }
 

@@ -14,6 +14,7 @@ import com.giggs.heroquest.game.ActionsDispatcher;
 import com.giggs.heroquest.game.GameConstants;
 import com.giggs.heroquest.game.base.GameElement;
 import com.giggs.heroquest.game.base.MyBaseGameActivity;
+import com.giggs.heroquest.game.base.interfaces.OnActionExecuted;
 import com.giggs.heroquest.game.graphics.SelectionCircle;
 import com.giggs.heroquest.game.gui.items.ItemInfoInGame;
 import com.giggs.heroquest.models.Game;
@@ -30,6 +31,7 @@ import com.giggs.heroquest.models.effects.PoisonEffect;
 import com.giggs.heroquest.models.effects.StunEffect;
 import com.giggs.heroquest.models.items.Characteristics;
 import com.giggs.heroquest.models.items.Item;
+import com.giggs.heroquest.models.items.Mercenary;
 import com.giggs.heroquest.models.items.consumables.Potion;
 import com.giggs.heroquest.models.skills.ActiveSkill;
 import com.giggs.heroquest.models.skills.Skill;
@@ -55,9 +57,9 @@ public class GameActivity extends MyBaseGameActivity {
 
     private static final String TAG = "GameActivity";
 
-    public SelectionCircle mSelectionCircle;
     public Entity mGroundLayer;
     public TMXTiledMap mTmxTiledMap;
+    private SelectionCircle mSelectionCircle;
     protected Quest mQuest;
     protected Hero mHero;
     protected Unit mActiveCharacter;
@@ -75,11 +77,9 @@ public class GameActivity extends MyBaseGameActivity {
             mGame.setQuest(QuestFactory.buildTutorial());
         }
 
-        if (mGame.getQuest() == null) {
-            // copy hero object for reset dungeon after game-over
-            mHero = (Hero) ApplicationUtils.deepCopy(mGame.getHero());
-            mHero.reset();
-        }
+        // copy hero object for reset dungeon after game-over
+        mHero = (Hero) ApplicationUtils.deepCopy(mGame.getHero());
+        mQuest = mGame.getQuest();
     }
 
     @Override
@@ -94,7 +94,7 @@ public class GameActivity extends MyBaseGameActivity {
         // load tiled map for current room
         final TMXLoader tmxLoader = new TMXLoader(getAssets(), mEngine.getTextureManager(),
                 TextureOptions.BILINEAR_PREMULTIPLYALPHA, getVertexBufferObjectManager(), null);
-        mTmxTiledMap = tmxLoader.loadFromAsset("tmx/" + mRoom.getTmxName() + ".tmx");
+        mTmxTiledMap = tmxLoader.loadFromAsset("tmx/" + mQuest.getTmxName() + ".tmx");
 
         mTmxTiledMap.getTMXLayers().get(1).setZIndex(10);
         for (TMXLayer tmxLayer : mTmxTiledMap.getTMXLayers()) {
@@ -110,6 +110,8 @@ public class GameActivity extends MyBaseGameActivity {
 
     @Override
     public void onPopulateScene(Scene pScene, OnPopulateSceneCallback pOnPopulateSceneCallback) throws Exception {
+        mQuest.initMap(mTmxTiledMap);
+
         mGroundLayer = new Entity();
         mGroundLayer.setZIndex(2);
         mScene.attachChild(mGroundLayer);
@@ -120,14 +122,20 @@ public class GameActivity extends MyBaseGameActivity {
         if (mHero != null) {
             List<Unit> heroes = new ArrayList<>();
             heroes.add(mHero);
-            // TODO move in team
-        } else {
-            mRoom.initRoom(mTmxTiledMap, null, 0);
+            for (Item item : mHero.getItems()) {
+                if (item instanceof Mercenary) {
+                    heroes.add(((Mercenary) item).getUnit());
+                }
+            }
+
+            for (Unit unit : heroes) {
+                mQuest.addGameElement(unit, mQuest.getRandomFreeTile());
+            }
         }
 
         // add elements to scene
         GameElement gameElement;
-        for (Tile[] hTiles : mRoom.getTiles()) {
+        for (Tile[] hTiles : mQuest.getTiles()) {
             for (Tile tile : hTiles) {
                 gameElement = tile.getContent();
                 if (gameElement != null) {
@@ -171,18 +179,18 @@ public class GameActivity extends MyBaseGameActivity {
     public void removeElement(GameElement gameElement) {
         Log.d(TAG, "removing element");
         gameElement.destroy();
-        mRoom.removeElement(gameElement);
-        mGUIManager.updateQueue(mActiveCharacter, mRoom);
+        mQuest.removeElement(gameElement);
+        mGUIManager.updateQueue(mActiveCharacter, mQuest);
         super.removeElement(gameElement.getSprite(), false);
     }
 
     @Override
     protected void onPause() {
         if (mActiveCharacter != null && mActiveCharacter.isEnemy(mHero)) {
-            mRoom.getQueue().remove(mActiveCharacter);
-            mRoom.getQueue().add(0, mActiveCharacter);
+            mQuest.getQueue().remove(mActiveCharacter);
+            mQuest.getQueue().add(0, mActiveCharacter);
         }
-        mGame.setQuest(mDungeon);
+        mGame.setQuest(mQuest);
         super.onPause();
     }
 
@@ -216,7 +224,7 @@ public class GameActivity extends MyBaseGameActivity {
         if (mInputManager.ismIsEnabled()) {
             switch (view.getId()) {
                 case R.id.bag:
-                    mGUIManager.showBag(mHero);
+                    mGUIManager.showBag();
                     break;
             }
 
@@ -313,11 +321,10 @@ public class GameActivity extends MyBaseGameActivity {
                 }
 
                 // add new enemies / remove characters
-                for (GameElement element : mRoom.getObjects()) {
+                for (GameElement element : mQuest.getObjects()) {
                     if (element instanceof Unit && (element.getRank() == Ranks.ENEMY || element.getRank() == Ranks.ALLY)
-                            && !mRoom.getQueue().contains(element)) {
-                        mRoom.getQueue().add(0, (Unit) element);
-                        mRoom.checkSafe();
+                            && !mQuest.getQueue().contains(element)) {
+                        mQuest.getQueue().add(0, (Unit) element);
                     } else if (element instanceof Unit && element.getTilePosition() == null) {
                         removeElement(element);
                         break;
@@ -343,7 +350,7 @@ public class GameActivity extends MyBaseGameActivity {
                                 drawAnimatedSprite(mActiveCharacter.getTilePosition().getTileX(), mActiveCharacter.getTilePosition().getTileY(), effect.getSpriteName(), 50, GameConstants.ANIMATED_SPRITE_ALPHA, 1.0f, 0, true, 100, null);
                             }
                             // test if character is still invisible
-                            for (GameElement element : mRoom.getObjects()) {
+                            for (GameElement element : mQuest.getObjects()) {
                                 if (element instanceof Monster) {
                                     // test if the monster sees invisible character depending on the distance
                                     double distance = MathUtils.calcManhattanDistance(element.getTilePosition(), mActiveCharacter.getTilePosition());
@@ -366,12 +373,14 @@ public class GameActivity extends MyBaseGameActivity {
 
                 if (!isHeroic && !isHidden) {
                     // next character
-                    mActiveCharacter = mRoom.getQueue().get(0);
+                    mActiveCharacter = mQuest.getQueue().get(0);
                     Log.d(TAG, "updating queue to next character = " + mActiveCharacter.getRank().name() + ", " + mActiveCharacter.getHp() + "hp");
 
-                    mRoom.getQueue().add(mRoom.getQueue().get(0));
-                    mRoom.getQueue().remove(0);
-                    mGUIManager.updateQueue(mActiveCharacter, mRoom);
+                    mQuest.getQueue().add(mQuest.getQueue().get(0));
+                    mQuest.getQueue().remove(0);
+                    mGUIManager.updateQueue(mActiveCharacter, mQuest);
+                    mSelectionCircle.attachToGameElement(mActiveCharacter);
+                    mGUIManager.updateQueue(mActiveCharacter, mQuest);
                 }
 
                 // handle current buffs
@@ -405,12 +414,14 @@ public class GameActivity extends MyBaseGameActivity {
                     return;
                 }
 
-                mTurnStartTile = mActiveCharacter.getTilePosition();
                 updateActionTiles();
-                mActionDispatcher.hideElementInfo();
-                mGUIManager.updateActiveHeroLayout();
+                mGUIManager.updateHeroLayout();
 
                 mActiveCharacter.initNewTurn();
+
+                if (!skipTurn && mActiveCharacter instanceof Hero) {
+                    rollMovementDice();
+                }
 
                 if (skipTurn) {
                     nextTurn();
@@ -426,7 +437,7 @@ public class GameActivity extends MyBaseGameActivity {
                                     Unit target = null;
 
                                     // prioritize adjacent tiles
-                                    Set<Tile> adjacentTiles = MathUtils.getAdjacentNodes(mRoom.getTiles(), mActiveCharacter.getTilePosition(), 1, false, null);
+                                    Set<Tile> adjacentTiles = MathUtils.getAdjacentNodes(mQuest.getTiles(), mActiveCharacter.getTilePosition(), 1, false, null);
                                     for (Tile tile : adjacentTiles) {
                                         if (tile.getContent() instanceof Unit && tile.getContent().isEnemy(mActiveCharacter)) {
                                             target = (Unit) tile.getContent();
@@ -436,8 +447,8 @@ public class GameActivity extends MyBaseGameActivity {
 
                                     // then, search in whole room
                                     if (target == null) {
-                                        Collections.shuffle(mRoom.getObjects());
-                                        for (GameElement gameElement : mRoom.getObjects()) {
+                                        Collections.shuffle(mQuest.getObjects());
+                                        for (GameElement gameElement : mQuest.getObjects()) {
                                             if (gameElement instanceof Unit && gameElement.isEnemy(mActiveCharacter)) {
                                                 target = (Unit) gameElement;
                                                 break;
@@ -469,18 +480,35 @@ public class GameActivity extends MyBaseGameActivity {
         });
     }
 
+    private void rollMovementDice() {
+        int movementDie1 = ((Hero) mActiveCharacter).getMovementDie1();
+        int movementDie2 = ((Hero) mActiveCharacter).getMovementDie2();
+
+        // die 1
+        drawAnimatedSprite(mActiveCharacter.getSprite().getX() - 15, mActiveCharacter.getSprite().getY() - 45, "dice.png", 20, 0.2f, 1.0f, 2, true, 1000, new OnActionExecuted() {
+            @Override
+            public void onActionDone(boolean success) {
+                drawSprite(mActiveCharacter.getSprite().getX() - 15, mActiveCharacter.getSprite().getY() - 45, "dice.png", 25, 0.2f);
+            }
+        });
+
+        if (movementDie2 > 0) {
+            drawAnimatedSprite(mActiveCharacter.getSprite().getX() + 15, mActiveCharacter.getSprite().getY() - 45, "dice.png", 20, 0.2f, 1.0f, 2, true, 1000, new OnActionExecuted() {
+                @Override
+                public void onActionDone(boolean success) {
+                    drawSprite(mActiveCharacter.getSprite().getX() + 15, mActiveCharacter.getSprite().getY() - 45, "dice.png", 25, 0.2f);
+                }
+            });
+        }
+    }
+
     private void updateActionTiles() {
         runOnUpdateThread(new Runnable() {
             @Override
             public void run() {
                 Log.d(TAG, "updating action tiles");
                 mActionDispatcher.hideActionTiles();
-
-                if (mRoom.isSafe()) {
-                    mActionDispatcher.showSpecialActions();
-                } else {
-                    mActionDispatcher.showAllActions(mActiveCharacter.getTilePosition());
-                }
+                mActionDispatcher.showAllActions(mActiveCharacter.getTilePosition());
                 Log.d(TAG, "updating action tiles is done");
                 mActionDispatcher.setInputEnabled(!mActiveCharacter.isEnemy(mHero));
             }

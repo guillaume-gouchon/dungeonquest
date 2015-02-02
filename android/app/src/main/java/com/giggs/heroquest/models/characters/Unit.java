@@ -3,6 +3,7 @@ package com.giggs.heroquest.models.characters;
 import android.util.Log;
 
 import com.giggs.heroquest.data.characters.AllyFactory;
+import com.giggs.heroquest.data.characters.MonsterFactory;
 import com.giggs.heroquest.data.items.ItemFactory;
 import com.giggs.heroquest.game.base.GameElement;
 import com.giggs.heroquest.game.graphics.UnitSprite;
@@ -26,6 +27,7 @@ import org.andengine.util.color.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by guillaume ON 10/2/14.
@@ -79,15 +81,15 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
     }
 
     public int getAttack() {
-        return Math.max(0, attack + getBonusesFromBuffsAndEquipments(Characteristics.ATTACK));
+        return Math.max(0, getBonusesFromBuffsAndEquipments(Characteristics.ATTACK));
     }
 
     public int getDefense() {
-        return Math.max(0, defense + getBonusesFromBuffsAndEquipments(Characteristics.DEFENSE));
+        return Math.max(0, getBonusesFromBuffsAndEquipments(Characteristics.DEFENSE));
     }
 
     public int getSpirit() {
-        return Math.max(0, spirit + getBonusesFromBuffsAndEquipments(Characteristics.SPIRIT));
+        return Math.max(0, getBonusesFromBuffsAndEquipments(Characteristics.SPIRIT));
     }
 
     public int getGold() {
@@ -120,68 +122,64 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
         FightResult fightResult;
 
         // remove invisibility
-        boolean isInvisible = false;
         for (Effect buff : buffs) {
             if (buff instanceof CamouflageEffect) {
                 buffs.remove(buff);
                 updateSprite();
-                isInvisible = true;
                 break;
             }
         }
 
-        //TODO
-//
-//        int dice = (int) (Math.random() * 100);
-//
-//        if (isRangeAttack()) {
-//            if (isNextTo(target.getTilePosition())) {
-//                // malus for range weapon in close combat
-//                dice = Math.min(99, dice + 20);
-//            } else {
-//                // range attack bonus or malus depending on dexterity
-//                dice = Math.max(0, dice - (dexterity - 12) * 3);
-//            }
-//        }
-//
-//        Log.d(TAG, "attack dice = " + dice);
-//
-//        int critical = calculateCritical();
-//
-//        if (isInvisible || dice < critical) {
-//            int criticalDamage = Math.max(0, calculateDamageNaturalBonus() + getBonusesFromBuffsAndEquipments(Characteristics.DAMAGE)
-//                    + (equipments[0] != null ? calculateCriticalDamage((Weapon) equipments[0]) : 0) + (equipments[1] != null ? calculateCriticalDamage((Weapon) equipments[1]) / 2 : 0));
-//            fightResult = new FightResult(FightResult.States.CRITICAL, (int) Math.max(0, criticalDamage * 1.3f - target.calculateProtection()));
-//        } else if (dice >= 95) {
-//            fightResult = new FightResult(FightResult.States.MISS, 0);
-//        } else if (dice > 95 - target.calculateBlock()) {
-//            fightResult = new FightResult(FightResult.States.BLOCK, 0);
-//        } else {
-//            int dodgeDice = (int) (Math.random() * 100);
-//            Log.d(TAG, "dodge dice = " + dodgeDice);
-//            if (dodgeDice < target.calculateDodge()) {
-//                fightResult = new FightResult(FightResult.States.DODGE, 0);
-//            } else {
-//                int damage = Math.max(0, calculateDamageNaturalBonus() + getBonusesFromBuffsAndEquipments(Characteristics.DAMAGE)
-//                        + (equipments[0] != null ? calculateDamage((Weapon) equipments[0]) : 0) + (equipments[1] != null ? calculateDamage((Weapon) equipments[1]) / 2 : 0));
-//                fightResult = new FightResult(FightResult.States.DAMAGE, Math.max(0, damage - target.calculateProtection()));
-//            }
-//        }
-//
-//        Log.d(TAG, "dealing " + fightResult.getDamage() + " damage");
-//        target.takeDamage(fightResult.getDamage());
-//
-//        // add weapons special effects
-//        if (fightResult.getDamage() > 0) {
-//            if (equipments[0] != null) {
-//                applyWeaponEffect(equipments[0], target);
-//            }
-//            if (equipments[1] != null) {
-//                applyWeaponEffect(equipments[1], target);
-//            }
-//        }
+        Random random;
 
-        return null;
+        // calculate nb attack dice
+        int attack = getAttack();
+
+        // spirit blade modifier
+        if (hasItem(ItemFactory.buildSpiritBlade()) &&
+                (target.getIdentifier().equals(MonsterFactory.buildSkeleton()) || target.getIdentifier().equals(MonsterFactory.buildZombie())
+                        || target.getIdentifier().equals(MonsterFactory.buildMummy()))) {
+            attack++;
+        }
+
+        int attackScore = 0;
+        for (int n = 0; n < attack; n++) {
+            random = new Random();
+            if (random.nextInt(6) < 3) {
+                attackScore++;
+            }
+        }
+
+        Log.d(TAG, "attack = " + attackScore);
+
+        if (attackScore > 0) {
+            // calculate defense score
+            int defenseScore = 0;
+            int die;
+            for (int n = 0; n < target.getDefense(); n++) {
+                random = new Random();
+                die = random.nextInt(6);
+                if (die == 0 || die == 1 && !(target instanceof Monster)) {
+                    defenseScore++;
+                }
+            }
+
+            Log.d(TAG, "defense = " + defenseScore);
+
+            int damage = attackScore - defenseScore;
+            if (damage <= 0) {
+                fightResult = new FightResult(FightResult.States.BLOCK, 0);
+            } else {
+                fightResult = new FightResult(FightResult.States.DAMAGE, -damage);
+            }
+        } else {
+            fightResult = new FightResult(FightResult.States.MISS, 0);
+        }
+
+        Log.d(TAG, "dealing " + fightResult.getDamage() + " damage");
+        target.takeDamage(fightResult.getDamage());
+
+        return fightResult;
     }
 
     private static void applyWeaponEffect(Equipment equipment, Unit target) {
@@ -209,29 +207,36 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
     }
 
     private int getBonusesFromBuffsAndEquipments(Characteristics characteristic) {
+        int base = getBaseCharacteristic(characteristic);
         int bonus = 0;
+
         for (Effect buff : buffs) {
             if (buff.getTarget() == characteristic) {
                 bonus += buff.getValue();
             }
         }
-//TODO
+
         Equipment equipment;
-        int base = getCharacteristic(characteristic);
         for (int n = 0; n < items.size(); n++) {
             if (items.get(n) != null && items.get(n) instanceof Equipment) {
                 equipment = (Equipment) items.get(n);
                 for (Effect buff : equipment.getEffects()) {
-//                    if (buff.getTarget() == characteristic) {
-//                        if (buff.getValue() == 1) {
-//                            bonus++;
-//                        } else {
-//                            base = Math.max(base, buff.getValue());
-//                        }
-//                    }
+                    if (buff.getTarget() == characteristic) {
+                        if (buff.getValue() == 1) {
+                            if (equipment.getIdentifier().equals(ItemFactory.buildShield().getIdentifier()) && hasItem(ItemFactory.buildBattleAxe())) {
+                                // shield and battle axe cannot be worn together
+                            } else {
+                                bonus++;
+                            }
+                        } else {
+                            base = Math.max(base, buff.getValue());
+                        }
+                    }
                 }
             }
         }
+
+        Log.d(TAG, "base = " + base + ", bonus = " + bonus);
 
         return base + bonus;
     }
@@ -279,9 +284,22 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
     }
 
     public boolean testCharacteristic(Characteristics target, int value) {
-        int dice = (int) (Math.random() * 20);
+        int dice = (int) (Math.random() * 6);
         Log.d(TAG, "characteristic dice result = " + dice);
         return dice == 1 || dice < getCharacteristic(target) - value;
+    }
+
+    public int getBaseCharacteristic(Characteristics target) {
+        switch (target) {
+            case SPIRIT:
+                return spirit;
+            case ATTACK:
+                return attack;
+            case DEFENSE:
+                return defense;
+
+        }
+        return 0;
     }
 
     public int getCharacteristic(Characteristics target) {

@@ -25,10 +25,9 @@ public class ItemInfo extends ElementDetails {
             // add item effects
             HintTextView statView = (HintTextView) findViewById(R.id.stats);
             for (Effect effect : equipment.getEffects()) {
-                statView.setText((effect.getValue() == 1 ? "+" : "") + effect.getValue());
+                statView.setText((effect.getValue() == 1 ? "+" : "") + effect.getValue() + (effect.getValue() > 1 ? " dice" : " die"));
+                statView.setCompoundDrawablesWithIntrinsicBounds(effect.getTarget().getImage(), 0, 0, 0);
                 statView.setTextHint(effect.getTarget().getName());
-                int colorResource = mResources.getColor(R.color.green);
-                statView.setTextColor(colorResource);
                 statView.setVisibility(View.VISIBLE);
             }
 

@@ -2,31 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@id/rootLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="5dp"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:gravity="center"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:background="@drawable/bg_gui"
-        android:orientation="vertical"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+    <it.sephiroth.android.library.widget.HListView
+        android:id="@+id/bag"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:dividerHeight="0dp"
+        android:choiceMode="singleChoice"
+        android:drawSelectorOnTop="false"
+        android:scrollbars="none"
+        android:divider="@android:color/transparent"
+        android:listSelector="@android:color/transparent"
+        android:overScrollMode="never" />
 
-        <it.sephiroth.android.library.widget.HListView
-            android:id="@+id/bag"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dividerHeight="0dp"
-            android:choiceMode="singleChoice"
-            android:drawSelectorOnTop="false"
-            android:scrollbars="none"
-            android:divider="@android:color/transparent"
-            android:listSelector="@android:color/transparent"
-            android:overScrollMode="never" />
-    </LinearLayout>
+    <com.giggs.heroquest.views.CustomTextView
+        android:id="@+id/close_bag"
+        style="@style/PopupButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/close" />
 </LinearLayout>

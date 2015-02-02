@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="3dp"
     android:background="@drawable/bg_clickable_gui">
 
     <ImageView
@@ -11,6 +10,5 @@
         android:layout_height="@dimen/in_game_button_size"
         android:scaleType="centerInside"
         android:src="@drawable/ic_bag"
-        android:alpha="0.5"
-        android:padding="3dp" />
+        android:alpha="0.9" />
 </RelativeLayout>

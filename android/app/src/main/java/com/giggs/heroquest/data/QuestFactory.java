@@ -21,7 +21,7 @@ public class QuestFactory {
     }
 
     public static Quest buildTutorial() {
-        Quest book = new Quest.Builder(0, "tutorial").setAvailable(true).build();
+        Quest book = new Quest.Builder(0, "tutorial", "tutorial").setAvailable(true).build();
 
 
         return book;

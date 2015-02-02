@@ -217,9 +217,9 @@ public class AdventureActivity extends MyActivity implements OnClickListener, On
         mGameMenuDialog.show();
     }
 
-    private void onBookSelected(Quest selectedBook) {
-        mGame.setQuest(selectedBook);
-        Intent intent = new Intent(this, selectedBook.getActivityClass());
+    private void onBookSelected(Quest selectedQuest) {
+        mGame.setQuest(selectedQuest);
+        Intent intent = new Intent(this, selectedQuest.getActivityClass());
         intent.putExtra(Game.class.getName(), mGame);
         startActivity(intent);
         finish();

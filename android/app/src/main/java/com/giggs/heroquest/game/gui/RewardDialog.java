@@ -2,7 +2,9 @@ package com.giggs.heroquest.game.gui;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giggs.heroquest.R;
@@ -15,36 +17,45 @@ public class RewardDialog extends Dialog {
 
     public RewardDialog(Context context, Reward reward) {
         super(context, R.style.Dialog);
-        setContentView(R.layout.in_game_reward);
+        setContentView(R.layout.in_game_item_info);
         setCancelable(false);
-
         findViewById(R.id.rootLayout).getBackground().setAlpha(70);
 
-        TextView itemTV = (TextView) findViewById(R.id.item);
+        Resources resources = context.getResources();
 
-        if (reward == null) {
-//            // found nothing
-//            itemTV.setText(R.string.found_nothing);
-//            itemTV.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.found_nothing);
-        } else {
-            if (reward.getItem() != null) {
-                // add item
-                String itemName = context.getString(reward.getItem().getName(context.getResources()));
-                boolean isAn = itemName.startsWith("a") || itemName.startsWith("e") || itemName.startsWith("i") || itemName.startsWith("o") || itemName.startsWith("u");
-                itemTV.setText(context.getString(isAn ? R.string.found_item_an : R.string.found_item_a, itemName));
-                itemTV.setCompoundDrawablesWithIntrinsicBounds(0, reward.getItem().getImage(context.getResources()), 0, 0);
-                itemTV.setVisibility(View.VISIBLE);
+        TextView nameTV = (TextView) findViewById(R.id.name);
+        TextView descriptionTV = (TextView) findViewById(R.id.description);
+
+        if (reward.getItem() != null) {
+            nameTV.setText(context.getString(reward.getItem().getName(resources)));
+            ((ImageView) findViewById(R.id.image)).setImageResource(reward.getItem().getImage(resources));
+            int description = reward.getItem().getDescription(resources);
+            if (description > 0) {
+                descriptionTV.setText(description);
             } else {
-                itemTV.setVisibility(View.GONE);
+                descriptionTV.setVisibility(View.GONE);
+            }
+        } else {
+            nameTV.setText(context.getString(reward.getName(resources)));
+            ((ImageView) findViewById(R.id.image)).setImageResource(reward.getImage(resources));
+            int description = reward.getDescription(resources);
+            if (description > 0) {
+                descriptionTV.setText(description);
+            } else {
+                descriptionTV.setVisibility(View.GONE);
             }
         }
 
-        findViewById(R.id.dismiss_button).setOnClickListener(new View.OnClickListener() {
+        // actions
+        TextView mainActionButton = (TextView) findViewById(R.id.main_action_btn);
+        mainActionButton.setText(R.string.close);
+        mainActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 dismiss();
             }
         });
+        mainActionButton.setVisibility(View.VISIBLE);
     }
 
 }

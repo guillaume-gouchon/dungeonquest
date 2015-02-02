@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.giggs.heroquest.R;
@@ -52,9 +53,9 @@ public class GUIManager {
     private Hero mHero;
 
     private Dialog mLoadingScreen, mGameMenuDialog, mRewardDialog, mBagDialog, mItemInfoDialog;
-    private TextView mBigLabel, mSpiritTV;
+    private TextView mBigLabel;
     private Animation mBigLabelAnimation;
-    private ViewGroup mQueueLayout, mLifeLayout;
+    private ViewGroup mQueueLayout, mLifeLayout, mSpiritLayout;
     private ViewGroup mSkillButtonsLayout;
     private CustomAlertDialog mConfirmDialog;
 
@@ -73,9 +74,8 @@ public class GUIManager {
 
         mSkillButtonsLayout = (ViewGroup) mGameActivity.findViewById(R.id.skillButtonsLayout);
 
-        mLifeLayout = (ViewGroup) mGameActivity.findViewById(R.id.life);
-
-        mSpiritTV = (TextView) mGameActivity.findViewById(R.id.spirit);
+        mLifeLayout = (ViewGroup) mGameActivity.findViewById(R.id.hero_life);
+        mSpiritLayout = (ViewGroup) mGameActivity.findViewById(R.id.hero_spirit);
     }
 
     public void setData(Hero hero) {
@@ -218,15 +218,26 @@ public class GUIManager {
         mGameActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mSpiritTV.setText("" + mHero.getSpirit());
                 mLifeLayout.removeAllViews();
-                ImageView view = new ImageView(mGameActivity.getApplicationContext());
-                view.setImageResource(R.drawable.ic_health);
+                ImageView view;
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.setMargins(0, 0, -12, 0);
                 for (int n = 0; n < mHero.getHp(); n++) {
+                    view = new ImageView(mGameActivity.getApplicationContext());
+                    view.setImageResource(R.drawable.ic_health);
+                    view.setLayoutParams(params);
                     if (mHero.getCurrentHP() < n) {
                         view.setColorFilter(Color.argb(100, 0, 0, 0));
                     }
                     mLifeLayout.addView(view);
+                }
+
+                mSpiritLayout.removeAllViews();
+                for (int n = 0; n < mHero.getSpirit(); n++) {
+                    view = new ImageView(mGameActivity.getApplicationContext());
+                    view.setImageResource(R.drawable.ic_spirit);
+                    view.setLayoutParams(params);
+                    mSpiritLayout.addView(view);
                 }
             }
         });
@@ -236,21 +247,16 @@ public class GUIManager {
         mGameActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (quest.isSafe()) {
-                    mQueueLayout.setVisibility(View.GONE);
+                updateQueueCharacter((ViewGroup) mQueueLayout.findViewById(R.id.activeCharacter), activeCharacter);
+                if (quest.getQueue().size() > 1) {
+                    updateQueueCharacter((ViewGroup) mQueueLayout.findViewById(R.id.nextCharacter), quest.getQueue().get(0));
                 } else {
-                    mQueueLayout.setVisibility(View.VISIBLE);
-                    updateQueueCharacter((ViewGroup) mQueueLayout.findViewById(R.id.activeCharacter), activeCharacter);
-                    if (quest.getQueue().size() > 1) {
-                        updateQueueCharacter((ViewGroup) mQueueLayout.findViewById(R.id.nextCharacter), quest.getQueue().get(0));
-                    } else {
-                        mQueueLayout.findViewById(R.id.nextCharacter).setVisibility(View.GONE);
-                    }
-                    if (quest.getQueue().size() > 2) {
-                        updateQueueCharacter((ViewGroup) mQueueLayout.findViewById(R.id.nextnextCharacter), quest.getQueue().get(1));
-                    } else {
-                        mQueueLayout.findViewById(R.id.nextnextCharacter).setVisibility(View.GONE);
-                    }
+                    mQueueLayout.findViewById(R.id.nextCharacter).setVisibility(View.GONE);
+                }
+                if (quest.getQueue().size() > 2) {
+                    updateQueueCharacter((ViewGroup) mQueueLayout.findViewById(R.id.nextnextCharacter), quest.getQueue().get(1));
+                } else {
+                    mQueueLayout.findViewById(R.id.nextnextCharacter).setVisibility(View.GONE);
                 }
             }
         });
@@ -279,6 +285,7 @@ public class GUIManager {
         mBagDialog = new Dialog(mGameActivity, R.style.Dialog);
         mBagDialog.setContentView(R.layout.in_game_bag);
         mBagDialog.setCancelable(true);
+        mBagDialog.setCanceledOnTouchOutside(true);
 
         HListView bagItemsListView = (HListView) mBagDialog.findViewById(R.id.bag);
         final ItemsAdapter bagAdapter = new ItemsAdapter(mGameActivity.getApplicationContext(), R.layout.item, mHero.getItems());
@@ -288,6 +295,13 @@ public class GUIManager {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 view.setTag(R.string.item, bagAdapter.getItem(position));
                 mGameActivity.onClick(view);
+            }
+        });
+
+        mBagDialog.findViewById(R.id.close_bag).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBagDialog.dismiss();
             }
         });
 
@@ -315,7 +329,7 @@ public class GUIManager {
                         ((ImageView) skillButton.findViewById(R.id.image)).setImageResource(skill.getImage(mResources));
                         if (skill instanceof PassiveSkill || skill instanceof ActiveSkill && ((ActiveSkill) skill).isUsed()) {
                             skillButton.findViewById(R.id.image).setEnabled(false);
-                            skillButton.setAlpha(0.5f);
+                            ApplicationUtils.setAlpha(skillButton, 0.5f);
                         }
 
                         skillButton.setOnClickListener(mGameActivity);

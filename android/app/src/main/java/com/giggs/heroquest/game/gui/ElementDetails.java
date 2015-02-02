@@ -23,9 +23,10 @@ public class ElementDetails extends Dialog {
     protected final Resources mResources;
 
     public ElementDetails(Context context, StorableResource element) {
-        super(context, R.style.DialogNoAnimation);
+        super(context, R.style.Dialog);
         setContentView(R.layout.in_game_item_info);
         setCancelable(true);
+        setCanceledOnTouchOutside(true);
 
         mResources = context.getResources();
 

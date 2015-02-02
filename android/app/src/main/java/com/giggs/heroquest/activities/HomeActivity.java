@@ -26,12 +26,14 @@ import com.giggs.heroquest.activities.fragments.LoadGameFragment;
 import com.giggs.heroquest.game.GameConstants;
 import com.giggs.heroquest.models.Game;
 import com.giggs.heroquest.providers.MyContentProvider;
+import com.giggs.heroquest.providers.MyDatabaseHelper;
 import com.giggs.heroquest.utils.ApplicationUtils;
 import com.giggs.heroquest.utils.MusicManager;
 
 public class HomeActivity extends MyActivity implements OnClickListener, LoadGameFragment.FragmentCallbacks {
 
     private SharedPreferences mSharedPrefs;
+    private Cursor mGames;
 
     /**
      * UI
@@ -63,18 +65,23 @@ public class HomeActivity extends MyActivity implements OnClickListener, LoadGam
     }
 
     private void retrieveLoadGames() {
-        new AsyncTask<Void, Void, Cursor>() {
-            @Override
-            protected Cursor doInBackground(Void... params) {
-                return getContentResolver().query(MyContentProvider.URI_GAMES, new String[]{Game.COLUMN_ID}, null, null, Game.COLUMN_ID + " LIMIT 1");
-            }
+        if (MyDatabaseHelper.isDataBaseReady(getApplicationContext())) {
+            new AsyncTask<Void, Void, Cursor>() {
+                @Override
+                protected Cursor doInBackground(Void... params) {
+                    return getContentResolver().query(MyContentProvider.URI_GAMES, new String[]{Game.COLUMN_ID}, null, null, Game.COLUMN_ID + " LIMIT 1");
+                }
 
-            @Override
-            protected void onPostExecute(Cursor games) {
-                super.onPostExecute(games);
-                mLoadGameButton.setEnabled(games.getCount() > 0);
-            }
-        }.execute();
+                @Override
+                protected void onPostExecute(Cursor games) {
+                    super.onPostExecute(games);
+                    mGames = games;
+                    mLoadGameButton.setEnabled(mGames.getCount() > 0);
+                }
+            }.execute();
+        } else {
+            mLoadGameButton.setEnabled(false);
+        }
     }
 
     @Override
@@ -253,9 +260,8 @@ public class HomeActivity extends MyActivity implements OnClickListener, LoadGam
         mAppNameView.setVisibility(View.VISIBLE);
         showButton(mNewGameButton, true);
         showButton(mLoadGameButton, false);
-        retrieveLoadGames();
-
         showButton(mSettingsButton, true);
+        retrieveLoadGames();
     }
 
     private void hideMainHomeButtons() {
@@ -279,7 +285,7 @@ public class HomeActivity extends MyActivity implements OnClickListener, LoadGam
     protected void onResume() {
         super.onResume();
 
-        // init storm effect
+        // initMap storm effect
         mStormEffect = ApplicationUtils.addStormBackgroundAtmosphere(mStormsBg, 200, 50);
     }
 

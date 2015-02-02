@@ -12,10 +12,9 @@
         android:layout_height="25dp"
         android:scaleType="centerInside" />
 
-    <com.glevel.dungeonhero.views.LifeBar
+    <com.giggs.heroquest.views.LifeBar
         android:id="@+id/life"
         android:layout_marginLeft="5dp"
-        android:layout_below="@+id/name"
         android:layout_width="50dp"
         android:layout_height="2dp" />
 </LinearLayout>

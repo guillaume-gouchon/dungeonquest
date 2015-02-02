@@ -22,6 +22,7 @@ import android.widget.ListView;
 import com.giggs.heroquest.R;
 import com.giggs.heroquest.activities.AdventureActivity;
 import com.giggs.heroquest.activities.adapters.LoadGamesAdapter;
+import com.giggs.heroquest.activities.games.GameActivity;
 import com.giggs.heroquest.models.Game;
 import com.giggs.heroquest.providers.MyContentProvider;
 import com.giggs.heroquest.utils.ApplicationUtils;
@@ -133,7 +134,7 @@ public class LoadGameFragment extends DialogFragment implements LoaderManager.Lo
         if (game.getQuest() == null) {
             intent = new Intent(getActivity(), AdventureActivity.class);
         } else {
-            intent = null;//new Intent(getActivity(), game.getQuest() != null ? game.getQuest().getActivityClass() : GameActivity.class);
+            intent = new Intent(getActivity(), game.getQuest() != null ? game.getQuest().getActivityClass() : GameActivity.class);
         }
         intent.putExtra(Game.class.getName(), game);
         startActivity(intent);

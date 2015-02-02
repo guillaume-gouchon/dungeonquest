@@ -1,6 +1,7 @@
 package com.giggs.heroquest.game.base;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.giggs.heroquest.game.graphics.GraphicHolder;
 import com.giggs.heroquest.models.Game;
@@ -15,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GraphicsManager {
+
+    private static final String TAG = "GraphicsManager";
 
     public static final String ASSETS_PATH = "gfx/";
     public static HashMap<String, TiledTextureRegion> sGfxMap = new HashMap<String, TiledTextureRegion>();
@@ -39,6 +42,7 @@ public class GraphicsManager {
 
     private void loadGfx(GraphicHolder graphicHolder) {
         String spriteName = graphicHolder.getSpriteName();
+        Log.d(TAG, "loading graphic = " + spriteName);
         if (sGfxMap.get(spriteName) == null) {
             BitmapTextureAtlas mTexture = new BitmapTextureAtlas(mTextureManager, graphicHolder.getSpriteWidth(), graphicHolder.getSpriteHeight(),
                     TextureOptions.DEFAULT);

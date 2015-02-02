@@ -1,8 +1,8 @@
 package com.giggs.heroquest.models.characters;
 
 
+import com.giggs.heroquest.data.items.ItemFactory;
 import com.giggs.heroquest.data.items.PotionFactory;
-import com.giggs.heroquest.models.items.Item;
 import com.giggs.heroquest.models.items.equipments.Equipment;
 import com.giggs.heroquest.models.items.equipments.Ring;
 import com.giggs.heroquest.models.items.requirements.HeroRequirement;
@@ -12,6 +12,7 @@ import com.giggs.heroquest.models.skills.Skill;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by guillaume ON 10/2/14.
@@ -22,6 +23,9 @@ public class Hero extends Unit {
     private final HeroTypes heroType;
     protected List<String> frags = new ArrayList<>();
     private String heroName;
+
+    private int movementDie1;
+    private int movementDie2;
 
     public Hero(String identifier, Ranks ranks, int hp, int currentHP, int attack, int defense, int spirit, HeroTypes heroType) {
         super(identifier, ranks, hp, currentHP, attack, defense, spirit, 0);
@@ -61,8 +65,23 @@ public class Hero extends Unit {
         }
     }
 
-    public void drop(Item item) {
-        items.remove(item);
+    @Override
+    public void initNewTurn() {
+        super.initNewTurn();
+        Random r = new Random();
+        movementDie1 = 1 + r.nextInt(6);
+
+        // breast plate modifier
+        if (!hasItem(ItemFactory.buildBreastPlate())) {
+            movementDie2 = 1 + r.nextInt(6);
+        } else {
+            movementDie2 = 0;
+        }
+    }
+
+    @Override
+    public int calculateMovement() {
+        return movementDie1 + movementDie2;
     }
 
     public String getHeroName() {
@@ -110,6 +129,14 @@ public class Hero extends Unit {
 
     public enum HeroTypes {
         STR, DEX, SPI, STR_DEX, STR_SPI, DEX_SPI
+    }
+
+    public int getMovementDie1() {
+        return movementDie1;
+    }
+
+    public int getMovementDie2() {
+        return movementDie2;
     }
 
 }

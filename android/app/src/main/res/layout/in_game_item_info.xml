@@ -51,13 +51,15 @@
 
                 <com.giggs.heroquest.views.HintTextView
                     android:id="@+id/stats"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/placeholder"
-                    android:textSize="20sp"
+                    android:textSize="26sp"
                     android:gravity="center"
+                    android:drawablePadding="10dp"
                     android:padding="10dp"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:textColor="@color/black" />
 
                 <com.giggs.heroquest.views.CustomTextView
                     android:id="@+id/description"

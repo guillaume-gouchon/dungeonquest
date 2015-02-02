@@ -63,7 +63,7 @@ public class NewGameActivity extends MyActivity {
     private void setupUI() {
         mStormsBg = (ImageView) findViewById(R.id.storms);
 
-        // init carousel
+        // initMap carousel
         CustomCarousel heroesCarousel = (CustomCarousel) findViewById(R.id.heroes);
         HeroesAdapter heroesAdapter = new HeroesAdapter(this, R.layout.hero_item, mLstHeroes, mOnHeroSelectedListener);
         heroesCarousel.setAdapter(heroesAdapter);

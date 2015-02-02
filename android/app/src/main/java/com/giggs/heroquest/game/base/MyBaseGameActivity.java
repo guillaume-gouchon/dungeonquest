@@ -50,11 +50,9 @@ public abstract class MyBaseGameActivity extends CustomLayoutGameActivity implem
     @Override
     public EngineOptions onCreateEngineOptions() {
         mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        boolean isLandscape = mSharedPrefs.getBoolean(GameConstants.GAME_PREFS_LANDSCAPE, false);
-
-        mCamera = new CustomZoomCamera(0, 0, isLandscape ? GameConstants.CAMERA_WIDTH : GameConstants.CAMERA_HEIGHT,
-                isLandscape ? GameConstants.CAMERA_HEIGHT : GameConstants.CAMERA_WIDTH, GameConstants.CAMERA_ZOOM_MIN, GameConstants.CAMERA_ZOOM_MAX);
-        EngineOptions engineOptions = new EngineOptions(true, isLandscape ? ScreenOrientation.LANDSCAPE_SENSOR : ScreenOrientation.PORTRAIT_SENSOR,
+        mCamera = new CustomZoomCamera(0, 0, GameConstants.CAMERA_WIDTH,
+                GameConstants.CAMERA_HEIGHT, GameConstants.CAMERA_ZOOM_MIN, GameConstants.CAMERA_ZOOM_MAX);
+        EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR,
                 new FillResolutionPolicy(), mCamera);
         engineOptions.getAudioOptions().setNeedsSound(true);
         return engineOptions;
@@ -65,7 +63,7 @@ public abstract class MyBaseGameActivity extends CustomLayoutGameActivity implem
         super.onCreate(pSavedInstanceState);
         mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        // init GUI
+        // initMap GUI
         mGUIManager = new GUIManager(this);
         mGUIManager.initGUI();
         mGUIManager.showLoadingScreen();
@@ -82,18 +80,18 @@ public abstract class MyBaseGameActivity extends CustomLayoutGameActivity implem
 
     @Override
     public void onCreateResources(OnCreateResourcesCallback pOnCreateResourcesCallback) throws Exception {
-        // init game element factory
+        // initMap game element factory
         mGraphicsManager = new GraphicsManager(this, getTextureManager());
         mGraphicsManager.initGraphics(mGame);
 
-        // init sound manager
+        // initMap sound manager
         mSoundEffectManager = new SoundEffectManager(this, mSharedPrefs.getInt(GameConstants.GAME_PREFS_KEY_MUSIC_VOLUME,
                 GameConstants.MusicStates.ON.ordinal()));
         mSoundEffectManager.init(mGame, mEngine);
 
         // load font
         mDefaultFont = FontFactory.create(getFontManager(), getTextureManager(), 256, 256,
-                Typeface.create(Typeface.createFromAsset(getAssets(), "fonts/font_text.otf"), Typeface.BOLD), 32, Color.WHITE.hashCode());
+                Typeface.create(Typeface.createFromAsset(getAssets(), "fonts/font_text.ttf"), Typeface.BOLD), 32, Color.WHITE.hashCode());
         mDefaultFont.load();
 
         pOnCreateResourcesCallback.onCreateResourcesFinished();
@@ -182,9 +180,9 @@ public abstract class MyBaseGameActivity extends CustomLayoutGameActivity implem
         mEngine.stop();
     }
 
-    public void drawSprite(float x, float y, String spriteName, final int duration, final int size) {
+    public void drawSprite(float x, float y, String spriteName, final int duration, float scale) {
         final Sprite sprite = new CenteredSprite(x, y, GraphicsManager.sGfxMap.get(spriteName), getVertexBufferObjectManager());
-        sprite.setScale(size);
+        sprite.setScale(scale);
         mScene.attachChild(sprite);
         if (duration > 0) {
             sprite.registerUpdateHandler(new IUpdateHandler() {

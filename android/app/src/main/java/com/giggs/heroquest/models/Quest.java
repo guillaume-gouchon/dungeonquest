@@ -3,10 +3,15 @@ package com.giggs.heroquest.models;
 import android.content.res.Resources;
 import android.util.Log;
 
+import com.giggs.heroquest.activities.games.GameActivity;
 import com.giggs.heroquest.game.base.GameElement;
 import com.giggs.heroquest.models.characters.Ranks;
 import com.giggs.heroquest.models.characters.Unit;
 import com.giggs.heroquest.models.dungeons.Tile;
+
+import org.andengine.extension.tmx.TMXLayer;
+import org.andengine.extension.tmx.TMXTile;
+import org.andengine.extension.tmx.TMXTiledMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +26,13 @@ public class Quest extends StorableResource {
     private static final String TAG = "Quest";
 
     private final int id;
-    private String introText;
+    private final String introText;
     private final String outroText;
     private final Class activityClass;
+    private final String tmxName;
+
     private boolean isDone;
     private boolean isAvailable;
-
-    private String tmxName;
     private Tile[][] tiles = null;
     private transient List<GameElement> objects;
     private List<Unit> queue = new ArrayList<>();
@@ -40,11 +45,7 @@ public class Quest extends StorableResource {
         this.activityClass = builder.activityClass;
         this.isDone = false;
         this.isAvailable = builder.isAvailable;
-    }
-
-    @Override
-    public int getImage(Resources resources) {
-        return StorableResource.getResource(resources, "bg_book", true);
+        this.tmxName = builder.tmxName;
     }
 
     public int getIntroText(Resources resources) {
@@ -83,17 +84,19 @@ public class Quest extends StorableResource {
 
         private final int id;
         private final String identifier;
+        private final String tmxName;
         private Class activityClass;
         private String intro;
         private String outro;
         private boolean isAvailable;
 
-        public Builder(int id, String identifier) {
+        public Builder(int id, String identifier, String tmxName) {
             this.id = id;
             this.identifier = identifier;
+            this.tmxName = tmxName;
             this.intro = "";
             this.outro = "";
-//            this.activityClass = GameActivity.class;
+            this.activityClass = GameActivity.class;
             this.isAvailable = false;
         }
 
@@ -161,10 +164,65 @@ public class Quest extends StorableResource {
     public boolean isSafe() {
         for (Unit unit : queue) {
             if (unit.getRank() == Ranks.ENEMY) {
-                return isSafe;
+                return false;
             }
         }
         return true;
     }
+
+    public void initMap(TMXTiledMap tiledMap) {
+        if (tiles != null && objects == null) {
+            // build load game
+            objects = new ArrayList<>();
+
+            // recreate tiles
+            Tile[][] newTiles = new Tile[tiledMap.getTileRows()][tiledMap.getTileColumns()];
+            TMXLayer groundLayer = tiledMap.getTMXLayers().get(0);
+            Tile tile;
+            for (TMXTile[] tmxTiles : groundLayer.getTMXTiles()) {
+                for (TMXTile tmxTile : tmxTiles) {
+                    tile = new Tile(tmxTile, tiledMap);
+                    Tile oldTile = tiles[tmxTile.getTileRow()][tmxTile.getTileColumn()];
+                    tile.setContent(oldTile.getContent());
+                    tile.setGround(oldTile.getGround());
+                    tile.setSubContent(oldTile.getSubContent());
+                    newTiles[tmxTile.getTileRow()][tmxTile.getTileColumn()] = tile;
+
+                    if (tile.getContent() != null) {
+                        tile.getContent().setTilePosition(tile);
+                        objects.add(tile.getContent());
+                    }
+                }
+            }
+            tiles = newTiles;
+        } else if (tiles == null) {
+            // create new room
+            tiles = new Tile[tiledMap.getTileRows()][tiledMap.getTileColumns()];
+            objects = new ArrayList<>();
+
+            // add ground tiles
+            TMXLayer groundLayer = tiledMap.getTMXLayers().get(0);
+            Tile tile;
+            for (TMXTile[] tmxTiles : groundLayer.getTMXTiles()) {
+                for (TMXTile tmxTile : tmxTiles) {
+                    tile = new Tile(tmxTile, tiledMap);
+                    tiles[tmxTile.getTileRow()][tmxTile.getTileColumn()] = tile;
+                }
+            }
+
+            // TODO add content
+//            createRoomContent(event, threatLevel);
+        }
+    }
+
+    public Tile getRandomFreeTile() {
+        Tile freeTile;
+        do {
+            freeTile = tiles[(int) (Math.random() * (tiles.length))][(int) (Math.random() * (tiles[0].length))];
+        }
+        while (freeTile.getGround() == null || freeTile.getContent() != null);
+        return freeTile;
+    }
+
 
 }
