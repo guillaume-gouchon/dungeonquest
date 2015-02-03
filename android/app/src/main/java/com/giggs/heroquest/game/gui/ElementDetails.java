@@ -12,6 +12,7 @@ import com.giggs.heroquest.R;
 import com.giggs.heroquest.models.StorableResource;
 import com.giggs.heroquest.models.items.Mercenary;
 import com.giggs.heroquest.models.items.consumables.Potion;
+import com.giggs.heroquest.models.items.consumables.ThrowableItem;
 import com.giggs.heroquest.models.items.equipments.weapons.Weapon;
 
 /**
@@ -49,7 +50,7 @@ public class ElementDetails extends Dialog {
         ImageView bg = (ImageView) findViewById(R.id.bg);
         if (element instanceof Weapon) {
             bg.setColorFilter(Color.argb(100, 255, 0, 0));
-        } else if (element instanceof Potion) {
+        } else if (element instanceof Potion || element instanceof ThrowableItem) {
             bg.setColorFilter(Color.argb(100, 0, 0, 255));
         } else if (element instanceof Mercenary) {
             bg.setColorFilter(Color.argb(100, 0, 200, 0));

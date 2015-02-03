@@ -4,12 +4,10 @@ import com.giggs.heroquest.models.effects.BuffEffect;
 import com.giggs.heroquest.models.effects.CamouflageEffect;
 import com.giggs.heroquest.models.effects.DamageEffect;
 import com.giggs.heroquest.models.effects.Effect;
-import com.giggs.heroquest.models.effects.PermanentEffect;
-import com.giggs.heroquest.models.effects.PoisonEffect;
+import com.giggs.heroquest.models.effects.InvocationEffect;
 import com.giggs.heroquest.models.effects.StunEffect;
 import com.giggs.heroquest.models.items.Characteristics;
 import com.giggs.heroquest.models.skills.ActiveSkill;
-import com.giggs.heroquest.models.skills.PassiveSkill;
 import com.giggs.heroquest.models.skills.Skill;
 
 import org.andengine.util.color.Color;
@@ -19,124 +17,82 @@ import org.andengine.util.color.Color;
  */
 public class SkillFactory {
 
-    public static Skill buildRage() {
-        BuffEffect extra = new BuffEffect(null, Characteristics.PROTECTION, -5, 4, null, 0);
-        Effect effect = new BuffEffect(null, Characteristics.DAMAGE, 10, 4, extra, 0, Color.RED);
-        return new ActiveSkill("berserker_rage", 0, true, 0, effect);
-    }
-
-    public static Skill buildSwirlOfSwords() {
-        Effect effect = new DamageEffect(null, -15, 0);
-        return new ActiveSkill("swirl_swords", 0, true, 1, effect);
-    }
-
-    public static Skill buildWarcry() {
-        Effect effect = new StunEffect(null, Characteristics.ATTACK, 3, 0);
-        return new ActiveSkill("war_cry", 0, true, 7, effect);
-    }
-
-    public static Skill buildFatalBlow() {
-        Effect effect = new PermanentEffect(Characteristics.CRITICAL, 15, null, 0);
-        return new PassiveSkill("fatal_blow", 0, effect);
-    }
-
     public static Skill buildCamouflage() {
         Effect effect = new CamouflageEffect(null, 0, 0);
         return new ActiveSkill("camouflage", 0, true, 0, effect);
     }
 
-    public static Skill buildPoisonousDarts() {
-        Effect extra = new PoisonEffect("poison.png", -5, 3, null, 0);
-        Effect effect = new DamageEffect("poison.png", -8, extra, 0);
-        return new ActiveSkill("poisonous_darts", 0, false, 0, effect);
+
+    public static Skill buildCourage() {
+        Effect effect = new BuffEffect(null, Characteristics.ATTACK, 2, 5, null, 0, Color.RED);
+        return new ActiveSkill("courage", 0, true, 0, effect);
     }
 
-    public static Skill buildDodgeMaster() {
-        Effect effect = new PermanentEffect(Characteristics.DODGE, 15, null, 0);
-        return new PassiveSkill("dodge_master", 0, effect);
+    public static Skill buildFireWrath() {
+        Effect effect = new DamageEffect("fireball.png", -1, null, 0);
+        return new ActiveSkill("fire_of_wrath", 0, false, 0, effect);
     }
 
-    public static Skill buildGroundSlam() {
-        Effect extra = new StunEffect("ground_slam.png", Characteristics.ATTACK, 2, 0);
-        Effect effect = new DamageEffect("ground_slam.png", -12, extra, 0);
-        return new ActiveSkill("ground_slam", 0, true, 1, effect);
+    public static Skill buildHealingWater() {
+        Effect effect = new DamageEffect("poison.png", 4, 0);
+        return new ActiveSkill("healing_water", 0, true, 0, effect);
     }
 
-    public static Skill buildParryScience() {
-        Effect effect = new PermanentEffect(Characteristics.BLOCK, 15, null, 0);
-        return new PassiveSkill("parry_science", 0, effect);
-    }
-
-    public static Skill buildDrunkenMaster() {
-        Effect extra = new BuffEffect(null, Characteristics.BLOCK, -100, 8, null, 0);
-        Effect effect = new DamageEffect(null, 15, extra, 0);
-        return new ActiveSkill("drunken_master", 0, true, 0, effect);
-    }
-
-    public static Skill buildFrostArrow() {
-        Effect extra = new BuffEffect("frost.png", Characteristics.MOVEMENT, -20, 6, null, 0);
-        Effect effect = new DamageEffect("frost.png", -12, extra, 0);
-        return new ActiveSkill("frost_arrow", 0, false, 0, effect);
-    }
-
-    public static Skill buildCharm() {
-        Effect effect = new StunEffect("charm.png", Characteristics.SPIRIT, 12, 0);
-        return new ActiveSkill("charm", 0, false, 0, effect);
-    }
-
-    public static Skill buildStarFall() {
-        Effect effect = new DamageEffect("fireball.png", -10, null, 0);
-        return new ActiveSkill("star_fall", 0, false, 1, effect);
-    }
-
-    public static Skill buildParalysingPlants() {
-        Effect extra = new StunEffect(null, Characteristics.ATTACK, 1, 0);
-        Effect effect = new BuffEffect("poison.png", Characteristics.MOVEMENT, -20, 4, extra, 0);
-        return new ActiveSkill("paralysing_plant", 0, false, 2, effect);
-    }
-
-    public static Skill buildHealingHerbs() {
-        Effect effect = new PoisonEffect("frost.png", 5, 3, null, 0);
-        return new ActiveSkill("healing_plants", 0, true, 0, effect);
-    }
-
-    public static Skill buildWolfHowl() {
-        Effect extra = new BuffEffect(null, Characteristics.DODGE, 30, 4, null, 0);
-        Effect effect = new BuffEffect(null, Characteristics.CRITICAL, 25, 4, extra, 0, Color.RED);
-        return new ActiveSkill("wolf_howl", 0, true, 0, effect);
-    }
-
-    public static Skill buildCrowCurse() {
-        Effect extra = new BuffEffect(null, Characteristics.PROTECTION, -10, 4, null, 0);
-        Effect effect = new BuffEffect("curse.png", Characteristics.DAMAGE, -10, 4, extra, 0);
-        return new ActiveSkill("crow_curse", 0, false, 2, effect);
+    public static Skill buildDarknessWinds() {
+        Effect effect = new BuffEffect(null, Characteristics.DEFENSE, 4, 4, null, 0, Color.BLACK);
+        return new ActiveSkill("darkness_winds", 0, true, 0, effect);
     }
 
     public static Skill buildFireball() {
-        Effect extra = new PoisonEffect("fireball.png", -3, 2, null, 0);
-        Effect effect = new DamageEffect("fireball.png", -15, extra, 0);
+        Effect effect = new DamageEffect("fireball.png", -1, null, 0);
         return new ActiveSkill("fireball", 0, false, 1, effect);
     }
 
     public static Skill buildSleep() {
-        Effect effect = new StunEffect("curse.png", Characteristics.SPIRIT, 5, 0);
+        Effect effect = new StunEffect("curse.png", Characteristics.SPIRIT, 1, 0);
         return new ActiveSkill("sleep", 0, false, 0, effect);
     }
 
-    public static Skill buildThunderStorm() {
-        Effect effect = new DamageEffect("fireball.png", -7, null, 0);
-        return new ActiveSkill("thunder_storm", 0, false, 1, effect);
+    public static Skill buildRockSkin() {
+        Effect effect = new BuffEffect(null, Characteristics.DEFENSE, 2, 5, null, 0, new Color(0.65f, 0.24f, 0.08f, 1.0f));
+        return new ActiveSkill("rock_skin", 0, true, 0, effect);
     }
 
-    public static Skill buildStoneSkin() {
-        Effect effect = new BuffEffect(null, Characteristics.PROTECTION, 10, 5, null, 0, new Color(0.65f, 0.24f, 0.08f, 1.0f));
-        return new ActiveSkill("stone_skin", 0, true, 0, effect);
+    public static Skill buildHealBody() {
+        Effect effect = new DamageEffect("poison.png", 4, 0);
+        return new ActiveSkill("heal_body", 0, true, 0, effect);
+    }
+
+    public static Skill buildSwiftWind() {
+        Effect effect = new BuffEffect(null, Characteristics.MOVEMENT, 0, 5, null, 0, Color.BLUE);
+        return new ActiveSkill("swift_wind", 0, true, 0, effect);
+    }
+
+    public static Skill buildMedicalPlants() {
+        Effect effect = new DamageEffect("poison.png", 3, 0);
+        return new ActiveSkill("medical_plants", 0, true, 0, effect);
+    }
+
+    public static Skill buildWiggy() {
+        return new ActiveSkill("wiggy", 0, false, 0, new InvocationEffect("poison.png", AllyFactory.buildWerewolf()));
+    }
+
+    public static Skill buildZiggy() {
+        return new ActiveSkill("ziggy", 0, false, 0, new InvocationEffect("poison.png", AllyFactory.buildRat()));
+    }
+
+    public static Skill buildMirrorImage() {
+        return new ActiveSkill("mirror_image", 0, false, 0, new InvocationEffect("poison.png", AllyFactory.buildMirrorImage()));
     }
 
     public static Skill buildTerror() {
-        Effect extra = new StunEffect("curse.png", Characteristics.SPIRIT, 1, 0);
-        Effect effect = new PoisonEffect("curse.png", -3, 3, extra, 0);
-        return new ActiveSkill("terror", 0, false, 2, effect);
+        Effect effect = new StunEffect("curse.png", Characteristics.SPIRIT, 1, 0);
+        return new ActiveSkill("terror", 0, false, 1, effect);
+    }
+
+    public static Skill buildNightmare() {
+        Effect effect = new DamageEffect("curse.png", -1, null, 0);
+        return new ActiveSkill("nightmare", 0, false, 0, effect);
     }
 
 }

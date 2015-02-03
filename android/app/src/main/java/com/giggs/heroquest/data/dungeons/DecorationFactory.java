@@ -1,5 +1,6 @@
 package com.giggs.heroquest.data.dungeons;
 
+import com.giggs.heroquest.data.items.ItemFactory;
 import com.giggs.heroquest.data.items.PotionFactory;
 import com.giggs.heroquest.models.Reward;
 import com.giggs.heroquest.models.dungeons.decorations.Decoration;
@@ -56,14 +57,14 @@ public class DecorationFactory {
     }
 
     public static Decoration buildTonnels(Reward reward) {
-        return new Searchable("tonnels", reward, 50, 38, 1, 1);
+        return new Searchable("tonnels", reward, 70, 53, 1, 1);
     }
 
     public static Decoration getRandomSearchable() {
         // create random reward
         Reward reward;
         Random r = new Random();
-        int random = r.nextInt(23);
+        int random = r.nextInt(24);
         switch (random) {
             case 0:
             case 1:
@@ -92,7 +93,7 @@ public class DecorationFactory {
                 reward = new Reward("tr_gold", "tr_gold_4_description", null, 50);
                 break;
             case 10:
-                reward = new Reward("tr_gold", "tr_gold_1_description", null, 25);
+                reward = new Reward("tr_gold", "tr_gold_5_description", null, 25);
                 break;
             case 11:
             case 22:
@@ -127,7 +128,7 @@ public class DecorationFactory {
                 reward = new Reward(null, null, PotionFactory.buildSpeedPotion(), 0);
                 break;
             default:
-                reward = new Reward(null, null, PotionFactory.buildHolyWater(), 0);
+                reward = new Reward(null, null, ItemFactory.buildHolyWater(), 0);
                 break;
         }
 

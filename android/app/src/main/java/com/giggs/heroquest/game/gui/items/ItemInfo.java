@@ -16,7 +16,7 @@ import com.giggs.heroquest.views.HintTextView;
  */
 public class ItemInfo extends ElementDetails {
 
-    public ItemInfo(Context context, Item item, Hero hero) {
+    public ItemInfo(Context context, Item item) {
         super(context, item);
 
         if (item instanceof Equipment) {

@@ -3,6 +3,7 @@ package com.giggs.heroquest.models.characters;
 import android.util.Log;
 
 import com.giggs.heroquest.data.characters.AllyFactory;
+import com.giggs.heroquest.data.characters.HeroFactory;
 import com.giggs.heroquest.data.characters.MonsterFactory;
 import com.giggs.heroquest.data.items.ItemFactory;
 import com.giggs.heroquest.game.base.GameElement;
@@ -12,6 +13,7 @@ import com.giggs.heroquest.models.dungeons.Tile;
 import com.giggs.heroquest.models.effects.BuffEffect;
 import com.giggs.heroquest.models.effects.CamouflageEffect;
 import com.giggs.heroquest.models.effects.Effect;
+import com.giggs.heroquest.models.effects.LifeStealEffect;
 import com.giggs.heroquest.models.effects.PermanentEffect;
 import com.giggs.heroquest.models.items.Characteristics;
 import com.giggs.heroquest.models.items.Item;
@@ -49,6 +51,7 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
     protected int hp;
     protected int currentHP;
     protected int spirit;
+    protected int currentSpirit;
     protected int attack;
     protected int defense;
     protected int movement;
@@ -60,6 +63,7 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
         this.attack = attack;
         this.defense = defense;
         this.spirit = spirit;
+        this.currentSpirit = spirit;
         this.movement = movement;
         this.gold = 0;
     }
@@ -78,6 +82,14 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
 
     public void setCurrentHP(int currentHP) {
         this.currentHP = currentHP;
+    }
+
+    public int getCurrentSpirit() {
+        return currentSpirit;
+    }
+
+    public void setCurrentSpirit(int currentSpirit) {
+        this.currentSpirit = currentSpirit;
     }
 
     public int getAttack() {
@@ -114,6 +126,24 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
         sprite = new UnitSprite(this, vertexBufferObjectManager);
     }
 
+    public int getAttackAgainst(Unit target) {
+        int attack = getAttack();
+
+        // spirit blade modifier
+        if (hasItem(ItemFactory.buildSpiritBlade()) &&
+                (target.getIdentifier().equals(MonsterFactory.buildSkeleton().getIdentifier())
+                        || target.getIdentifier().equals(MonsterFactory.buildZombie().getIdentifier())
+                        || target.getIdentifier().equals(MonsterFactory.buildMummy().getIdentifier()))) {
+            attack++;
+        }
+
+        if (identifier.equals(HeroFactory.buildDrow().getIdentifier()) && (target.calculateMovement() < 6 || target.getDefense() > 3)) {
+            attack++;
+        }
+
+        return attack;
+    }
+
     public float getLifeRatio() {
         return (float) currentHP / (float) hp;
     }
@@ -131,19 +161,8 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
         }
 
         Random random;
-
-        // calculate nb attack dice
-        int attack = getAttack();
-
-        // spirit blade modifier
-        if (hasItem(ItemFactory.buildSpiritBlade()) &&
-                (target.getIdentifier().equals(MonsterFactory.buildSkeleton()) || target.getIdentifier().equals(MonsterFactory.buildZombie())
-                        || target.getIdentifier().equals(MonsterFactory.buildMummy()))) {
-            attack++;
-        }
-
         int attackScore = 0;
-        for (int n = 0; n < attack; n++) {
+        for (int n = 0; n < getAttackAgainst(target); n++) {
             random = new Random();
             if (random.nextInt(6) < 3) {
                 attackScore++;
@@ -168,16 +187,26 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
 
             int damage = attackScore - defenseScore;
             if (damage <= 0) {
-                fightResult = new FightResult(FightResult.States.BLOCK, 0);
+                fightResult = new FightResult(FightResult.States.BLOCK, attackScore, defenseScore);
             } else {
-                fightResult = new FightResult(FightResult.States.DAMAGE, -damage);
+                fightResult = new FightResult(FightResult.States.DAMAGE, attackScore, defenseScore);
             }
         } else {
-            fightResult = new FightResult(FightResult.States.MISS, 0);
+            fightResult = new FightResult(FightResult.States.MISS, 0, 0);
         }
 
         Log.d(TAG, "dealing " + fightResult.getDamage() + " damage");
         target.takeDamage(fightResult.getDamage());
+
+        if (fightResult.getDamage() > 0) {
+            // life steal effect
+            for (Effect buff : buffs) {
+                if (buff instanceof LifeStealEffect) {
+                    currentHP += buff.getValue();
+                    break;
+                }
+            }
+        }
 
         return fightResult;
     }
@@ -191,7 +220,16 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
     }
 
     public void takeDamage(int damage) {
-        currentHP -= damage;
+        if (identifier.equals("gnome") && currentSpirit > 1) {
+            // shield absorb damage
+            int extraDamage = damage - (currentSpirit - 1);
+            currentSpirit = Math.max(1, currentSpirit - damage);
+            if (extraDamage > 0) {
+                currentHP -= extraDamage;
+            }
+        } else {
+            currentHP -= damage;
+        }
     }
 
     public boolean isDead() {
@@ -203,7 +241,7 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
     }
 
     public int calculateMovement() {
-        return Math.max(1, movement + getBonusesFromBuffsAndEquipments(Characteristics.MOVEMENT));
+        return movement;
     }
 
     private int getBonusesFromBuffsAndEquipments(Characteristics characteristic) {

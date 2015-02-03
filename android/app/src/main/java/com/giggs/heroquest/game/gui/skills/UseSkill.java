@@ -1,7 +1,9 @@
 package com.giggs.heroquest.game.gui.skills;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giggs.heroquest.R;
@@ -16,6 +18,9 @@ public class UseSkill extends ElementDetails {
 
     public UseSkill(Context context, Skill skill, final View.OnClickListener onMainButtonClicked) {
         super(context, skill);
+
+        ImageView bg = (ImageView) findViewById(R.id.bg);
+        bg.setColorFilter(Color.argb(100, 100, 100, 0));
 
         // actions
         if (skill instanceof ActiveSkill && !((ActiveSkill) skill).isUsed()) {

@@ -15,7 +15,7 @@ import org.andengine.util.color.Color;
 public class PotionFactory {
 
     public static Potion buildStrengthPotion() {
-        Potion item = new Potion("strength_potion", new BuffEffect(null, Characteristics.ATTACK, 2, 6, null, 0, Color.RED), 70);
+        Potion item = new Potion("strength_potion", new BuffEffect(null, Characteristics.ATTACK, 2, 4, null, 0, Color.RED), 70);
         return item;
     }
 
@@ -30,22 +30,17 @@ public class PotionFactory {
     }
 
     public static Potion buildBatPotion() {
-        Potion item = new Potion("bat_potion", new LifeStealEffect("blood.png", 1, 5, 0), 80);
+        Potion item = new Potion("bat_potion", new LifeStealEffect("blood.png", 1, 4, 0), 80);
         return item;
     }
 
     public static Potion buildResiliencePotion() {
-        Potion item = new Potion("resilience_potion", new BuffEffect(null, Characteristics.DEFENSE, 2, 6, null, 0, Color.YELLOW), 60);
-        return item;
-    }
-
-    public static Potion buildHolyWater() {
-        Potion item = new Potion("holy_water", null, 40);
+        Potion item = new Potion("resilience_potion", new BuffEffect(null, Characteristics.DEFENSE, 2, 4, null, 0, Color.YELLOW), 60);
         return item;
     }
 
     public static Potion buildSpeedPotion() {
-        Potion item = new Potion("speed_potion", new BuffEffect(null, Characteristics.MOVEMENT, 7, 5, null, 0, Color.BLUE), 40);
+        Potion item = new Potion("speed_potion", new BuffEffect(null, Characteristics.MOVEMENT, 1, 4, null, 0, Color.BLUE), 40);
         return item;
     }
 

@@ -88,7 +88,7 @@
 
     <!-- Characteristics -->
     <string name="hp">Health points</string>
-    <string name="spirit">Spirit : used to react, to resist to magic and to cast spells</string>
+    <string name="spirit">Spirit : used to react, to resist to magic and to detect traps</string>
     <string name="attack">Attack : used to deal damages</string>
     <string name="defense">Defense : used to avoid and block attacks</string>
     <string name="frags">Frags</string>
@@ -141,6 +141,9 @@
     <string name="drink">Drink</string>
     <string name="sleep_effect">zzz</string>
     <string name="chance_stun">Bonus to stun target</string>
+    <string name="throw_item">Throw</string>
+    <string name="disarming_trap">Disarm trap !</string>
+    <string name="detect_trap">Trap detected !</string>
 
     <!-- Heroes -->
     <string name="barbarian">The Barbarian</string>
@@ -157,7 +160,7 @@
     <string name="dwarf_description">You are the Dwarf Explorer. Good warrior, you have the unique ability to disarm traps.</string>
     <string name="thief_description">You are the Human Rogue, a silent and deadly assassin which can turn herself invisible to her enemies.</string>
     <string name="wood_elf_description">You are the Wood Elf Beastmaster, a shaman who understands deeply the animal spirit. Your powerful companions will help during fights.</string>
-    <string name="drow_description">Naturally akin to darkness, the drow makes one of the most deadly assassins. You are more effective in one-to-one fights as well as against the slowest creatures.</string>
+    <string name="drow_description">Naturally akin to darkness, the drow makes one of the most deadly assassins. You are more effective against the biggest and slowest creatures.</string>
     <string name="gnome_description">You are the Gnome illusionist. If your mind shield is not disorienting enough your opponents, you can cast several hypnotizing spells and summon illusions to help you in battle. Anyway, your magic shield will protect you as long as you have some spirit points left.</string>
 
     <!-- Decorations -->

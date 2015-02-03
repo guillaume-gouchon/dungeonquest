@@ -5,6 +5,9 @@ import android.util.Log;
 
 import com.giggs.heroquest.R;
 import com.giggs.heroquest.activities.games.GameActivity;
+import com.giggs.heroquest.data.characters.HeroFactory;
+import com.giggs.heroquest.data.characters.MonsterFactory;
+import com.giggs.heroquest.data.items.ItemFactory;
 import com.giggs.heroquest.game.base.GameElement;
 import com.giggs.heroquest.game.base.InputManager;
 import com.giggs.heroquest.game.base.interfaces.OnActionExecuted;
@@ -14,6 +17,8 @@ import com.giggs.heroquest.game.graphics.UnitSprite;
 import com.giggs.heroquest.models.Actions;
 import com.giggs.heroquest.models.FightResult;
 import com.giggs.heroquest.models.Reward;
+import com.giggs.heroquest.models.characters.Hero;
+import com.giggs.heroquest.models.characters.Monster;
 import com.giggs.heroquest.models.characters.Ranks;
 import com.giggs.heroquest.models.characters.Unit;
 import com.giggs.heroquest.models.dungeons.Directions;
@@ -22,8 +27,11 @@ import com.giggs.heroquest.models.dungeons.Tile;
 import com.giggs.heroquest.models.dungeons.decorations.ItemOnGround;
 import com.giggs.heroquest.models.dungeons.decorations.Searchable;
 import com.giggs.heroquest.models.dungeons.decorations.Stairs;
+import com.giggs.heroquest.models.dungeons.traps.Trap;
 import com.giggs.heroquest.models.effects.BuffEffect;
+import com.giggs.heroquest.models.effects.DamageEffect;
 import com.giggs.heroquest.models.effects.Effect;
+import com.giggs.heroquest.models.effects.InvocationEffect;
 import com.giggs.heroquest.models.effects.PoisonEffect;
 import com.giggs.heroquest.models.effects.RecoveryEffect;
 import com.giggs.heroquest.models.effects.StunEffect;
@@ -41,6 +49,7 @@ import org.andengine.extension.tmx.TMXTile;
 import org.andengine.util.color.Color;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -59,9 +68,7 @@ public class ActionsDispatcher implements UserActionListener {
     private final GUIManager mGUIManager;
     private final InputManager mInputManager;
     private Scene mScene;
-    private Tile mSelectedTile = null;
     private boolean isMoving = false;
-    private Tile mNextTile = null;
     private boolean inputDisabled = false;
     private TimerHandler animationHandler;
     private ActiveSkill activatedSkill = null;
@@ -83,10 +90,10 @@ public class ActionsDispatcher implements UserActionListener {
         if (inputDisabled) return;
 
         Tile tile = getTileAtCoordinates(x, y);
-        if (tile != null && mGameActivity.getActiveCharacter().getRank() == Ranks.ME) {
+        if (tile != null) {
             if (activatedSkill != null) {
                 useSkill(tile);
-            } else if (tile.getContent() != null && tile.getContent().getRank() == Ranks.ME && mSelectedTile == tile && tile.getSubContent().size() == 0) {
+            } else if (tile.getContent() != null && tile.getContent() == mGameActivity.getActiveCharacter() && tile.getSubContent().size() == 0) {
                 // end movement
                 mGameActivity.nextTurn();
             } else if (!isMoving && tile.getAction() != null) {
@@ -135,13 +142,33 @@ public class ActionsDispatcher implements UserActionListener {
                     isMoving = false;
                     if (!done) {
                         done = true;
-                        if (mGameActivity.getActiveCharacter().getRank() == Ranks.ME && mGameActivity.getActiveCharacter().getTilePosition().getGround() == GroundTypes.DOOR) {
+                        if ((mGameActivity.getActiveCharacter().getRank() == Ranks.ME || mGameActivity.getActiveCharacter().getRank() == Ranks.ALLY) && mGameActivity.getActiveCharacter().getTilePosition().getGround() == GroundTypes.DOOR) {
                             // enters a door tile
                             // TODO open door
                         } else if (mGameActivity.getQuest().isSafe() && mGameActivity.getActiveCharacter().getRank() == Ranks.ME && mGameActivity.getActiveCharacter().getTilePosition().getSubContent().size() > 0
                                 && mGameActivity.getActiveCharacter().getTilePosition().getSubContent().get(0) instanceof Stairs) {
                             enterStairs();
                         }
+
+                        // detect traps
+                        if (mGameActivity.getActiveCharacter().getRank() == Ranks.ME || mGameActivity.getActiveCharacter().getRank() == Ranks.ALLY) {
+                            Set<Tile> tiles = MathUtils.getAdjacentNodes(mGameActivity.getQuest().getTiles(), mGameActivity.getActiveCharacter().getTilePosition(), mGameActivity.getActiveCharacter().getSpirit(), true, null);
+                            int factor = mGameActivity.getActiveCharacter().getIdentifier().equals(HeroFactory.buildThief().getIdentifier()) ? 2 : 1;
+                            int spirit = mGameActivity.getActiveCharacter().getSpirit();
+                            boolean hasDetectTraps = false;
+                            for (Tile t : tiles) {
+                                if (t.getSubContent().size() > 0 && t.getSubContent().get(0) instanceof Trap && !((Trap) t.getSubContent().get(0)).isRevealed()) {
+                                    if (Math.random() < 0.1 * spirit * factor) {
+                                        ((Trap) t.getSubContent().get(0)).reveal();
+                                        hasDetectTraps = true;
+                                    }
+                                }
+                            }
+                            if (hasDetectTraps) {
+                                showAnimatedText(mGameActivity.getActiveCharacter(), mGameActivity.getString(R.string.detect_trap));
+                            }
+                        }
+
                         mGameActivity.nextTurn();
                     }
                 }
@@ -149,7 +176,7 @@ public class ActionsDispatcher implements UserActionListener {
         } else {
             Log.d(TAG, "path is null");
             hideActionTiles();
-            if (mGameActivity.getActiveCharacter().getRank() == Ranks.ME) {
+            if (mGameActivity.getActiveCharacter().getRank() == Ranks.ME || mGameActivity.getActiveCharacter().getRank() == Ranks.ALLY) {
                 setInputEnabled(true);
             }
         }
@@ -181,25 +208,36 @@ public class ActionsDispatcher implements UserActionListener {
                 isMoving = false;
                 if (success && (mGameActivity.getActiveCharacter().isRangeAttack() || mGameActivity.getActiveCharacter().isNextTo(tile))) {
                     final Unit target = (Unit) tile.getContent();
-                    FightResult fightResult = mGameActivity.getActiveCharacter().attack(target);
-                    animateFight(mGameActivity.getActiveCharacter(), target, fightResult, new OnActionExecuted() {
+                    final FightResult fightResult = mGameActivity.getActiveCharacter().attack(target);
+                    rollFightDice(fightResult, target);
+                    new Timer().schedule(new TimerTask() {
                         @Override
-                        public void onActionDone(boolean success) {
-                            if (target.isDead()) {
-                                animateDeath(target, new OnActionExecuted() {
-                                    @Override
-                                    public void onActionDone(boolean success) {
-                                        if (target.getRank() != Ranks.ME) {
-                                            mGameActivity.removeElement(target);
+                        public void run() {
+                            animateFight(mGameActivity.getActiveCharacter(), target, fightResult, new OnActionExecuted() {
+                                @Override
+                                public void onActionDone(boolean success) {
+                                    if (target.isDead()) {
+                                        if (mGameActivity.getActiveCharacter().getRank() == Ranks.ME) {
+                                            ((Hero) mGameActivity.getActiveCharacter()).addFrag(target.getIdentifier());
                                         }
+
+                                        animateDeath(target, new OnActionExecuted() {
+                                            @Override
+                                            public void onActionDone(boolean success) {
+                                                if (target.getRank() != Ranks.ME) {
+                                                    mGameActivity.removeElement(target);
+                                                }
+                                                mGameActivity.nextTurn();
+                                            }
+                                        });
+                                    } else {
                                         mGameActivity.nextTurn();
                                     }
-                                });
-                            } else {
-                                mGameActivity.nextTurn();
-                            }
+                                }
+                            });
                         }
-                    });
+                    }, 600);
+
                 } else {
                     mGameActivity.nextTurn();
                 }
@@ -238,23 +276,48 @@ public class ActionsDispatcher implements UserActionListener {
                         mGameActivity.removeElement(searchable);
                     }
 
-                    // show reward popup
-                    mGUIManager.showReward(reward, new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialogInterface) {
-                            if (reward != null) {
-                                animateReward(reward);
-                            }
-                            mGameActivity.nextTurn();
-                        }
-                    });
-
                     if (reward != null) {
                         if (reward.getItem() != null) {
                             mGameActivity.getHero().addItem(reward.getItem());
                         }
                         mGameActivity.getHero().addGold(reward.getGold());
                     }
+
+                    // show reward popup
+                    mGUIManager.showReward(reward, new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            if (reward != null) {
+                                animateReward(reward);
+
+                                if (reward.getIdentifier() != null) {
+                                    if (reward.getIdentifier().equals("tr_wandering_monster")) {
+                                        // wandering monster
+                                        Monster monster = MonsterFactory.getWanderingMonster();
+                                        Tile adjacentTile;
+                                        Set<Tile> adjacentTiles = MathUtils.getAdjacentNodes(mGameActivity.getQuest().getTiles(), tile, 2, true, monster);
+                                        List<Tile> shuffle = new ArrayList<>(adjacentTiles);
+                                        Collections.shuffle(shuffle);
+                                        if (shuffle.get(0).getContent() == null) {
+                                            mGameActivity.getQuest().addGameElement(monster, shuffle.get(0), true);
+                                            mGameActivity.addElementToScene(monster);
+                                        }
+                                    } else if (reward.getIdentifier().equals("tr_trap_1") || reward.getIdentifier().equals("tr_trap_2")) {
+                                        // traps
+                                        applyEffect(new DamageEffect("ground_slam.png", -1, 0), mGameActivity.getActiveCharacter().getTilePosition(), false);
+                                    } else if (reward.getIdentifier().equals("tr_magic_trap")) {
+                                        // magical trap
+                                        Set<Tile> zone = MathUtils.getAdjacentNodes(mGameActivity.getQuest().getTiles(), tile, 2, true, null);
+                                        for (Tile t : zone) {
+                                            applyEffect(new DamageEffect("fireball.png", -1, 0), t, false);
+                                        }
+                                    }
+                                }
+                            }
+
+                            mGameActivity.nextTurn();
+                        }
+                    });
                 } else {
                     mGameActivity.nextTurn();
                 }
@@ -339,12 +402,12 @@ public class ActionsDispatcher implements UserActionListener {
         ActionTile c;
         for (Tile tile : reachableTiles) {
             tile.setAction(Actions.MOVE);
-            c = new ActionTile(Actions.MOVE, tile, mGameActivity.getVertexBufferObjectManager(), activeCharacter.getRank() != Ranks.ME);
+            c = new ActionTile(Actions.MOVE, tile, mGameActivity.getVertexBufferObjectManager(), activeCharacter.getRank() == Ranks.ENEMY);
             mGameActivity.mGroundLayer.attachChild(c);
         }
 
         // add special actions
-        if (activeCharacter.getRank() == Ranks.ME) {
+        if (activeCharacter.getRank() == Ranks.ME || activeCharacter.getRank() == Ranks.ALLY) {
             showSpecialActions();
         }
     }
@@ -360,7 +423,6 @@ public class ActionsDispatcher implements UserActionListener {
     }
 
     public void hideActionTiles() {
-        mSelectedTile = null;
         ActionTile actionTile;
         for (int n = 0; n < mGameActivity.mGroundLayer.getChildCount(); n++) {
             actionTile = (ActionTile) mGameActivity.mGroundLayer.getChildByIndex(n);
@@ -371,6 +433,10 @@ public class ActionsDispatcher implements UserActionListener {
     }
 
     private void addAvailableAction(GameElement gameElement) {
+        if (gameElement instanceof Trap) {
+            return;
+        }
+
         boolean isActionPossible = mGameActivity.getActiveCharacter().isNextTo(gameElement.getTilePosition())
                 || mGameActivity.getActiveCharacter().isRangeAttack() && gameElement.isEnemy(mGameActivity.getActiveCharacter());
         if (!isActionPossible) {
@@ -386,7 +452,7 @@ public class ActionsDispatcher implements UserActionListener {
         if (isActionPossible) {
             if (mGameActivity.getActiveCharacter().isEnemy(gameElement)) {
                 addActionToTile(Actions.ATTACK, gameElement.getTilePosition());
-            } else if (gameElement instanceof Searchable) {
+            } else if (gameElement instanceof Searchable && mGameActivity.getActiveCharacter().getRank() == Ranks.ME) {
                 addActionToTile(Actions.SEARCH, gameElement.getTilePosition());
             }
         }
@@ -424,15 +490,45 @@ public class ActionsDispatcher implements UserActionListener {
                         sprite.setPosition(nextTile.getTileX(), nextTile.getTileY());
                         Log.d(TAG, "character is z-index = " + sprite.getZIndex());
 
-                        if (mNextTile == null) {
-                            mScene.sortChildren();
-                            animateMove(p, callback);
-                        } else {
-                            Log.d(TAG, "go to next tile");
-                            mScene.sortChildren();
+                        mScene.sortChildren();
+
+                        if (nextTile.getSubContent().size() > 0 && nextTile.getSubContent().get(0) instanceof Trap) {
+                            isMoving = false;
                             sprite.stand();
-                            move(mNextTile);
-                            mNextTile = null;
+                            Trap trap = (Trap) nextTile.getSubContent().get(0);
+                            if (trap.isRevealed()
+                                    && (mGameActivity.getActiveCharacter().getIdentifier().equals(HeroFactory.buildDwarf())
+                                    || mGameActivity.getActiveCharacter().hasItem(ItemFactory.buildToolbox()))) {
+                                Log.d(TAG, "disarm trap !");
+                                showAnimatedText(mGameActivity.getActiveCharacter(), mGameActivity.getString(R.string.disarming_trap));
+                                mGameActivity.removeElement(trap);
+                                mGameActivity.nextTurn();
+                            } else {
+                                Log.d(TAG, "trap !");
+                                boolean wasRevealed = trap.isRevealed();
+                                trap.reveal();
+
+                                boolean isDamaged = Math.random() < (1 - Math.pow(0.5, trap.getAttackDice())) / (trap.isRevealed() ? 4 : 1);
+                                if (isDamaged) {
+                                    applyEffect(new DamageEffect(null, -1, 0), mGameActivity.getActiveCharacter().getTilePosition(), true);
+                                }
+                                rollFightDie(mGameActivity.getActiveCharacter(), isDamaged ? 0 : 1, 0, 1, true);
+
+                                if (isDamaged || !wasRevealed) {
+                                    // stop movement if not revealed or damaged
+                                    new Timer().schedule(new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            mGameActivity.nextTurn();
+                                        }
+                                    }, 700);
+                                } else {
+                                    // continue movement
+                                    animateMove(p, callback);
+                                }
+                            }
+                        } else {
+                            animateMove(p, callback);
                         }
                     } else {
                         sprite.setPosition(sprite.getX() + 2 * direction.getDx(), sprite.getY() - 2 * direction.getDy());
@@ -465,7 +561,7 @@ public class ActionsDispatcher implements UserActionListener {
         if (fightResult.getState() == FightResult.States.BLOCK) {
             mGameActivity.playSound("block", false);
         } else if (fightResult.getState() == FightResult.States.DAMAGE && fightResult.getDamage() > 0) {
-            if (target.getRank() == Ranks.ME) {
+            if (target.getRank() == Ranks.ME || target.getRank() == Ranks.ALLY) {
                 mGameActivity.playSound("damage_hero", false);
             } else {
                 mGameActivity.playSound("damage_monster", false);
@@ -606,6 +702,15 @@ public class ActionsDispatcher implements UserActionListener {
 
     public void applyEffect(Effect effect, final Tile tile, boolean addExtra) {
         Log.d(TAG, "Applying effect of " + effect.getValue() + " " + effect.getTarget() + " on tile " + tile.getX() + "," + tile.getY());
+
+        if (effect instanceof InvocationEffect) {
+            if (tile.getContent() == null) {
+                mGameActivity.getQuest().addGameElement(((InvocationEffect) effect).getUnit(), tile);
+                mGameActivity.addElementToScene(((InvocationEffect) effect).getUnit());
+            }
+            return;
+        }
+
         // apply effect
         if (tile.getContent() != null && tile.getContent() instanceof Unit) {
             final Unit target = (Unit) tile.getContent();
@@ -618,19 +723,26 @@ public class ActionsDispatcher implements UserActionListener {
                 }
                 mGUIManager.updateSkillButtons();
             } else if (effect.getTarget() == Characteristics.HP) {
-                // damage or heal
-                if (effect instanceof PoisonEffect && effect.getValue() > 0 && target.getHp() - target.getCurrentHP() == 0) {
-                    // do not show useless regeneration
+                // holy water
+                if (activatedSkill != null && activatedSkill.getIdentifier().equals(ItemFactory.buildHolyWater().getIdentifier()) &&
+                        !target.getIdentifier().equals(MonsterFactory.buildSkeleton().getIdentifier()) && !target.getIdentifier().equals(MonsterFactory.buildZombie().getIdentifier())
+                        && !target.getIdentifier().equals(MonsterFactory.buildMummy().getIdentifier())) {
+                    // only damage undead
                 } else {
-                    showAnimatedText(target, effect.getValue() > 0 ? "+" + Math.min(target.getHp() - target.getCurrentHP(), effect.getValue()) : "" + effect.getValue());
+                    // damage or heal
+                    if (effect instanceof PoisonEffect && effect.getValue() > 0 && target.getHp() - target.getCurrentHP() == 0) {
+                        // do not show useless regeneration
+                    } else {
+                        showAnimatedText(target, effect.getValue() > 0 ? "+" + Math.min(target.getHp() - target.getCurrentHP(), effect.getValue()) : "" + effect.getValue());
+                    }
+                    target.setCurrentHP(Math.min(target.getHp(), target.getCurrentHP() + effect.getValue()));
                 }
-                target.setCurrentHP(Math.min(target.getHp(), target.getCurrentHP() + effect.getValue()));
             } else {
                 // special effects
                 target.getBuffs().add(effect);
 
                 if (!(effect instanceof StunEffect) && effect.getTarget() != null) {
-                    showAnimatedText(target, (effect.getValue() > 0 ? "+" + effect.getValue() : "" + effect.getValue()) + " " + effect.getTarget().name());
+                    showAnimatedText(target, (effect.getValue() > 0 ? "+" + effect.getValue() : "" + effect.getValue()) + " " + effect.getTarget().name().toLowerCase() + (effect.getValue() > 1 ? " dice" : "die"));
                 }
             }
 
@@ -687,7 +799,7 @@ public class ActionsDispatcher implements UserActionListener {
                     }
                 }
             }, 0, 80);
-        } else if (activatedSkill.getIdentifier().equals("berserker_rage")) {
+        } else if (activatedSkill.getIdentifier().equals("courage")) {
             sprite.stand();
             sprite.setColor(((BuffEffect) activatedSkill.getEffect()).getBuffColor());
             new Timer().schedule(new TimerTask() {
@@ -695,10 +807,10 @@ public class ActionsDispatcher implements UserActionListener {
 
                 @Override
                 public void run() {
-                    sprite.setScale((float) (0.5 + 0.03 * (n % 3)));
+                    sprite.setScale((float) (0.4 + 0.03 * (n % 3)));
                     n--;
                     if (n < 0) {
-                        sprite.setScale(0.5f);
+                        sprite.setScale(0.4f);
                         cancel();
                         callback.onActionDone(true);
                     }
@@ -798,7 +910,7 @@ public class ActionsDispatcher implements UserActionListener {
                     }
                 }
             }, 0, 60);
-        } else if (activatedSkill.getIdentifier().equals("stone_skin")) {
+        } else if (activatedSkill.getIdentifier().equals("rock_skin") || activatedSkill.getIdentifier().equals("darkness_winds")) {
             sprite.stand();
             sprite.setColor(((BuffEffect) activatedSkill.getEffect()).getBuffColor());
 
@@ -807,11 +919,11 @@ public class ActionsDispatcher implements UserActionListener {
 
                 @Override
                 public void run() {
-                    sprite.setScale((float) (0.5 + 0.07 * Math.sin(n * Math.PI / 7)));
+                    sprite.setScale((float) (0.4 + 0.07 * Math.sin(n * Math.PI / 7)));
 
                     n--;
                     if (n < 0) {
-                        sprite.setScale(0.5f);
+                        sprite.setScale(0.4f);
                         cancel();
                         callback.onActionDone(true);
                     }
@@ -820,6 +932,32 @@ public class ActionsDispatcher implements UserActionListener {
         } else {
             callback.onActionDone(true);
         }
+    }
+
+    private void rollFightDice(FightResult fightResult, Unit target) {
+        // roll attack dice
+        for (int n = 0; n < mGameActivity.getActiveCharacter().getAttackAgainst(target); n++) {
+            rollFightDie(mGameActivity.getActiveCharacter(), n < fightResult.getAttackScore() ? 0 : 1, n, mGameActivity.getActiveCharacter().getAttackAgainst(target), true);
+        }
+
+        if (fightResult.getAttackScore() > 0) {
+            // roll defense dice
+            for (int n = 0; n < target.getDefense(); n++) {
+                rollFightDie(target, n < fightResult.getDefenseScore() ? (target instanceof Monster ? 2 : 1) : 0, n, target.getDefense(), false);
+            }
+        }
+    }
+
+    private void rollFightDie(Unit character, final int result, int dieIndex, int nbDice, boolean isAttack) {
+        final String diceSprite = isAttack ? "dice_attack.png" : "dice_defense.png";
+        final float x = character.getSprite().getX() + (2 * dieIndex - nbDice) * 6;
+        final float y = character.getSprite().getY() - 30;
+        mGameActivity.drawAnimatedSprite(x, y, diceSprite, 20, 0.1f, 1.0f, 1, true, 1000, new OnActionExecuted() {
+            @Override
+            public void onActionDone(boolean success) {
+                mGameActivity.drawSprite(x, y, diceSprite, 50, 0.1f, result);
+            }
+        });
     }
 
 }

@@ -4,6 +4,7 @@ import com.giggs.heroquest.models.characters.Monster;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by guillaume ON 10/6/14.
@@ -24,6 +25,29 @@ public class MonsterFactory {
         lst.add(buildKarlen());
         lst.add(buildStoneWarrior());
         return lst;
+    }
+
+    public static Monster getWanderingMonster() {
+        Random r = new Random();
+        int random = r.nextInt(9);
+        switch (random) {
+            case 0:
+            case 1:
+                return buildGoblin();
+            case 2:
+            case 3:
+                return buildOrc();
+            case 4:
+                return buildTroll();
+            case 5:
+                return buildSkeleton();
+            case 6:
+                return buildZombie();
+            case 7:
+                return buildMummy();
+            default:
+                return buildChaosWarrior();
+        }
     }
 
     public static Monster buildGoblin() {
@@ -80,4 +104,5 @@ public class MonsterFactory {
         Monster monster = new Monster("karlen", 3, 2, 3, 3, 6);
         return monster;
     }
+
 }

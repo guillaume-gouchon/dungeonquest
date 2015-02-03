@@ -3,10 +3,8 @@ package com.giggs.heroquest.models.characters;
 
 import com.giggs.heroquest.data.items.ItemFactory;
 import com.giggs.heroquest.data.items.PotionFactory;
-import com.giggs.heroquest.models.items.equipments.Equipment;
-import com.giggs.heroquest.models.items.equipments.Ring;
-import com.giggs.heroquest.models.items.requirements.HeroRequirement;
-import com.giggs.heroquest.models.items.requirements.Requirement;
+import com.giggs.heroquest.models.effects.Effect;
+import com.giggs.heroquest.models.items.Characteristics;
 import com.giggs.heroquest.models.skills.ActiveSkill;
 import com.giggs.heroquest.models.skills.Skill;
 
@@ -23,9 +21,7 @@ public class Hero extends Unit {
     private final HeroTypes heroType;
     protected List<String> frags = new ArrayList<>();
     private String heroName;
-
-    private int movementDie1;
-    private int movementDie2;
+    private List<Integer> movementDice = new ArrayList<>(6);
 
     public Hero(String identifier, Ranks ranks, int hp, int currentHP, int attack, int defense, int spirit, HeroTypes heroType) {
         super(identifier, ranks, hp, currentHP, attack, defense, spirit, 0);
@@ -68,20 +64,29 @@ public class Hero extends Unit {
     @Override
     public void initNewTurn() {
         super.initNewTurn();
+        movementDice = new ArrayList<>();
         Random r = new Random();
-        movementDie1 = 1 + r.nextInt(6);
+        movementDice.add(1 + r.nextInt(6));
 
         // breast plate modifier
         if (!hasItem(ItemFactory.buildBreastPlate())) {
-            movementDie2 = 1 + r.nextInt(6);
-        } else {
-            movementDie2 = 0;
+            movementDice.add(1 + r.nextInt(6));
+        }
+
+        for (Effect buff : buffs) {
+            if (buff.getTarget() == Characteristics.MOVEMENT) {
+                movementDice.add(1 + r.nextInt(6));
+            }
         }
     }
 
     @Override
     public int calculateMovement() {
-        return movementDie1 + movementDie2;
+        int result = 0;
+        for (int die : movementDice) {
+            result += die;
+        }
+        return result;
     }
 
     public String getHeroName() {
@@ -99,28 +104,8 @@ public class Hero extends Unit {
             }
         }
         currentHP = hp;
+        currentSpirit = spirit;
         buffs = new ArrayList<>();
-    }
-
-    public boolean canEquipItem(Equipment equipment) {
-        boolean canEquip = isEquipmentSuitable(equipment);
-        if (!canEquip) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public boolean isEquipmentSuitable(Equipment equipment) {
-        if (equipment instanceof Ring) {
-            return true;
-        }
-        for (Requirement requirement : equipment.getRequirements()) {
-            if (requirement instanceof HeroRequirement && heroType == ((HeroRequirement) requirement).getHeroType()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public HeroTypes getHeroType() {
@@ -131,12 +116,8 @@ public class Hero extends Unit {
         STR, DEX, SPI, STR_DEX, STR_SPI, DEX_SPI
     }
 
-    public int getMovementDie1() {
-        return movementDie1;
-    }
-
-    public int getMovementDie2() {
-        return movementDie2;
+    public List<Integer> getMovementDice() {
+        return movementDice;
     }
 
 }

@@ -91,7 +91,7 @@ public abstract class MyBaseGameActivity extends CustomLayoutGameActivity implem
 
         // load font
         mDefaultFont = FontFactory.create(getFontManager(), getTextureManager(), 256, 256,
-                Typeface.create(Typeface.createFromAsset(getAssets(), "fonts/font_text.ttf"), Typeface.BOLD), 32, Color.WHITE.hashCode());
+                Typeface.create(Typeface.createFromAsset(getAssets(), "fonts/font_in_game.otf"), Typeface.BOLD), 32, Color.WHITE.hashCode());
         mDefaultFont.load();
 
         pOnCreateResourcesCallback.onCreateResourcesFinished();
@@ -180,8 +180,16 @@ public abstract class MyBaseGameActivity extends CustomLayoutGameActivity implem
         mEngine.stop();
     }
 
-    public void drawSprite(float x, float y, String spriteName, final int duration, float scale) {
-        final Sprite sprite = new CenteredSprite(x, y, GraphicsManager.sGfxMap.get(spriteName), getVertexBufferObjectManager());
+    public void drawSprite(float x, float y, String spriteName, final int duration, float scale, int tileIndex) {
+        final Sprite sprite;
+        if (tileIndex >= 0) {
+            sprite = new AnimatedSprite(0, 0, GraphicsManager.sGfxMap.get(spriteName), getVertexBufferObjectManager());
+            sprite.setPosition(x - sprite.getWidth() / 2.0f, y - sprite.getWidth() / 2.0f);
+            ((AnimatedSprite) sprite).setCurrentTileIndex(tileIndex);
+        } else {
+            sprite = new CenteredSprite(x, y, GraphicsManager.sGfxMap.get(spriteName), getVertexBufferObjectManager());
+        }
+
         sprite.setScale(scale);
         mScene.attachChild(sprite);
         if (duration > 0) {
@@ -215,6 +223,7 @@ public abstract class MyBaseGameActivity extends CustomLayoutGameActivity implem
         animatedText.setColor(color);
         animatedText.setScale(scale);
         animatedText.setAlpha(0.75f);
+        animatedText.setZIndex(10000);
         mScene.attachChild(animatedText);
         if (duration > 0) {
             animatedText.registerUpdateHandler(new IUpdateHandler() {

@@ -7,12 +7,14 @@ import org.andengine.util.color.Color;
  */
 public class FightResult {
 
-    private final int damage;
     private final States state;
+    private final int attackScore;
+    private final int defenseScore;
 
-    public FightResult(States state, int damage) {
+    public FightResult(States state, int attackScore, int defenseScore) {
         this.state = state;
-        this.damage = damage;
+        this.attackScore = attackScore;
+        this.defenseScore = defenseScore;
     }
 
     public States getState() {
@@ -20,7 +22,15 @@ public class FightResult {
     }
 
     public int getDamage() {
-        return damage;
+        return Math.max(0, attackScore - defenseScore);
+    }
+
+    public int getDefenseScore() {
+        return defenseScore;
+    }
+
+    public int getAttackScore() {
+        return attackScore;
     }
 
     public enum States {

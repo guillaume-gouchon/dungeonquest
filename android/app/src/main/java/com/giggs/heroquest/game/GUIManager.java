@@ -69,8 +69,23 @@ public class GUIManager {
 
         mGameActivity.findViewById(R.id.bag).setOnClickListener(mGameActivity);
 
-        mBigLabelAnimation = AnimationUtils.loadAnimation(mGameActivity, R.anim.big_label_in_game);
         mBigLabel = (TextView) mGameActivity.findViewById(R.id.bigLabel);
+        mBigLabelAnimation = AnimationUtils.loadAnimation(mGameActivity, R.anim.big_label_in_game);
+        mBigLabelAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mBigLabel.setAnimation(null);
+                mBigLabel.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
 
         mSkillButtonsLayout = (ViewGroup) mGameActivity.findViewById(R.id.skillButtonsLayout);
 
@@ -226,8 +241,8 @@ public class GUIManager {
                     view = new ImageView(mGameActivity.getApplicationContext());
                     view.setImageResource(R.drawable.ic_health);
                     view.setLayoutParams(params);
-                    if (mHero.getCurrentHP() < n) {
-                        view.setColorFilter(Color.argb(100, 0, 0, 0));
+                    if (mHero.getCurrentHP() <= n) {
+                        view.setColorFilter(Color.argb(150, 0, 0, 0));
                     }
                     mLifeLayout.addView(view);
                 }
@@ -237,6 +252,9 @@ public class GUIManager {
                     view = new ImageView(mGameActivity.getApplicationContext());
                     view.setImageResource(R.drawable.ic_spirit);
                     view.setLayoutParams(params);
+                    if (mHero.getCurrentSpirit() <= n) {
+                        view.setColorFilter(Color.argb(150, 0, 0, 0));
+                    }
                     mSpiritLayout.addView(view);
                 }
             }
@@ -323,19 +341,17 @@ public class GUIManager {
                 mSkillButtonsLayout.removeAllViews();
                 View skillButton;
                 for (final Skill skill : mHero.getSkills()) {
-                    if (skill.getLevel() > 0) {
-                        skillButton = inflater.inflate(R.layout.in_game_skill_button, null);
-                        skillButton.setTag(R.string.show_skill, skill);
-                        ((ImageView) skillButton.findViewById(R.id.image)).setImageResource(skill.getImage(mResources));
-                        if (skill instanceof PassiveSkill || skill instanceof ActiveSkill && ((ActiveSkill) skill).isUsed()) {
-                            skillButton.findViewById(R.id.image).setEnabled(false);
-                            ApplicationUtils.setAlpha(skillButton, 0.5f);
-                        }
-
-                        skillButton.setOnClickListener(mGameActivity);
-
-                        mSkillButtonsLayout.addView(skillButton);
+                    skillButton = inflater.inflate(R.layout.in_game_skill_button, null);
+                    skillButton.setTag(R.string.show_skill, skill);
+                    ((ImageView) skillButton.findViewById(R.id.image)).setImageResource(skill.getImage(mResources));
+                    ((ImageView) skillButton.findViewById(R.id.image)).setColorFilter(Color.argb(120, 255, 255, 255));
+                    if (skill instanceof PassiveSkill || skill instanceof ActiveSkill && ((ActiveSkill) skill).isUsed()) {
+                        ApplicationUtils.setAlpha(skillButton, 0.5f);
                     }
+
+                    skillButton.setOnClickListener(mGameActivity);
+
+                    mSkillButtonsLayout.addView(skillButton);
                 }
             }
         });

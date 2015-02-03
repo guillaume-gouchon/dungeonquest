@@ -2,10 +2,12 @@ package com.giggs.heroquest.data.items;
 
 import com.giggs.heroquest.data.characters.AllyFactory;
 import com.giggs.heroquest.models.characters.Hero;
+import com.giggs.heroquest.models.effects.DamageEffect;
 import com.giggs.heroquest.models.effects.PermanentEffect;
 import com.giggs.heroquest.models.items.Characteristics;
 import com.giggs.heroquest.models.items.Item;
 import com.giggs.heroquest.models.items.Mercenary;
+import com.giggs.heroquest.models.items.consumables.ThrowableItem;
 import com.giggs.heroquest.models.items.equipments.weapons.RangeWeapon;
 import com.giggs.heroquest.models.items.equipments.weapons.Weapon;
 
@@ -37,7 +39,7 @@ public class ItemFactory {
         }
         items.add(buildToolbox());
         items.add(PotionFactory.buildHealingPotion());
-        items.add(PotionFactory.buildHolyWater());
+        items.add(ItemFactory.buildHolyWater());
         items.add(PotionFactory.buildStrengthPotion());
         items.add(PotionFactory.buildResiliencePotion());
         items.add(PotionFactory.buildSpeedPotion());
@@ -142,6 +144,11 @@ public class ItemFactory {
 
     public static Item buildSwordsman() {
         Item item = new Mercenary("swordsman", 75, AllyFactory.buildSwordsman());
+        return item;
+    }
+
+    public static ThrowableItem buildHolyWater() {
+        ThrowableItem item = new ThrowableItem("holy_water", new DamageEffect("frost.png", -1, 0), 40);
         return item;
     }
 

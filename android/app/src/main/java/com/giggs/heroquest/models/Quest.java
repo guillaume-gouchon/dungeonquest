@@ -143,9 +143,17 @@ public class Quest extends StorableResource {
     }
 
     public void addGameElement(GameElement gameElement, Tile tile) {
+        addGameElement(gameElement, tile, false);
+    }
+
+    public void addGameElement(GameElement gameElement, Tile tile, boolean addTopQueue) {
         gameElement.setTilePosition(tile);
         if (!queue.contains(gameElement) && gameElement instanceof Unit) {
-            queue.add((Unit) gameElement);
+            if (addTopQueue) {
+                queue.add(0, (Unit) gameElement);
+            } else {
+                queue.add((Unit) gameElement);
+            }
             Log.d(TAG, "queue size =" + queue.size());
         }
 

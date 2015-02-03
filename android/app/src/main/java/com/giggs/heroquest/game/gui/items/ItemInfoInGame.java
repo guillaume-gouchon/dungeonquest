@@ -8,14 +8,15 @@ import com.giggs.heroquest.R;
 import com.giggs.heroquest.models.characters.Hero;
 import com.giggs.heroquest.models.items.Item;
 import com.giggs.heroquest.models.items.consumables.Potion;
+import com.giggs.heroquest.models.items.consumables.ThrowableItem;
 
 /**
  * Created by guillaume on 1/14/15.
  */
 public class ItemInfoInGame extends ItemInfo {
 
-    public ItemInfoInGame(Context context, Item item, Hero hero, final OnItemActionSelected onItemActionSelected) {
-        super(context, item, hero);
+    public ItemInfoInGame(Context context, final Item item, Hero hero, final OnItemActionSelected onItemActionSelected) {
+        super(context, item);
 
         // actions
         TextView mainActionButton = (TextView) findViewById(R.id.main_action_btn);
@@ -32,13 +33,22 @@ public class ItemInfoInGame extends ItemInfo {
                 }
             });
             mainActionButton.setVisibility(View.VISIBLE);
+        } else if (item instanceof ThrowableItem) {
+            // throw item
+            mainActionButton.setText(R.string.throw_item);
+            mainActionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                    onItemActionSelected.onActionExecuted(ItemActionsInGame.THROW);
+                }
+            });
+            mainActionButton.setVisibility(View.VISIBLE);
         }
-
-
     }
 
     public enum ItemActionsInGame {
-        USE, DRINK
+        USE, DRINK, THROW
     }
 
     public static interface OnItemActionSelected {

@@ -13,7 +13,8 @@ import android.widget.TextView;
 import com.giggs.heroquest.R;
 import com.giggs.heroquest.models.items.Item;
 import com.giggs.heroquest.models.items.Mercenary;
-import com.giggs.heroquest.models.items.consumables.Potion;
+import com.giggs.heroquest.models.items.consumables.*;
+import com.giggs.heroquest.models.items.consumables.ThrowableItem;
 import com.giggs.heroquest.models.items.equipments.weapons.Weapon;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
         ImageView bg = (ImageView) layout.findViewById(R.id.bg);
         if (item instanceof Weapon) {
             bg.setColorFilter(Color.argb(100, 255, 0, 0));
-        } else if (item instanceof Potion) {
+        } else if (item instanceof Potion || item instanceof ThrowableItem) {
             bg.setColorFilter(Color.argb(100, 0, 0, 255));
         } else if (item instanceof Mercenary) {
             bg.setColorFilter(Color.argb(100, 0, 200, 0));

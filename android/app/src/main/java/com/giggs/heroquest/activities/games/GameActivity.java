@@ -10,6 +10,8 @@ import com.giggs.heroquest.activities.GameOverActivity;
 import com.giggs.heroquest.activities.fragments.StoryFragment;
 import com.giggs.heroquest.data.QuestFactory;
 import com.giggs.heroquest.data.characters.HeroFactory;
+import com.giggs.heroquest.data.characters.MonsterFactory;
+import com.giggs.heroquest.data.dungeons.TrapFactory;
 import com.giggs.heroquest.game.ActionsDispatcher;
 import com.giggs.heroquest.game.GameConstants;
 import com.giggs.heroquest.game.base.GameElement;
@@ -33,6 +35,7 @@ import com.giggs.heroquest.models.items.Characteristics;
 import com.giggs.heroquest.models.items.Item;
 import com.giggs.heroquest.models.items.Mercenary;
 import com.giggs.heroquest.models.items.consumables.Potion;
+import com.giggs.heroquest.models.items.consumables.ThrowableItem;
 import com.giggs.heroquest.models.skills.ActiveSkill;
 import com.giggs.heroquest.models.skills.Skill;
 import com.giggs.heroquest.utils.ApplicationUtils;
@@ -73,7 +76,7 @@ public class GameActivity extends MyBaseGameActivity {
         } else {
             // used fot testing only
             mGame = new Game();
-            mGame.setHero(HeroFactory.buildBarbarian());
+            mGame.setHero(HeroFactory.buildGnome());
             mGame.setQuest(QuestFactory.buildTutorial());
         }
 
@@ -122,6 +125,11 @@ public class GameActivity extends MyBaseGameActivity {
         if (mHero != null) {
             List<Unit> heroes = new ArrayList<>();
             heroes.add(mHero);
+
+            // TODO test
+            mQuest.addGameElement(TrapFactory.getTrap(), mQuest.getRandomFreeTile());
+            mQuest.addGameElement(MonsterFactory.buildMummy(), mQuest.getRandomFreeTile());
+
             for (Item item : mHero.getItems()) {
                 if (item instanceof Mercenary) {
                     heroes.add(((Mercenary) item).getUnit());
@@ -221,7 +229,7 @@ public class GameActivity extends MyBaseGameActivity {
 
     @Override
     public void onClick(View view) {
-        if (mInputManager.ismIsEnabled()) {
+        if (mInputManager.ismIsEnabled() && mActiveCharacter.getRank() == Ranks.ME) {
             switch (view.getId()) {
                 case R.id.bag:
                     mGUIManager.showBag();
@@ -239,6 +247,12 @@ public class GameActivity extends MyBaseGameActivity {
                                 mGUIManager.hideBag();
                                 drinkPotion((Potion) item);
                                 updateActionTiles();
+                                break;
+                            case THROW:
+                                mGUIManager.hideBag();
+                                ThrowableItem throwable = (ThrowableItem) item;
+                                mHero.use(throwable);
+                                mActionDispatcher.setActivatedSkill(new ActiveSkill(item.getIdentifier(), 0, false, 0, throwable.getEffect()));
                                 break;
                         }
                     }
@@ -419,13 +433,24 @@ public class GameActivity extends MyBaseGameActivity {
 
                 mActiveCharacter.initNewTurn();
 
+                // center camera on active character
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        mInputManager.checkAutoScrolling(mActiveCharacter.getSprite().getX(), mActiveCharacter.getSprite().getY());
+                        if (mCamera.isRectangularShapeVisible(mActiveCharacter.getSprite())) {
+                            cancel();
+                        }
+                    }
+                }, 0, 5);
+
                 if (!skipTurn && mActiveCharacter instanceof Hero) {
                     rollMovementDice();
                 }
 
                 if (skipTurn) {
                     nextTurn();
-                } else if (mActiveCharacter.isEnemy(mHero) || mActiveCharacter.getRank() == Ranks.ALLY) {
+                } else if (mActiveCharacter.isEnemy(mHero)) {
                     Log.d(TAG, "AI turn");
                     new Timer().schedule(new TimerTask() {
                         @Override
@@ -473,7 +498,7 @@ public class GameActivity extends MyBaseGameActivity {
                             });
                         }
                     }, 500);
-                } else if (mActiveCharacter.getRank() == Ranks.ME) {
+                } else if (mActiveCharacter.getRank() == Ranks.ME || mActiveCharacter.getRank() == Ranks.ALLY) {
                     mInputManager.setEnabled(true);
                 }
             }
@@ -481,25 +506,21 @@ public class GameActivity extends MyBaseGameActivity {
     }
 
     private void rollMovementDice() {
-        int movementDie1 = ((Hero) mActiveCharacter).getMovementDie1();
-        int movementDie2 = ((Hero) mActiveCharacter).getMovementDie2();
+        int index = 0;
+        for (int die : mHero.getMovementDice()) {
+            rollMovementDie(die, index++);
+        }
+    }
 
-        // die 1
-        drawAnimatedSprite(mActiveCharacter.getSprite().getX() - 15, mActiveCharacter.getSprite().getY() - 45, "dice.png", 20, 0.2f, 1.0f, 2, true, 1000, new OnActionExecuted() {
+    private void rollMovementDie(final int result, int dieIndex) {
+        final float x = mActiveCharacter.getSprite().getX() + (2 * dieIndex - 1) * 15;
+        final float y = mActiveCharacter.getSprite().getY() - 45;
+        drawAnimatedSprite(x, y, "dice.png", 20, 0.2f, 1.0f, 1, true, 1000, new OnActionExecuted() {
             @Override
             public void onActionDone(boolean success) {
-                drawSprite(mActiveCharacter.getSprite().getX() - 15, mActiveCharacter.getSprite().getY() - 45, "dice.png", 25, 0.2f);
+                drawSprite(x, y, "dice.png", 25, 0.2f, result - 1);
             }
         });
-
-        if (movementDie2 > 0) {
-            drawAnimatedSprite(mActiveCharacter.getSprite().getX() + 15, mActiveCharacter.getSprite().getY() - 45, "dice.png", 20, 0.2f, 1.0f, 2, true, 1000, new OnActionExecuted() {
-                @Override
-                public void onActionDone(boolean success) {
-                    drawSprite(mActiveCharacter.getSprite().getX() + 15, mActiveCharacter.getSprite().getY() - 45, "dice.png", 25, 0.2f);
-                }
-            });
-        }
     }
 
     private void updateActionTiles() {

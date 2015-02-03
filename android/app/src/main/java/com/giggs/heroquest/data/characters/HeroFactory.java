@@ -31,11 +31,21 @@ public class HeroFactory {
 
     public static Hero buildElf() {
         Hero hero = new Hero("elf", Ranks.ME, 6, 6, 2, 2, 4, Hero.HeroTypes.STR);
+        hero.getSkills().add(SkillFactory.buildCourage());
+        hero.getSkills().add(SkillFactory.buildFireWrath());
+        hero.getSkills().add(SkillFactory.buildHealingWater());
         return hero;
     }
 
     public static Hero buildWizard() {
         Hero hero = new Hero("wizard", Ranks.ME, 4, 4, 1, 2, 6, Hero.HeroTypes.SPI);
+        hero.getSkills().add(SkillFactory.buildFireball());
+        hero.getSkills().add(SkillFactory.buildSleep());
+        hero.getSkills().add(SkillFactory.buildRockSkin());
+        hero.getSkills().add(SkillFactory.buildHealBody());
+        hero.getSkills().add(SkillFactory.buildFireWrath());
+        hero.getSkills().add(SkillFactory.buildDarknessWinds());
+        hero.getSkills().add(SkillFactory.buildSwiftWind());
         return hero;
     }
 
@@ -46,21 +56,31 @@ public class HeroFactory {
 
     public static Hero buildThief() {
         Hero hero = new Hero("thief", Ranks.ME, 5, 5, 1, 2, 4, Hero.HeroTypes.STR);
+        hero.getSkills().add(SkillFactory.buildCamouflage());
+        hero.getSkills().add(SkillFactory.buildCamouflage());
+        hero.getSkills().add(SkillFactory.buildCamouflage());
         return hero;
     }
 
-    private static Hero buildWoodElf() {
+    public static Hero buildWoodElf() {
         Hero hero = new Hero("wood_elf", Ranks.ME, 5, 5, 2, 2, 5, Hero.HeroTypes.SPI);
+        hero.getSkills().add(SkillFactory.buildMedicalPlants());
+        hero.getSkills().add(SkillFactory.buildZiggy());
+        hero.getSkills().add(SkillFactory.buildWiggy());
         return hero;
     }
 
-    private static Hero buildDrow() {
+    public static Hero buildDrow() {
         Hero hero = new Hero("drow", Ranks.ME, 5, 5, 2, 2, 4, Hero.HeroTypes.STR);
         return hero;
     }
 
-    private static Hero buildGnome() {
+    public static Hero buildGnome() {
         Hero hero = new Hero("gnome", Ranks.ME, 3, 3, 1, 2, 7, Hero.HeroTypes.SPI);
+        hero.getSkills().add(SkillFactory.buildNightmare());
+        hero.getSkills().add(SkillFactory.buildTerror());
+        hero.getSkills().add(SkillFactory.buildMirrorImage());
+        hero.getSkills().add(SkillFactory.buildMirrorImage());
         return hero;
     }
 

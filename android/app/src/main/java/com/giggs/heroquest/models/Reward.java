@@ -35,7 +35,7 @@ public class Reward extends StorableResource implements Serializable {
     @Override
     public int getDescription(Resources resources) {
         if (description != null) {
-            return getResource(resources, description + "_description", false);
+            return getResource(resources, description, false);
         }
         return super.getDescription(resources);
     }

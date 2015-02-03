@@ -1,5 +1,6 @@
 package com.giggs.heroquest.data.characters;
 
+import com.giggs.heroquest.data.items.ItemFactory;
 import com.giggs.heroquest.models.characters.Ally;
 import com.giggs.heroquest.models.characters.Unit;
 
@@ -34,6 +35,7 @@ public class AllyFactory {
 
     public static Unit buildScout() {
         Unit unit = new Ally("scout", 1, 2, 3, 2, 9);
+        unit.addItem(ItemFactory.buildToolbox());
         return unit;
     }
 
@@ -52,4 +54,8 @@ public class AllyFactory {
         return unit;
     }
 
+    public static Unit buildMirrorImage() {
+        Unit unit = new Ally("gnome", 1, 1, 2, 7, 4);
+        return unit;
+    }
 }

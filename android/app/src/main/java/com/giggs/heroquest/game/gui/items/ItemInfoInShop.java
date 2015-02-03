@@ -16,7 +16,7 @@ import com.giggs.heroquest.models.items.Mercenary;
 public class ItemInfoInShop extends ItemInfo {
 
     public ItemInfoInShop(Context context, Item item, Hero hero, boolean isSelling, final OnItemActionSelected onItemActionSelected) {
-        super(context, item, hero);
+        super(context, item);
 
         // actions
         TextView mainActionButton = (TextView) findViewById(R.id.main_action_btn);
