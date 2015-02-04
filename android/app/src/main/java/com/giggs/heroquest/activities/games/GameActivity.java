@@ -10,8 +10,6 @@ import com.giggs.heroquest.activities.GameOverActivity;
 import com.giggs.heroquest.activities.fragments.StoryFragment;
 import com.giggs.heroquest.data.QuestFactory;
 import com.giggs.heroquest.data.characters.HeroFactory;
-import com.giggs.heroquest.data.characters.MonsterFactory;
-import com.giggs.heroquest.data.dungeons.TrapFactory;
 import com.giggs.heroquest.game.ActionsDispatcher;
 import com.giggs.heroquest.game.GameConstants;
 import com.giggs.heroquest.game.base.GameElement;
@@ -51,6 +49,7 @@ import org.andengine.util.color.Color;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Timer;
@@ -77,7 +76,7 @@ public class GameActivity extends MyBaseGameActivity {
             // used fot testing only
             mGame = new Game();
             mGame.setHero(HeroFactory.buildGnome());
-            mGame.setQuest(QuestFactory.buildTutorial());
+            mGame.setQuest(QuestFactory.buildMaze());
         }
 
         // copy hero object for reset dungeon after game-over
@@ -107,6 +106,7 @@ public class GameActivity extends MyBaseGameActivity {
         // make the camera not exceed the bounds of the TMXEntity
         mCamera.setBounds(0, 0, mTmxTiledMap.getTileWidth() * mTmxTiledMap.getTileColumns(), mTmxTiledMap.getTileHeight() * mTmxTiledMap.getTileRows());
         mCamera.setBoundsEnabled(true);
+        mCamera.setZoomFactor(1.5f);
 
         pOnCreateSceneCallback.onCreateSceneFinished(mScene);
     }
@@ -126,18 +126,16 @@ public class GameActivity extends MyBaseGameActivity {
             List<Unit> heroes = new ArrayList<>();
             heroes.add(mHero);
 
-            // TODO test
-            mQuest.addGameElement(TrapFactory.getTrap(), mQuest.getRandomFreeTile());
-            mQuest.addGameElement(MonsterFactory.buildMummy(), mQuest.getRandomFreeTile());
-
             for (Item item : mHero.getItems()) {
                 if (item instanceof Mercenary) {
                     heroes.add(((Mercenary) item).getUnit());
                 }
             }
 
+            Set<Tile> tiles = MathUtils.getAdjacentNodes(mQuest.getTiles(), mQuest.getEntranceTile(), 2, true, mHero);
+            Iterator<Tile> iterator = tiles.iterator();
             for (Unit unit : heroes) {
-                mQuest.addGameElement(unit, mQuest.getRandomFreeTile());
+                mQuest.addGameElement(unit, iterator.next());
             }
         }
 
@@ -151,6 +149,10 @@ public class GameActivity extends MyBaseGameActivity {
                     addElementToScene(gameElement);
                     if (mHero == null && gameElement.getRank() == Ranks.ME) {
                         mHero = (Hero) gameElement;
+                        tile.setVisible(true);
+                        mQuest.getQueue().add(mHero);
+                    } else {
+                        tile.setVisible(false);
                     }
                 }
 
@@ -336,10 +338,7 @@ public class GameActivity extends MyBaseGameActivity {
 
                 // add new enemies / remove characters
                 for (GameElement element : mQuest.getObjects()) {
-                    if (element instanceof Unit && (element.getRank() == Ranks.ENEMY || element.getRank() == Ranks.ALLY)
-                            && !mQuest.getQueue().contains(element)) {
-                        mQuest.getQueue().add(0, (Unit) element);
-                    } else if (element instanceof Unit && element.getTilePosition() == null) {
+                    if (element instanceof Unit && element.getTilePosition() == null) {
                         removeElement(element);
                         break;
                     }
@@ -532,6 +531,15 @@ public class GameActivity extends MyBaseGameActivity {
                 mActionDispatcher.showAllActions(mActiveCharacter.getTilePosition());
                 Log.d(TAG, "updating action tiles is done");
                 mActionDispatcher.setInputEnabled(!mActiveCharacter.isEnemy(mHero));
+            }
+        });
+    }
+
+    public void showGame() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                findViewById(R.id.rootLayout).setVisibility(View.VISIBLE);
             }
         });
     }

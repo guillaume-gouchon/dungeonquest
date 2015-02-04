@@ -1,6 +1,7 @@
 package com.giggs.heroquest.game.graphics;
 
 import com.giggs.heroquest.game.base.GameElement;
+import com.giggs.heroquest.models.characters.Monster;
 import com.giggs.heroquest.models.dungeons.Directions;
 
 import org.andengine.opengl.vbo.VertexBufferObjectManager;

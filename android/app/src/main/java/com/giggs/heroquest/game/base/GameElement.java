@@ -27,8 +27,8 @@ public abstract class GameElement extends StorableResource implements GraphicHol
         this.rank = rank;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
-        this.nbSpritesX = nbSpritesX;
         this.nbSpritesY = nbSpritesY;
+        this.nbSpritesX = nbSpritesX;
     }
 
     public abstract void createSprite(VertexBufferObjectManager vertexBufferObjectManager);
@@ -109,4 +109,9 @@ public abstract class GameElement extends StorableResource implements GraphicHol
         return nbSpritesX;
     }
 
+    public boolean isVisible() {
+        return tilePosition.isVisible();
+    }
+
 }
+

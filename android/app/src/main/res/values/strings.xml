@@ -88,7 +88,7 @@
 
     <!-- Characteristics -->
     <string name="hp">Health points</string>
-    <string name="spirit">Spirit : used to react, to resist to magic and to detect traps</string>
+    <string name="spirit">Spirit : used to cast spells, to resist to magic and to detect traps</string>
     <string name="attack">Attack : used to deal damages</string>
     <string name="defense">Defense : used to avoid and block attacks</string>
     <string name="frags">Frags</string>
@@ -269,9 +269,9 @@
     <string name="soul_torture">Soul Torture</string>
     <string name="soul_torture_description">Target and adjacent tiles\' occupants have to pass a spirit test or lose 1 health point.</string>
     <string name="mirror_image">Mirror Image</string>
-    <string name="mirror_image_description">Invokes a mirror image of yourself next to you.</string>
+    <string name="mirror_image_description">Invokes a mirror image of yourself.</string>
     <string name="nightmare">Nightmare</string>
-    <string name="nightmare_description">Attacks with 1 die a target and adjacent tiles\' occupants.</string>
+    <string name="nightmare_description">Deals heavy mental damage to a unique target.</string>
     <string name="camouflage">Camouflage</string>
     <string name="camouflage_description">You hide yourself under your cloak, becoming invisible to your enemies\' eyes.</string>
 
@@ -299,4 +299,42 @@
         <item>Be sure to remember these last points:\n- If you are ever feeling lost, you can check the dungeon map with the button at the top of the screen.\n- You will get skills in your next adventures; these are powerful but they can only be used once a dungeon floor, so keep them for the most dangerous places.\n\nReach the stairs now to finish the tutorial.</item>
     </string-array>
     <string name="tutorial_failed">You did not do what was expected !\n\nYou failed at the tutorial :) !</string>
+
+
+    <!-- Quests -->
+    <string name="maze_quest">The Maze</string>
+    <string name="maze_quest_intro">This will be your final test before you set forth.\n\nBe sure to use all the skills that you have been taught. You must attempt to find your way out.\n\nSeveral monsters have been placed in the Maze. They will try to stop you, so take care...</string>
+    <string name="maze_quest_outro">Your first quest is a success !\n\nYou are now ready to plan more dangerous adventures.</string>
+
+    <string name="trial_quest">The Trial</string>
+    <string name="trial_quest_intro">You have learnt well, my friend. Now has come the time of your first trial.\n\nYou are to travel east and enter the catacombs of Verag, a foul gargoyle. The catacombs guard the tomb of Fellmarg, a mighty hero.\n\nThe trial is not easy and some of you will not return. This is your first step on the road to becoming a hero... tread carefully, my friend.</string>
+    <string name="trial_quest_outro">Congratulations, but Verag was just the first of many dangerous foes you will encounter...</string>
+
+    <string name="warlord_quest">The Orc Warlord</string>
+    <string name="warlord_quest_intro">Prince Magnus has ordered that the Orc Warlord Ulag, who was responsible for the murder of his son, should be sought out and killed.\n\nWhoever kills Ulag will be rewarded with 100 gold coins. Any treasure found in the stronghold may also be kept.</string>
+    <string name="warlord_quest_outro">Well, you deserve these 100 gold coins. But beware, the orcs may want to revenge...</string>
+
+    <string name="magnus_quest">The Gold of Prince Magnus</string>
+    <string name="magnus_quest_intro">Three Treasure chests have been stolen whilst being taken to the Emperor.\n\n A reward of 200  gold coins has been offered to anyone who can return the chests and ALL the gold.\n\nThe thieves are known to be a band of Orcs hiding in the Black Mountains. They are led by Gulthor, a Chaos Warrior.</string>
+    <string name="magnus_quest_outro">Only 200 gold coins... you should have kept the chests !</string>
+
+    <string name="legacy_quest">Legacy of Ulag</string>
+    <string name="legacy_quest_intro">The foul offspring of Ulag, Grak, has sworn revenge on those who killed his father.\n\nAlthough it has taken his several weeks, he has finally tracked you down and captured you in an ambush. Now you are held prisoner in his dungeons while he racks his brains to devise a terrible punishment for you.\n\nWhile the guard sleeps, however, you manage to pick the lock of your cell with an old rat bone... You must escape now !</string>
+    <string name="legacy_quest_outro">You have finally defeated the orcs and you are safe and free... for now !</string>
+
+    <string name="stone_quest">The Stone Hunter</string>
+    <string name="stone_quest_intro">The personal Wizard of the Emperor, Karlen, has disappeared.\n\nThe Emperor fears that either he has been murdered or has succumbed to the lures of Chaos Magic. You are to find out what has happened to Karlen and, if he is alive, bring him to safety.\n\nYou will be paid 100 gold coins upon returning. Good luck !</string>
+    <string name="stone_quest_outro">Whilst working on a Chaos Spell, Karlen has been turned into an evil wizard. Hopefully he is now defeated and will not be a threat to the kingdom anymore.</string>
+
+    <string name="time_quest">Race against Time</string>
+    <string name="time_quest_intro">A guide has led you into a dungeon that is rumoured to hold a great secret. He has led you down  many dark corridors and finally you find yourself in a room with three doors.\n\nSuddenly the guide puts out his torch and in the darkness you hear him laugh.\n"Farewell my Heroes, he sneers as he makes his escape.\n\nYou realize to your horror that it is a trap! You must escape or perish in this dark forgotten hole.</string>
+    <string name="time_quest_outro">Well, finally safe... Let\'s find this traitor !</string>
+
+    <string name="spirit_quest">Quest for the Spirit Blade</string>
+    <string name="spirit_quest_intro">The Witch Lord has been awaken. He will pose a most serious threat to the Emperor in the coming war.\n\nThe Witch Lord must be destroyed before he can bring his army of Undead to attack the forces of the Emperor. You must first find the Spirit Blade, for only this ancient weapon can harm him.\n\nThe Spirit Blade was forged  by the Dwarves of the World Edge Mountains and cooled in the Elven fountain of Lebin. The sword now lies in an ancient ruined temple and you must recover it...</string>
+    <string name="spirit_quest_outro">Good job, let\'s now destroy the Witch Lord ! The Spirit Blade may help...</string>
+
+    <string name="barak_quest">Barak Tor</string>
+    <string name="barak_quest_intro">Now that you have found the Spirit Blade, you must go to Barak Tor and defeat the Witch Lord.\n\nThe Emperor has ridden forth to meet the Eastern Orcs at Black Fire Pass. If you fail, the Witch Lord will lead his army of Undead and attack the forces of the Emperor from the rear.\n\nThen nothing will remain to prevent the Forces of Chaos overrunning the lands...</string>
+    <string name="barak_quest_outro">Victory ! The forces of Chaos are defeated !</string>
 </resources>

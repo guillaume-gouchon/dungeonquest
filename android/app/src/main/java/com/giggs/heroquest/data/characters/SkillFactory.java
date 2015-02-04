@@ -74,15 +74,15 @@ public class SkillFactory {
     }
 
     public static Skill buildWiggy() {
-        return new ActiveSkill("wiggy", 0, false, 0, new InvocationEffect("poison.png", AllyFactory.buildWerewolf()));
+        return new ActiveSkill("wiggy", 0, true, 0, new InvocationEffect("poison.png", AllyFactory.buildWerewolf()));
     }
 
     public static Skill buildZiggy() {
-        return new ActiveSkill("ziggy", 0, false, 0, new InvocationEffect("poison.png", AllyFactory.buildRat()));
+        return new ActiveSkill("ziggy", 0, true, 0, new InvocationEffect("poison.png", AllyFactory.buildRat()));
     }
 
     public static Skill buildMirrorImage() {
-        return new ActiveSkill("mirror_image", 0, false, 0, new InvocationEffect("poison.png", AllyFactory.buildMirrorImage()));
+        return new ActiveSkill("mirror_image", 0, true, 0, new InvocationEffect("poison.png", AllyFactory.buildMirrorImage()));
     }
 
     public static Skill buildTerror() {

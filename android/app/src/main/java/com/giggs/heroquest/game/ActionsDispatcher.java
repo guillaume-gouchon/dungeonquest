@@ -22,8 +22,8 @@ import com.giggs.heroquest.models.characters.Monster;
 import com.giggs.heroquest.models.characters.Ranks;
 import com.giggs.heroquest.models.characters.Unit;
 import com.giggs.heroquest.models.dungeons.Directions;
-import com.giggs.heroquest.models.dungeons.GroundTypes;
 import com.giggs.heroquest.models.dungeons.Tile;
+import com.giggs.heroquest.models.dungeons.decorations.Door;
 import com.giggs.heroquest.models.dungeons.decorations.ItemOnGround;
 import com.giggs.heroquest.models.dungeons.decorations.Searchable;
 import com.giggs.heroquest.models.dungeons.decorations.Stairs;
@@ -142,9 +142,9 @@ public class ActionsDispatcher implements UserActionListener {
                     isMoving = false;
                     if (!done) {
                         done = true;
-                        if ((mGameActivity.getActiveCharacter().getRank() == Ranks.ME || mGameActivity.getActiveCharacter().getRank() == Ranks.ALLY) && mGameActivity.getActiveCharacter().getTilePosition().getGround() == GroundTypes.DOOR) {
-                            // enters a door tile
-                            // TODO open door
+                        if ((mGameActivity.getActiveCharacter().getRank() == Ranks.ME || mGameActivity.getActiveCharacter().getRank() == Ranks.ALLY) && mGameActivity.getActiveCharacter().getTilePosition().getSubContent().size() > 0 && mGameActivity.getActiveCharacter().getTilePosition().getSubContent().get(0) instanceof Door) {
+                            // open doors
+                            ((Door) mGameActivity.getActiveCharacter().getTilePosition().getSubContent().get(0)).open();
                         } else if (mGameActivity.getQuest().isSafe() && mGameActivity.getActiveCharacter().getRank() == Ranks.ME && mGameActivity.getActiveCharacter().getTilePosition().getSubContent().size() > 0
                                 && mGameActivity.getActiveCharacter().getTilePosition().getSubContent().get(0) instanceof Stairs) {
                             enterStairs();
@@ -391,6 +391,9 @@ public class ActionsDispatcher implements UserActionListener {
                             t = path.get(n);
                             if (n <= activeCharacter.calculateMovement()) {
                                 reachableTiles.add(t);
+                                if (t.getSubContent().size() > 0 && t.getSubContent().get(0) instanceof Door && !((Door) t.getSubContent().get(0)).isOpen()) {
+                                    break;
+                                }
                             }
                         }
                     }
@@ -705,7 +708,10 @@ public class ActionsDispatcher implements UserActionListener {
 
         if (effect instanceof InvocationEffect) {
             if (tile.getContent() == null) {
-                mGameActivity.getQuest().addGameElement(((InvocationEffect) effect).getUnit(), tile);
+                Set<Tile> tiles = MathUtils.getAdjacentNodes(mGameActivity.getQuest().getTiles(), tile, 2, true, mGameActivity.getActiveCharacter());
+                ArrayList<Tile> shuffle = new ArrayList<>(tiles);
+                Collections.shuffle(shuffle);
+                mGameActivity.getQuest().addGameElement(((InvocationEffect) effect).getUnit(), shuffle.get(0));
                 mGameActivity.addElementToScene(((InvocationEffect) effect).getUnit());
             }
             return;

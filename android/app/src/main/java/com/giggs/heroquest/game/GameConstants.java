@@ -25,7 +25,7 @@ public class GameConstants {
      * Game settings
      */
     public static final int CAMERA_WIDTH = 800, CAMERA_HEIGHT = 480;
-    public static final float CAMERA_ZOOM_MIN = 1.5f, CAMERA_ZOOM_MAX = 1.5f;
+    public static final float CAMERA_ZOOM_MIN = 0.5f, CAMERA_ZOOM_MAX = 2f;
     public static final int PIXEL_BY_TILE = 40;
 
     public static final String FINISH_GAME_WITH_CHARACTER_PREFS = "victory";

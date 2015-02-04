@@ -49,11 +49,11 @@ public class DecorationFactory {
     }
 
     public static Decoration buildBookcase(Reward reward) {
-        return new Searchable("bookcase", reward, 40, 73, 1, 1);
+        return new Searchable("bookcase", reward, 50, 91, 1, 1);
     }
 
     public static Decoration buildEmptyBookcase(Reward reward) {
-        return new Searchable("empty_bookcase", reward, 40, 73, 1, 1);
+        return new Searchable("empty_bookcase", reward, 50, 91, 1, 1);
     }
 
     public static Decoration buildTonnels(Reward reward) {

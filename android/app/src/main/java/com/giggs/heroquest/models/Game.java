@@ -79,6 +79,7 @@ public class Game extends DatabaseResource {
 
     public void finishQuest() {
         quest.setDone();
+        booksDone.put(quest.getId(), 1);
     }
 
     public List<GraphicHolder> getGraphicsToLoad() {
@@ -105,10 +106,12 @@ public class Game extends DatabaseResource {
         toLoad.add(new SpriteHolder("dice.png", 720, 120, 6, 1));
         toLoad.add(new SpriteHolder("dice_attack.png", 240, 120, 2, 1));
         toLoad.add(new SpriteHolder("dice_defense.png", 360, 120, 3, 1));
-        
+
         toLoad.add(new SpriteHolder("selection.png", 64, 64, 1, 1));
         toLoad.add(new SpriteHolder("traps.png", 240, 320, 3, 4));
         toLoad.add(new SpriteHolder("stairs.png", 30, 30, 2, 1));
+        toLoad.add(new SpriteHolder("door.png", 87, 48, 2, 1));
+        toLoad.add(new SpriteHolder("door_horizontal.png", 87, 96, 2, 1));
 
         toLoad.add(new SpriteHolder("blood.png", 300, 50, 6, 1));
         toLoad.add(new SpriteHolder("slash.png", 250, 50, 5, 1));

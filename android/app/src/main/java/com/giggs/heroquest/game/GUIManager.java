@@ -177,11 +177,18 @@ public class GUIManager {
     private void finishQuest() {
         Game game = mGameActivity.getGame();
         Quest currentQuest = game.getQuest();
+
+        // get quest reward
+        if (currentQuest.getReward() != null) {
+            mHero.addGold(currentQuest.getReward().getGold());
+        }
+
         game.setHero(mHero);
-        game.setQuest(null);
 
         // quest is finished go to book chooser activity
         game.finishQuest();
+
+        game.setQuest(null);
 
         if (currentQuest.getOutroText(mResources) > 0) {
             // show outro text

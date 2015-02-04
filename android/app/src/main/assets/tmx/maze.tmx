@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="34" height="25" tilewidth="40" tileheight="40">
+ <tileset firstgid="1" name="tileset2" tilewidth="40" tileheight="40">
+  <image source="tileset.png" width="600" height="280"/>
+  <tile id="0">
+   <properties>
+    <property name="DUNGEON_FLOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="DUNGEON_FLOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="DUNGEON_FLOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="DUNGEON_FLOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="DUNGEON_FLOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="DUNGEON_FLOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="DOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="52">
+   <properties>
+    <property name="DOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="71">
+   <properties>
+    <property name="DOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="72">
+   <properties>
+    <property name="DOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="73">
+   <properties>
+    <property name="ENTRANCE" value=""/>
+   </properties>
+  </tile>
+  <tile id="74">
+   <properties>
+    <property name="EXIT" value=""/>
+   </properties>
+  </tile>
+  <tile id="84">
+   <properties>
+    <property name="DUNGEON_FLOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="85">
+   <properties>
+    <property name="DUNGEON_FLOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="86">
+   <properties>
+    <property name="DUNGEON_FLOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="87">
+   <properties>
+    <property name="BOSS" value="1"/>
+   </properties>
+  </tile>
+  <tile id="88">
+   <properties>
+    <property name="DOOR" value="0"/>
+   </properties>
+  </tile>
+  <tile id="89">
+   <properties>
+    <property name="DOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="99">
+   <properties>
+    <property name="DUNGEON_FLOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="100">
+   <properties>
+    <property name="DUNGEON_FLOOR" value="1"/>
+   </properties>
+  </tile>
+  <tile id="101">
+   <properties>
+    <property name="RELIC" value="1"/>
+   </properties>
+  </tile>
+  <tile id="102">
+   <properties>
+    <property name="MONSTER" value="1"/>
+   </properties>
+  </tile>
+  <tile id="103">
+   <properties>
+    <property name="TRAP" value=""/>
+   </properties>
+  </tile>
+  <tile id="104">
+   <properties>
+    <property name="DECO" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="ground" width="34" height="25">
+  <data encoding="base64" compression="zlib">
+   eJztVtEOwyAIRC3+Z///J7YHL16aSKswlyx7uNhYwAsc4iki5w8iO3yPN2pbM63V8Cntf2nAvuVzB8RKbVXiM/JR4qHNNjl5IE69cNGb/IML25WF87kuyEmmbysfn9CHEqATXYyZHDwi4zB3bfFQ69kaWRzRJzqwzdJ7DTpGraPqq3T+SD/l8g0es1qzeKO3VXpPzeRzBk/637Lx3B+zcaycWXfODJ7k1TprZz4srl4ePOvQF0m6Hrn/MtnCBvue+zSyZjsQpcEd2tkBz0yPygO/Nw75jlYwHzDfVuZFVD24j69vsD/i8QIVDw1W
+  </data>
+ </layer>
+ <layer name="walls" width="34" height="25">
+  <data encoding="base64" compression="zlib">
+   eJzV1tdOw0AQBdB9o4gSQhcthCpa6IiSUAJCSASC4A0CCP7/H7ireMRktLOOdyMkHo4ceQtjfMd2zhgzBHlmODECo7At5NgaPm8OCrDoWJOG1s7DM7xAMbGg7ElraL6dNwh90A97AXVsQSn5/QXfbGxX2ZPW0PwZmIUpmI6owzfu2rMMFTiHC9iATViD9cA6yinjV45z91CDB3iEUziDYziJqKOSsY5XeIMGvMMHfCb/27ukDi3L2t+ha7O/l2AZVmAV6vBk3D2Sd+xt6xgwv5ktmGb+fZmX12avax8O4BCO2HXKviomR7m3rUNm1p7fMXrmXapwDTfK/Ss5zvO9bR0ys5TlS+Ue+3rnVqkjLT92vcwsZZnf45g67JjNEc+Q3LvKatOyHFsH7cszJPfmdWTt23braCdDsXXkTLMnu6AbeqDXtPYoHeUcOs/HQuugnhyDcZiASdPao3SUc+g8Hwutgz/LNPIZp83L0hdaBhse8hmnzcvSFyF8+fwLWobT3ludpmU47b3Vafx7TQr5zgjl+z6JfW5mofV03YT3Zwj5vgp5b/0nPwJmonk=
+  </data>
+ </layer>
+ <layer name="objects" width="34" height="25">
+  <data encoding="base64" compression="zlib">
+   eJwzYGBgMBiGOIPK5mVSKE9P7I3EjqKy2V4kqk8fBOExmPFgDh9y0nQkkWYSMhs53VI7jGDmUbuMGM5pgZ6YUBoaDWvqhwOleWGw5aVRTD9Mj/xKCA/G/DyQbhpM7dGRgAEohKSK
+  </data>
+ </layer>
+</map>

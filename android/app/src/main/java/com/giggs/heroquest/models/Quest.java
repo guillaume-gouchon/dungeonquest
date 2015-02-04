@@ -4,12 +4,20 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import com.giggs.heroquest.activities.games.GameActivity;
+import com.giggs.heroquest.data.characters.MonsterFactory;
+import com.giggs.heroquest.data.dungeons.DecorationFactory;
+import com.giggs.heroquest.data.dungeons.TrapFactory;
 import com.giggs.heroquest.game.base.GameElement;
+import com.giggs.heroquest.models.characters.Monster;
 import com.giggs.heroquest.models.characters.Ranks;
 import com.giggs.heroquest.models.characters.Unit;
 import com.giggs.heroquest.models.dungeons.Tile;
+import com.giggs.heroquest.models.dungeons.decorations.Decoration;
+import com.giggs.heroquest.models.dungeons.decorations.Door;
+import com.giggs.heroquest.models.dungeons.decorations.Stairs;
 
 import org.andengine.extension.tmx.TMXLayer;
+import org.andengine.extension.tmx.TMXProperty;
 import org.andengine.extension.tmx.TMXTile;
 import org.andengine.extension.tmx.TMXTiledMap;
 
@@ -30,12 +38,16 @@ public class Quest extends StorableResource {
     private final String outroText;
     private final Class activityClass;
     private final String tmxName;
+    private final Reward reward;
 
     private boolean isDone;
     private boolean isAvailable;
     private Tile[][] tiles = null;
     private transient List<GameElement> objects;
     private List<Unit> queue = new ArrayList<>();
+    private Tile entranceTile;
+    private Decoration relic;
+    private Monster boss;
 
     private Quest(Builder builder) {
         super(builder.identifier);
@@ -46,6 +58,9 @@ public class Quest extends StorableResource {
         this.isDone = false;
         this.isAvailable = builder.isAvailable;
         this.tmxName = builder.tmxName;
+        this.reward = builder.reward;
+        this.boss = builder.boss;
+        this.relic = builder.relic;
     }
 
     public int getIntroText(Resources resources) {
@@ -80,6 +95,10 @@ public class Quest extends StorableResource {
         return activityClass;
     }
 
+    public Reward getReward() {
+        return reward;
+    }
+
     public static class Builder {
 
         private final int id;
@@ -89,6 +108,9 @@ public class Quest extends StorableResource {
         private String intro;
         private String outro;
         private boolean isAvailable;
+        private Reward reward;
+        private Decoration relic;
+        private Monster boss;
 
         public Builder(int id, String identifier, String tmxName) {
             this.id = id;
@@ -109,6 +131,22 @@ public class Quest extends StorableResource {
             this.outro = outro;
             return this;
         }
+
+        public Builder setReward(Reward reward) {
+            this.reward = reward;
+            return this;
+        }
+
+        public Builder setRelic(Decoration relic) {
+            this.relic = relic;
+            return this;
+        }
+
+        public Builder setBoss(Monster boss) {
+            this.boss = boss;
+            return this;
+        }
+
 
         public Builder setActivityClass(Class activityClass) {
             this.activityClass = activityClass;
@@ -149,9 +187,9 @@ public class Quest extends StorableResource {
     public void addGameElement(GameElement gameElement, Tile tile, boolean addTopQueue) {
         gameElement.setTilePosition(tile);
         if (!queue.contains(gameElement) && gameElement instanceof Unit) {
-            if (addTopQueue) {
+            if (addTopQueue && gameElement.isVisible()) {
                 queue.add(0, (Unit) gameElement);
-            } else {
+            } else if (gameElement.isVisible()) {
                 queue.add((Unit) gameElement);
             }
             Log.d(TAG, "queue size =" + queue.size());
@@ -200,6 +238,7 @@ public class Quest extends StorableResource {
                         tile.getContent().setTilePosition(tile);
                         objects.add(tile.getContent());
                     }
+                    tile.setVisible(false);
                 }
             }
             tiles = newTiles;
@@ -218,19 +257,44 @@ public class Quest extends StorableResource {
                 }
             }
 
-            // TODO add content
-//            createRoomContent(event, threatLevel);
+            // add objects
+            TMXLayer objectsLayer = tiledMap.getTMXLayers().get(2);
+            objectsLayer.setVisible(false);
+            TMXProperty object;
+            for (TMXTile[] tmxTiles : objectsLayer.getTMXTiles()) {
+                for (TMXTile tmxTile : tmxTiles) {
+                    if (tmxTile.getTMXTileProperties(tiledMap) != null && tmxTile.getTMXTileProperties(tiledMap).size() > 0) {
+                        object = tmxTile.getTMXTileProperties(tiledMap).get(0);
+                        if (object.getName().equals(ObjectsTiles.ENTRANCE.name())) {
+                            tiles[tmxTile.getTileRow()][tmxTile.getTileColumn()].getSubContent().add(new Stairs(false));
+                            entranceTile = tiles[tmxTile.getTileRow()][tmxTile.getTileColumn()];
+                        } else if (object.getName().equals(ObjectsTiles.EXIT.name())) {
+                            tiles[tmxTile.getTileRow()][tmxTile.getTileColumn()].getSubContent().add(new Stairs(true));
+                        } else if (object.getName().equals(ObjectsTiles.DOOR.name())) {
+                            tiles[tmxTile.getTileRow()][tmxTile.getTileColumn()].getSubContent().add(new Door(object.getValue().equals("1")));
+                        } else if (object.getName().equals(ObjectsTiles.TRAP.name())) {
+                            addGameElement(TrapFactory.getTrap(), tiles[tmxTile.getTileRow()][tmxTile.getTileColumn()]);
+                        } else if (object.getName().equals(ObjectsTiles.DECO.name())) {
+                            addGameElement(DecorationFactory.getRandomSearchable(), tiles[tmxTile.getTileRow()][tmxTile.getTileColumn()]);
+                        } else if (object.getName().equals(ObjectsTiles.MONSTER.name())) {
+                            addGameElement(MonsterFactory.getWanderingMonster(), tiles[tmxTile.getTileRow()][tmxTile.getTileColumn()]);
+                        } else if (object.getName().equals(ObjectsTiles.BOSS.name())) {
+                            addGameElement(boss, tiles[tmxTile.getTileRow()][tmxTile.getTileColumn()]);
+                        } else if (object.getName().equals(ObjectsTiles.RELIC.name())) {
+                            addGameElement(relic, tiles[tmxTile.getTileRow()][tmxTile.getTileColumn()]);
+                        }
+                    }
+                }
+            }
         }
     }
 
-    public Tile getRandomFreeTile() {
-        Tile freeTile;
-        do {
-            freeTile = tiles[(int) (Math.random() * (tiles.length))][(int) (Math.random() * (tiles[0].length))];
-        }
-        while (freeTile.getGround() == null || freeTile.getContent() != null);
-        return freeTile;
+    private enum ObjectsTiles {
+        ENTRANCE, EXIT, DOOR, TRAP, MONSTER, DECO, BOSS, RELIC
     }
 
+    public Tile getEntranceTile() {
+        return entranceTile;
+    }
 
 }

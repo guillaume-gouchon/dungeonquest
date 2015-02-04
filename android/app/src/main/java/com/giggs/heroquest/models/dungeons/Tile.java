@@ -22,6 +22,7 @@ public class Tile extends TMXTile implements Node, Serializable {
     private GroundTypes ground = null;
     private transient Actions action;
     private transient boolean isSelected = false;
+    private boolean isVisible;
 
     /**
      * Constructor from a .tmx tile map
@@ -44,6 +45,7 @@ public class Tile extends TMXTile implements Node, Serializable {
                 }
             }
         }
+        isVisible = false;
     }
 
     public GameElement getContent() {
@@ -109,6 +111,17 @@ public class Tile extends TMXTile implements Node, Serializable {
 
     public void setSubContent(List<GameElement> subContent) {
         this.subContent = subContent;
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(boolean isVisible) {
+        this.isVisible = isVisible;
+        if (content != null) {
+            content.getSprite().setVisible(isVisible);
+        }
     }
 
 }
