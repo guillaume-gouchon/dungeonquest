@@ -2,6 +2,7 @@ package com.giggs.heroquest.models.dungeons;
 
 import com.giggs.heroquest.game.base.GameElement;
 import com.giggs.heroquest.models.Actions;
+import com.giggs.heroquest.models.dungeons.decorations.Door;
 import com.giggs.heroquest.utils.pathfinding.Node;
 
 import org.andengine.extension.tmx.TMXProperties;
@@ -121,6 +122,13 @@ public class Tile extends TMXTile implements Node, Serializable {
         this.isVisible = isVisible;
         if (content != null) {
             content.getSprite().setVisible(isVisible);
+        }
+        if (subContent.size() > 0) {
+            if (subContent.get(0) instanceof Door) {
+                subContent.get(0).getSprite().setVisible(true);
+            } else {
+                subContent.get(0).getSprite().setVisible(isVisible);
+            }
         }
     }
 

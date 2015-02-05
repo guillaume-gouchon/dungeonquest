@@ -186,10 +186,10 @@ public class Quest extends StorableResource {
 
     public void addGameElement(GameElement gameElement, Tile tile, boolean addTopQueue) {
         gameElement.setTilePosition(tile);
-        if (!queue.contains(gameElement) && gameElement instanceof Unit) {
-            if (addTopQueue && gameElement.isVisible()) {
+        if (gameElement.isVisible() && !queue.contains(gameElement) && gameElement instanceof Unit) {
+            if (addTopQueue) {
                 queue.add(0, (Unit) gameElement);
-            } else if (gameElement.isVisible()) {
+            } else {
                 queue.add((Unit) gameElement);
             }
             Log.d(TAG, "queue size =" + queue.size());
@@ -253,6 +253,7 @@ public class Quest extends StorableResource {
             for (TMXTile[] tmxTiles : groundLayer.getTMXTiles()) {
                 for (TMXTile tmxTile : tmxTiles) {
                     tile = new Tile(tmxTile, tiledMap);
+                    tile.setVisible(false);
                     tiles[tmxTile.getTileRow()][tmxTile.getTileColumn()] = tile;
                 }
             }

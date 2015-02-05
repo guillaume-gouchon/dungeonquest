@@ -495,6 +495,8 @@ public class ActionsDispatcher implements UserActionListener {
 
                         mScene.sortChildren();
 
+                        mGameActivity.updateVisibility();
+
                         if (nextTile.getSubContent().size() > 0 && nextTile.getSubContent().get(0) instanceof Trap) {
                             isMoving = false;
                             sprite.stand();
@@ -707,10 +709,10 @@ public class ActionsDispatcher implements UserActionListener {
         Log.d(TAG, "Applying effect of " + effect.getValue() + " " + effect.getTarget() + " on tile " + tile.getX() + "," + tile.getY());
 
         if (effect instanceof InvocationEffect) {
-            if (tile.getContent() == null) {
-                Set<Tile> tiles = MathUtils.getAdjacentNodes(mGameActivity.getQuest().getTiles(), tile, 2, true, mGameActivity.getActiveCharacter());
-                ArrayList<Tile> shuffle = new ArrayList<>(tiles);
-                Collections.shuffle(shuffle);
+            Set<Tile> tiles = MathUtils.getAdjacentNodes(mGameActivity.getQuest().getTiles(), tile, 2, true, mGameActivity.getActiveCharacter());
+            ArrayList<Tile> shuffle = new ArrayList<>(tiles);
+            Collections.shuffle(shuffle);
+            if (shuffle.get(0).getContent() == null) {
                 mGameActivity.getQuest().addGameElement(((InvocationEffect) effect).getUnit(), shuffle.get(0));
                 mGameActivity.addElementToScene(((InvocationEffect) effect).getUnit());
             }

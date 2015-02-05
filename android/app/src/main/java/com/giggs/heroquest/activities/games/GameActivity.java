@@ -19,6 +19,7 @@ import com.giggs.heroquest.game.graphics.SelectionCircle;
 import com.giggs.heroquest.game.gui.items.ItemInfoInGame;
 import com.giggs.heroquest.models.Game;
 import com.giggs.heroquest.models.Quest;
+import com.giggs.heroquest.models.characters.Ally;
 import com.giggs.heroquest.models.characters.Hero;
 import com.giggs.heroquest.models.characters.Monster;
 import com.giggs.heroquest.models.characters.Ranks;
@@ -66,6 +67,7 @@ public class GameActivity extends MyBaseGameActivity {
     protected Hero mHero;
     protected Unit mActiveCharacter;
     protected ActionsDispatcher mActionDispatcher;
+    private List<Unit> mHeroes;
 
     @Override
     protected void initGameActivity() {
@@ -123,18 +125,19 @@ public class GameActivity extends MyBaseGameActivity {
         mScene.attachChild(mSelectionCircle);
 
         if (mHero != null) {
-            List<Unit> heroes = new ArrayList<>();
-            heroes.add(mHero);
+            mHeroes = new ArrayList<>();
+            mHeroes.add(mHero);
 
+            // add mercenaries
             for (Item item : mHero.getItems()) {
                 if (item instanceof Mercenary) {
-                    heroes.add(((Mercenary) item).getUnit());
+                    mHeroes.add(((Mercenary) item).getUnit());
                 }
             }
 
             Set<Tile> tiles = MathUtils.getAdjacentNodes(mQuest.getTiles(), mQuest.getEntranceTile(), 2, true, mHero);
             Iterator<Tile> iterator = tiles.iterator();
-            for (Unit unit : heroes) {
+            for (Unit unit : mHeroes) {
                 mQuest.addGameElement(unit, iterator.next());
             }
         }
@@ -149,10 +152,6 @@ public class GameActivity extends MyBaseGameActivity {
                     addElementToScene(gameElement);
                     if (mHero == null && gameElement.getRank() == Ranks.ME) {
                         mHero = (Hero) gameElement;
-                        tile.setVisible(true);
-                        mQuest.getQueue().add(mHero);
-                    } else {
-                        tile.setVisible(false);
                     }
                 }
 
@@ -296,6 +295,8 @@ public class GameActivity extends MyBaseGameActivity {
     public void startGame() {
         mCamera.setCenter(mHero.getSprite().getX(), mHero.getSprite().getY());
 
+        updateVisibility();
+
         mGUIManager.hideLoadingScreen();
         mGUIManager.updateSkillButtons();
 
@@ -338,6 +339,12 @@ public class GameActivity extends MyBaseGameActivity {
 
                 // add new enemies / remove characters
                 for (GameElement element : mQuest.getObjects()) {
+                    if (element instanceof Ally && !mHeroes.contains(element)) {
+                        mHeroes.add((Unit) element);
+                    } else if (element instanceof Ally && ((Ally) element).isDead()) {
+                        mHeroes.remove(element);
+                    }
+
                     if (element instanceof Unit && element.getTilePosition() == null) {
                         removeElement(element);
                         break;
@@ -542,6 +549,25 @@ public class GameActivity extends MyBaseGameActivity {
                 findViewById(R.id.rootLayout).setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    public void updateVisibility() {
+        boolean visible;
+        for (Tile[] hTiles : mQuest.getTiles()) {
+            for (Tile tile : hTiles) {
+                visible = false;
+                for (Unit unit : mHeroes) {
+                    if (tile.getX() == unit.getTilePosition().getX() || tile.getY() == unit.getTilePosition().getY()) {
+                        visible = true;
+                        if (tile.getContent() != null && tile.getContent() instanceof Unit && !mQuest.getQueue().contains(tile.getContent())) {
+                            mQuest.getQueue().add((Unit) tile.getContent());
+                        }
+                        break;
+                    }
+                }
+                tile.setVisible(visible);
+            }
+        }
     }
 
 }
