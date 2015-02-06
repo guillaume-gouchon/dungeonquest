@@ -15,6 +15,9 @@ public class DoorSprite extends GameElementSprite {
         super(door, vertexBufferObjectManager);
         this.door = door;
         setCurrentTileIndex(door.isHorizontal() ? 1 : 0);
+        if (door.isOpen()) {
+            open();
+        }
     }
 
     public void setPosition(float pX, float pY) {

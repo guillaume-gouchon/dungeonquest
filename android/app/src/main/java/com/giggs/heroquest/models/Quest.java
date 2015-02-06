@@ -223,7 +223,7 @@ public class Quest extends StorableResource {
 
             // recreate tiles
             Tile[][] newTiles = new Tile[tiledMap.getTileRows()][tiledMap.getTileColumns()];
-            TMXLayer groundLayer = tiledMap.getTMXLayers().get(0);
+            TMXLayer groundLayer = tiledMap.getTMXLayers().get(1);
             Tile tile;
             for (TMXTile[] tmxTiles : groundLayer.getTMXTiles()) {
                 for (TMXTile tmxTile : tmxTiles) {
@@ -242,13 +242,16 @@ public class Quest extends StorableResource {
                 }
             }
             tiles = newTiles;
+            tiledMap.getTMXLayers().get(1).setAlwaysVisible(false);
+            tiledMap.getTMXLayers().get(1).setTMXTiles(tiles);
+            tiledMap.getTMXLayers().get(3).setVisible(false);
         } else if (tiles == null) {
             // create new room
             tiles = new Tile[tiledMap.getTileRows()][tiledMap.getTileColumns()];
             objects = new ArrayList<>();
 
             // add ground tiles
-            TMXLayer groundLayer = tiledMap.getTMXLayers().get(0);
+            TMXLayer groundLayer = tiledMap.getTMXLayers().get(1);
             Tile tile;
             for (TMXTile[] tmxTiles : groundLayer.getTMXTiles()) {
                 for (TMXTile tmxTile : tmxTiles) {
@@ -259,7 +262,7 @@ public class Quest extends StorableResource {
             }
 
             // add objects
-            TMXLayer objectsLayer = tiledMap.getTMXLayers().get(2);
+            TMXLayer objectsLayer = tiledMap.getTMXLayers().get(3);
             objectsLayer.setVisible(false);
             TMXProperty object;
             for (TMXTile[] tmxTiles : objectsLayer.getTMXTiles()) {
@@ -287,6 +290,9 @@ public class Quest extends StorableResource {
                     }
                 }
             }
+
+            tiledMap.getTMXLayers().get(1).setAlwaysVisible(false);
+            tiledMap.getTMXLayers().get(1).setTMXTiles(tiles);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.giggs.heroquest.utils.pathfinding;
 
 import com.giggs.heroquest.game.base.GameElement;
+import com.giggs.heroquest.models.dungeons.Directions;
 
 import org.andengine.entity.sprite.Sprite;
 
@@ -60,6 +61,16 @@ public class MathUtils {
         }
 
         return adjacentNodes;
+    }
+
+    public static <E extends Node> E getAdjacentNode(E[][] nodes, E centerNode, Directions direction) {
+        int x = centerNode.getX() + direction.getDx();
+        int y = centerNode.getY() - direction.getDy();
+        if (x >= 0 && x < nodes[0].length && y >= 0 && y < nodes.length && (x != centerNode.getX() || y != centerNode.getY())) {
+            E node = nodes[y][x];
+            return node;
+        }
+        return null;
     }
 
 }

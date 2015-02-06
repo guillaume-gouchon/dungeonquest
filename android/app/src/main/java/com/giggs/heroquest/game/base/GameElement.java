@@ -6,6 +6,7 @@ import com.giggs.heroquest.game.graphics.GameElementSprite;
 import com.giggs.heroquest.game.graphics.GraphicHolder;
 import com.giggs.heroquest.models.StorableResource;
 import com.giggs.heroquest.models.characters.Ranks;
+import com.giggs.heroquest.models.dungeons.Directions;
 import com.giggs.heroquest.models.dungeons.Tile;
 import com.giggs.heroquest.utils.pathfinding.MathUtils;
 
@@ -42,7 +43,7 @@ public abstract class GameElement extends StorableResource implements GraphicHol
     }
 
     public void setTilePosition(Tile tilePosition) {
-        Log.d(TAG, "new tile for " + identifier + " = " + (tilePosition != null ? tilePosition.getX() + ", " + tilePosition.getY() : tilePosition));
+        Log.d(TAG, "new tile for " + identifier + " = " + (tilePosition != null ? tilePosition.getX() + ", " + tilePosition.getY() : ""));
         if (this.tilePosition != null) {
             this.tilePosition.setContent(null);
         }
@@ -111,6 +112,24 @@ public abstract class GameElement extends StorableResource implements GraphicHol
 
     public boolean isVisible() {
         return tilePosition.isVisible();
+    }
+
+    public boolean isInCorridor(Tile[][] map) {
+        Tile west = MathUtils.getAdjacentNode(map, tilePosition, Directions.WEST);
+        Tile east = MathUtils.getAdjacentNode(map, tilePosition, Directions.EAST);
+        Tile north = MathUtils.getAdjacentNode(map, tilePosition, Directions.NORTH);
+        Tile south = MathUtils.getAdjacentNode(map, tilePosition, Directions.SOUTH);
+
+        if (west.getGround() == null && east.getGround() == null) {
+            return true;
+        } else if (north.getGround() == null && south.getGround() == null) {
+            return true;
+        } else if (MathUtils.getAdjacentNode(map, north, Directions.EAST).getGround() == null && MathUtils.getAdjacentNode(map, north, Directions.WEST).getGround() == null
+                && MathUtils.getAdjacentNode(map, south, Directions.EAST).getGround() == null && MathUtils.getAdjacentNode(map, south, Directions.WEST).getGround() == null) {
+            return true;
+        }
+
+        return false;
     }
 
 }

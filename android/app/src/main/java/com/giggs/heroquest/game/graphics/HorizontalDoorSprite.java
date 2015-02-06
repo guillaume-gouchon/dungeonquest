@@ -11,6 +11,7 @@ public class HorizontalDoorSprite extends DoorSprite {
 
     public HorizontalDoorSprite(Door door, VertexBufferObjectManager vertexBufferObjectManager) {
         super(door, vertexBufferObjectManager);
+        setZIndex(11);
     }
 
     @Override

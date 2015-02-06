@@ -50,7 +50,7 @@ public class TMXLayer extends SpriteBatch implements TMXConstants {
     private final String mName;
     private final int mTileColumns;
     private final int mTileRows;
-    private final TMXTile[][] mTMXTiles;
+    private TMXTile[][] mTMXTiles;
 
     private int mTilesAdded;
     private final int mGlobalTileIDsExpected;
@@ -61,6 +61,7 @@ public class TMXLayer extends SpriteBatch implements TMXConstants {
 
     private final int mWidth;
     private final int mHeight;
+    private boolean alwaysVisible = true;
 
     // ===========================================================
     // Constructors
@@ -118,6 +119,14 @@ public class TMXLayer extends SpriteBatch implements TMXConstants {
         return this.mTMXTiles;
     }
 
+    public void setTMXTiles(TMXTile[][] tiles) {
+        this.mTMXTiles = tiles;
+    }
+
+    public void setAlwaysVisible(boolean v) {
+        this.alwaysVisible = v;
+    }
+
     public TMXTile getTMXTile(final int pTileColumn, final int pTileRow) throws ArrayIndexOutOfBoundsException {
         return this.mTMXTiles[pTileRow][pTileColumn];
     }
@@ -157,7 +166,6 @@ public class TMXLayer extends SpriteBatch implements TMXConstants {
 
     @Override
     protected void initBlendFunction(final ITexture pTexture) {
-
     }
 
     @Override
@@ -203,7 +211,9 @@ public class TMXLayer extends SpriteBatch implements TMXConstants {
 
         for (int row = firstRow; row <= lastRow; row++) {
             for (int column = firstColumn; column <= lastColumn; column++) {
-                this.mSpriteBatchVertexBufferObject.draw(GLES20.GL_TRIANGLE_STRIP, this.getSpriteBatchIndex(column, row) * SpriteBatch.VERTICES_PER_SPRITE, SpriteBatch.VERTICES_PER_SPRITE);
+                if (alwaysVisible || getTMXTile(column, row).isVisible()) {
+                    this.mSpriteBatchVertexBufferObject.draw(GLES20.GL_TRIANGLE_STRIP, this.getSpriteBatchIndex(column, row) * SpriteBatch.VERTICES_PER_SPRITE, SpriteBatch.VERTICES_PER_SPRITE);
+                }
             }
         }
     }
@@ -285,7 +295,7 @@ public class TMXLayer extends SpriteBatch implements TMXConstants {
         this.submit(); // TODO Doesn't need to be called here, but should rather be called in a "init" step, when parsing the XML is complete.
 
         if (pGlobalTileID != 0) {
-			/* Notify the ITMXTilePropertiesListener if it exists. */
+            /* Notify the ITMXTilePropertiesListener if it exists. */
             if (pTMXTilePropertyListener != null) {
                 final TMXProperties<TMXTileProperty> tmxTileProperties = tmxTiledMap.getTMXTileProperties(pGlobalTileID);
                 if (tmxTileProperties != null) {

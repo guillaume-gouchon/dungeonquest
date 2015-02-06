@@ -29,7 +29,7 @@ public class MonsterFactory {
 
     public static Monster getWanderingMonster() {
         Random r = new Random();
-        int random = r.nextInt(9);
+        int random = r.nextInt(10);
         switch (random) {
             case 0:
             case 1:
@@ -45,6 +45,8 @@ public class MonsterFactory {
                 return buildZombie();
             case 7:
                 return buildMummy();
+            case 8:
+                return buildStoneWarrior();
             default:
                 return buildChaosWarrior();
         }

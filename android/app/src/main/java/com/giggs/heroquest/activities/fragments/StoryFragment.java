@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.giggs.heroquest.R;
 import com.giggs.heroquest.activities.AdventureActivity;
 import com.giggs.heroquest.activities.games.GameActivity;
+import com.giggs.heroquest.game.GameConstants;
 import com.giggs.heroquest.models.Game;
 import com.giggs.heroquest.utils.ApplicationUtils;
 
@@ -74,7 +75,7 @@ public class StoryFragment extends DialogFragment implements View.OnClickListene
     @Override
     public void onResume() {
         super.onResume();
-        mStormEffect = ApplicationUtils.addStormBackgroundAtmosphere(mStormsBg, 150, 50);
+        mStormEffect = ApplicationUtils.addStormBackgroundAtmosphere(mStormsBg, GameConstants.BG_ANIMATION_ALPHA_FROM, GameConstants.BG_ANIMATION_ALPHA_TO);
     }
 
     @Override

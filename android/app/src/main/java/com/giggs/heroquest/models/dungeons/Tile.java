@@ -3,6 +3,7 @@ package com.giggs.heroquest.models.dungeons;
 import com.giggs.heroquest.game.base.GameElement;
 import com.giggs.heroquest.models.Actions;
 import com.giggs.heroquest.models.dungeons.decorations.Door;
+import com.giggs.heroquest.models.dungeons.traps.Trap;
 import com.giggs.heroquest.utils.pathfinding.Node;
 
 import org.andengine.extension.tmx.TMXProperties;
@@ -19,11 +20,10 @@ public class Tile extends TMXTile implements Node, Serializable {
     private static final long serialVersionUID = 3793350205301888410L;
 
     private GameElement content = null;
-    private List<GameElement> subContent = new ArrayList<GameElement>();
+    private List<GameElement> subContent = new ArrayList<>();
     private GroundTypes ground = null;
     private transient Actions action;
     private transient boolean isSelected = false;
-    private boolean isVisible;
 
     /**
      * Constructor from a .tmx tile map
@@ -114,22 +114,19 @@ public class Tile extends TMXTile implements Node, Serializable {
         this.subContent = subContent;
     }
 
-    public boolean isVisible() {
-        return isVisible;
-    }
-
     public void setVisible(boolean isVisible) {
         this.isVisible = isVisible;
-        if (content != null) {
+        if (content != null && content.getSprite() != null) {
             content.getSprite().setVisible(isVisible);
         }
-        if (subContent.size() > 0) {
+        if (subContent.size() > 0 && subContent.get(0).getSprite() != null) {
             if (subContent.get(0) instanceof Door) {
                 subContent.get(0).getSprite().setVisible(true);
-            } else {
+            } else if (!(subContent.get(0) instanceof Trap)) {
                 subContent.get(0).getSprite().setVisible(isVisible);
             }
         }
+
     }
 
 }

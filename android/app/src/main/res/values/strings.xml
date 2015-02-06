@@ -45,7 +45,7 @@
     <string name="load_game">Load Game</string>
     <string name="settings">Options</string>
     <string name="back">Back</string>
-    <string name="advertisement">If you enjoy playing this game,\nyou would like my other RPG\n<a href="https://play.google.com/store/apps/details?id=com.glevel.dungeonhero">Dungeon Hero</a>\u00A0!</string>
+    <string name="advertisement">If you enjoy playing this game, you would like my other RPG\n<a href="https://play.google.com/store/apps/details?id=com.glevel.dungeonhero">Dungeon Hero</a>\u00A0!</string>
     <string name="loading_saved_games">Loading...</string>
 
     <!-- Settings -->
@@ -69,7 +69,7 @@
     <string name="which_quest">Choose a Quest to enter</string>
 
     <!-- Story -->
-    <string name="play">Start</string>
+    <string name="play">Skip</string>
 
     <!-- Game Over -->
     <string name="retry">Retry</string>
@@ -158,7 +158,7 @@
     <string name="elf_description">You are the Elf, a master of both sword and magic. You must use both wisely if you want to triumph.</string>
     <string name="wizard_description">You are the Wizard. You are able to cast many spells, however, you are weak in close-combat. Therefore, you must use your magic and avoid physical confrontations.</string>
     <string name="dwarf_description">You are the Dwarf Explorer. Good warrior, you have the unique ability to disarm traps.</string>
-    <string name="thief_description">You are the Human Rogue, a silent and deadly assassin which can turn herself invisible to her enemies.</string>
+    <string name="thief_description">You are the Human Rogue, a silent and deadly thief which can turn herself invisible to her enemies, and who can detect traps more easily.</string>
     <string name="wood_elf_description">You are the Wood Elf Beastmaster, a shaman who understands deeply the animal spirit. Your powerful companions will help during fights.</string>
     <string name="drow_description">Naturally akin to darkness, the drow makes one of the most deadly assassins. You are more effective against the biggest and slowest creatures.</string>
     <string name="gnome_description">You are the Gnome illusionist. If your mind shield is not disorienting enough your opponents, you can cast several hypnotizing spells and summon illusions to help you in battle. Anyway, your magic shield will protect you as long as you have some spirit points left.</string>

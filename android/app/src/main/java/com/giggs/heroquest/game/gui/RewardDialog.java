@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.giggs.heroquest.R;
 import com.giggs.heroquest.models.Reward;
 import com.giggs.heroquest.models.items.consumables.Potion;
+import com.giggs.heroquest.models.items.consumables.ThrowableItem;
 import com.giggs.heroquest.models.items.equipments.weapons.Weapon;
 
 /**
@@ -45,7 +46,7 @@ public class RewardDialog extends Dialog {
 
             if (reward.getItem() instanceof Weapon) {
                 bg.setColorFilter(Color.argb(100, 255, 0, 0));
-            } else if (reward.getItem() instanceof Potion) {
+            } else if (reward.getItem() instanceof Potion || reward.getItem() instanceof ThrowableItem) {
                 bg.setColorFilter(Color.argb(100, 0, 0, 255));
             }
         } else {
@@ -57,7 +58,7 @@ public class RewardDialog extends Dialog {
             } else {
                 descriptionTV.setVisibility(View.GONE);
             }
-            
+
             bg.setColorFilter(Color.argb(100, 100, 100, 0));
         }
 

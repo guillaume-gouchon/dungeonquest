@@ -29,6 +29,8 @@ public class TMXTile implements Serializable {
     private transient final int mTileWidth;
     private transient final int mTileHeight;
     transient ITextureRegion mTextureRegion;
+    protected boolean isVisible;
+
 
     // ===========================================================
     // Constructors
@@ -114,4 +116,9 @@ public class TMXTile implements Serializable {
     // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
 }

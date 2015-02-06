@@ -286,7 +286,7 @@ public class HomeActivity extends MyActivity implements OnClickListener, LoadGam
         super.onResume();
 
         // initMap storm effect
-        mStormEffect = ApplicationUtils.addStormBackgroundAtmosphere(mStormsBg, 200, 50);
+        mStormEffect = ApplicationUtils.addStormBackgroundAtmosphere(mStormsBg, GameConstants.BG_ANIMATION_ALPHA_FROM, GameConstants.BG_ANIMATION_ALPHA_TO);
     }
 
     @Override

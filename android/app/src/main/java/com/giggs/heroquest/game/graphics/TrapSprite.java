@@ -15,9 +15,12 @@ public class TrapSprite extends GameElementSprite {
     public TrapSprite(Trap trap, VertexBufferObjectManager vertexBufferObjectManager) {
         super(trap, vertexBufferObjectManager);
         setZIndex(3);
-        setVisible(false);
+        setVisible(trap.isRevealed());
         setScale(0.4f);
         trapIndex = trap.getTrapIndex();
+        if (trap.isRevealed()) {
+            reveal();
+        }
     }
 
     public void setPosition(float pX, float pY) {

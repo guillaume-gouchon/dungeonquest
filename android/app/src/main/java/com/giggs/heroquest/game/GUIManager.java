@@ -242,8 +242,9 @@ public class GUIManager {
             public void run() {
                 mLifeLayout.removeAllViews();
                 ImageView view;
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.setMargins(0, 0, -12, 0);
+                int sizeInPixels = ApplicationUtils.convertDpToPixels(mGameActivity.getApplicationContext(), 25);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(sizeInPixels, sizeInPixels);
+                params.setMargins(0, 0, -10, 0);
                 for (int n = 0; n < mHero.getHp(); n++) {
                     view = new ImageView(mGameActivity.getApplicationContext());
                     view.setImageResource(R.drawable.ic_health);

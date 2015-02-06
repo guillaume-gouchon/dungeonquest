@@ -24,7 +24,9 @@ import com.giggs.heroquest.models.characters.Hero;
 import com.giggs.heroquest.models.characters.Monster;
 import com.giggs.heroquest.models.characters.Ranks;
 import com.giggs.heroquest.models.characters.Unit;
+import com.giggs.heroquest.models.dungeons.Directions;
 import com.giggs.heroquest.models.dungeons.Tile;
+import com.giggs.heroquest.models.dungeons.decorations.Door;
 import com.giggs.heroquest.models.effects.CamouflageEffect;
 import com.giggs.heroquest.models.effects.Effect;
 import com.giggs.heroquest.models.effects.HeroicEffect;
@@ -77,13 +79,16 @@ public class GameActivity extends MyBaseGameActivity {
         } else {
             // used fot testing only
             mGame = new Game();
-            mGame.setHero(HeroFactory.buildGnome());
+            mGame.setHero(HeroFactory.buildBarbarian());
             mGame.setQuest(QuestFactory.buildMaze());
         }
 
-        // copy hero object for reset dungeon after game-over
-        mHero = (Hero) ApplicationUtils.deepCopy(mGame.getHero());
         mQuest = mGame.getQuest();
+
+        if (mQuest.getTiles() == null) {
+            // copy hero object for reset dungeon after game-over
+            mHero = (Hero) ApplicationUtils.deepCopy(mGame.getHero());
+        }
     }
 
     @Override
@@ -100,7 +105,7 @@ public class GameActivity extends MyBaseGameActivity {
                 TextureOptions.BILINEAR_PREMULTIPLYALPHA, getVertexBufferObjectManager(), null);
         mTmxTiledMap = tmxLoader.loadFromAsset("tmx/" + mQuest.getTmxName() + ".tmx");
 
-        mTmxTiledMap.getTMXLayers().get(1).setZIndex(10);
+        mTmxTiledMap.getTMXLayers().get(2).setZIndex(10);
         for (TMXLayer tmxLayer : mTmxTiledMap.getTMXLayers()) {
             mScene.attachChild(tmxLayer);
         }
@@ -124,8 +129,8 @@ public class GameActivity extends MyBaseGameActivity {
         mSelectionCircle = new SelectionCircle(getVertexBufferObjectManager());
         mScene.attachChild(mSelectionCircle);
 
+        mHeroes = new ArrayList<>();
         if (mHero != null) {
-            mHeroes = new ArrayList<>();
             mHeroes.add(mHero);
 
             // add mercenaries
@@ -152,6 +157,14 @@ public class GameActivity extends MyBaseGameActivity {
                     addElementToScene(gameElement);
                     if (mHero == null && gameElement.getRank() == Ranks.ME) {
                         mHero = (Hero) gameElement;
+                        mHeroes.add(mHero);
+
+                        // add mercenaries
+                        for (Item item : mHero.getItems()) {
+                            if (item instanceof Mercenary) {
+                                mHeroes.add(((Mercenary) item).getUnit());
+                            }
+                        }
                     }
                 }
 
@@ -434,17 +447,18 @@ public class GameActivity extends MyBaseGameActivity {
                     return;
                 }
 
+                mActiveCharacter.initNewTurn();
                 updateActionTiles();
                 mGUIManager.updateHeroLayout();
-
-                mActiveCharacter.initNewTurn();
 
                 // center camera on active character
                 new Timer().schedule(new TimerTask() {
                     @Override
                     public void run() {
                         mInputManager.checkAutoScrolling(mActiveCharacter.getSprite().getX(), mActiveCharacter.getSprite().getY());
-                        if (mCamera.isRectangularShapeVisible(mActiveCharacter.getSprite())) {
+                        Log.d(TAG, Math.abs(mCamera.getCenterX() - mActiveCharacter.getSprite().getX()) + " " + Math.abs(mCamera.getCenterY() - mActiveCharacter.getSprite().getY()));
+                        if (Math.abs(mCamera.getCenterX() - mActiveCharacter.getSprite().getX()) < GameConstants.CAMERA_WIDTH / 2
+                                && Math.abs(mCamera.getCenterY() - mActiveCharacter.getSprite().getY()) < GameConstants.CAMERA_HEIGHT / 2) {
                             cancel();
                         }
                     }
@@ -521,7 +535,7 @@ public class GameActivity extends MyBaseGameActivity {
     private void rollMovementDie(final int result, int dieIndex) {
         final float x = mActiveCharacter.getSprite().getX() + (2 * dieIndex - 1) * 15;
         final float y = mActiveCharacter.getSprite().getY() - 45;
-        drawAnimatedSprite(x, y, "dice.png", 20, 0.2f, 1.0f, 1, true, 1000, new OnActionExecuted() {
+        drawAnimatedSprite(x, y, "dice.png", 15, 0.2f, 1.0f, 1, true, 1000, new OnActionExecuted() {
             @Override
             public void onActionDone(boolean success) {
                 drawSprite(x, y, "dice.png", 25, 0.2f, result - 1);
@@ -552,20 +566,70 @@ public class GameActivity extends MyBaseGameActivity {
     }
 
     public void updateVisibility() {
-        boolean visible;
-        for (Tile[] hTiles : mQuest.getTiles()) {
-            for (Tile tile : hTiles) {
-                visible = false;
-                for (Unit unit : mHeroes) {
-                    if (tile.getX() == unit.getTilePosition().getX() || tile.getY() == unit.getTilePosition().getY()) {
-                        visible = true;
+        List<Tile> visibleTiles = new ArrayList<>();
+        for (Unit unit : mHeroes) {
+            boolean isInCorridor = unit.isInCorridor(mQuest.getTiles());
+            int roomXMin = -1, roomXMax = -1, roomYMin = -1, roomYMax = -1;
+            for (Directions directions : Directions.values()) {
+                int n = 0;
+                Tile tile;
+                do {
+                    tile = mQuest.getTiles()[unit.getTilePosition().getY() - directions.getDy() * n][unit.getTilePosition().getX() + directions.getDx() * n];
+                    if (tile.getContent() != null && tile.getContent() instanceof Unit && !mQuest.getQueue().contains(tile.getContent())) {
+                        mQuest.getQueue().add((Unit) tile.getContent());
+                    }
+                    visibleTiles.add(tile);
+                    n++;
+
+                    if (!isInCorridor && (tile.getGround() == null || tile.getSubContent().size() > 0 && tile.getSubContent().get(0) instanceof Door)) {
+                        switch (directions) {
+                            case WEST:
+                                if (roomXMin == -1) {
+                                    roomXMin = tile.getX();
+                                }
+                                break;
+                            case EAST:
+                                if (roomXMax == -1) {
+                                    roomXMax = tile.getX();
+                                }
+                                break;
+                            case NORTH:
+                                if (roomYMin == -1) {
+                                    roomYMin = tile.getY();
+                                }
+                                break;
+                            case SOUTH:
+                                if (roomYMax == -1) {
+                                    roomYMax = tile.getY();
+                                }
+                                break;
+                        }
+                    }
+                }
+
+                while (tile.getGround() != null && (tile.getSubContent().size() == 0 || !(tile.getSubContent().get(0) instanceof Door) || ((Door) tile.getSubContent().get(0)).isOpen()));
+            }
+
+            if (!isInCorridor) {
+                Log.d(TAG, "character is in room " + roomXMin + "," + roomYMin + " to " + roomXMax + "," + roomYMax);
+                Tile tile;
+                for (int i = roomYMin; i < roomYMax; i++) {
+                    for (int j = roomXMin; j < roomXMax; j++) {
+                        tile = mQuest.getTiles()[i][j];
                         if (tile.getContent() != null && tile.getContent() instanceof Unit && !mQuest.getQueue().contains(tile.getContent())) {
                             mQuest.getQueue().add((Unit) tile.getContent());
                         }
-                        break;
+                        visibleTiles.add(tile);
                     }
                 }
-                tile.setVisible(visible);
+            }
+        }
+
+        Log.d(TAG, visibleTiles.size() + " visible tiles");
+
+        for (Tile[] hTiles : mQuest.getTiles()) {
+            for (Tile tile : hTiles) {
+                tile.setVisible(tile.getGround() == null || visibleTiles.contains(tile));
             }
         }
     }

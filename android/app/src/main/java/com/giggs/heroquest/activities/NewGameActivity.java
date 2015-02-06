@@ -18,6 +18,7 @@ import com.giggs.heroquest.MyActivity;
 import com.giggs.heroquest.R;
 import com.giggs.heroquest.activities.adapters.HeroesAdapter;
 import com.giggs.heroquest.data.characters.HeroFactory;
+import com.giggs.heroquest.game.GameConstants;
 import com.giggs.heroquest.models.Game;
 import com.giggs.heroquest.models.characters.Hero;
 import com.giggs.heroquest.utils.ApplicationUtils;
@@ -91,7 +92,7 @@ public class NewGameActivity extends MyActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mStormEffect = ApplicationUtils.addStormBackgroundAtmosphere(mStormsBg, 200, 50);
+        mStormEffect = ApplicationUtils.addStormBackgroundAtmosphere(mStormsBg, GameConstants.BG_ANIMATION_ALPHA_FROM, GameConstants.BG_ANIMATION_ALPHA_TO);
     }
 
     @Override

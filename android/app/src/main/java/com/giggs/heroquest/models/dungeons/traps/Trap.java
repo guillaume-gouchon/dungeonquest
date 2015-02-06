@@ -12,6 +12,7 @@ public class Trap extends ItemOnGround {
 
     private final int trapIndex;
     private final int attackDice;
+    private boolean isRevealed = false;
 
     public Trap(int trapIndex, int attackDice) {
         super("traps", null);
@@ -25,13 +26,14 @@ public class Trap extends ItemOnGround {
     }
 
     public void reveal() {
-        if (!isRevealed()) {
+        if (!isRevealed) {
+            isRevealed = true;
             ((TrapSprite) sprite).reveal();
         }
     }
 
     public boolean isRevealed() {
-        return sprite.isVisible();
+        return isRevealed;
     }
 
     public int getAttackDice() {

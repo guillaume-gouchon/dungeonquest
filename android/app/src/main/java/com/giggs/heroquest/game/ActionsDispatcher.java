@@ -145,6 +145,7 @@ public class ActionsDispatcher implements UserActionListener {
                         if ((mGameActivity.getActiveCharacter().getRank() == Ranks.ME || mGameActivity.getActiveCharacter().getRank() == Ranks.ALLY) && mGameActivity.getActiveCharacter().getTilePosition().getSubContent().size() > 0 && mGameActivity.getActiveCharacter().getTilePosition().getSubContent().get(0) instanceof Door) {
                             // open doors
                             ((Door) mGameActivity.getActiveCharacter().getTilePosition().getSubContent().get(0)).open();
+                            mGameActivity.updateVisibility();
                         } else if (mGameActivity.getQuest().isSafe() && mGameActivity.getActiveCharacter().getRank() == Ranks.ME && mGameActivity.getActiveCharacter().getTilePosition().getSubContent().size() > 0
                                 && mGameActivity.getActiveCharacter().getTilePosition().getSubContent().get(0) instanceof Stairs) {
                             enterStairs();
@@ -157,7 +158,7 @@ public class ActionsDispatcher implements UserActionListener {
                             int spirit = mGameActivity.getActiveCharacter().getSpirit();
                             boolean hasDetectTraps = false;
                             for (Tile t : tiles) {
-                                if (t.getSubContent().size() > 0 && t.getSubContent().get(0) instanceof Trap && !((Trap) t.getSubContent().get(0)).isRevealed()) {
+                                if (t.isVisible() && t.getSubContent().size() > 0 && t.getSubContent().get(0) instanceof Trap && !((Trap) t.getSubContent().get(0)).isRevealed()) {
                                     if (Math.random() < 0.1 * spirit * factor) {
                                         ((Trap) t.getSubContent().get(0)).reveal();
                                         hasDetectTraps = true;
@@ -294,7 +295,6 @@ public class ActionsDispatcher implements UserActionListener {
                                     if (reward.getIdentifier().equals("tr_wandering_monster")) {
                                         // wandering monster
                                         Monster monster = MonsterFactory.getWanderingMonster();
-                                        Tile adjacentTile;
                                         Set<Tile> adjacentTiles = MathUtils.getAdjacentNodes(mGameActivity.getQuest().getTiles(), tile, 2, true, monster);
                                         List<Tile> shuffle = new ArrayList<>(adjacentTiles);
                                         Collections.shuffle(shuffle);
@@ -389,7 +389,7 @@ public class ActionsDispatcher implements UserActionListener {
                     if (path != null) {
                         for (int n = 0; n < path.size(); n++) {
                             t = path.get(n);
-                            if (n <= activeCharacter.calculateMovement()) {
+                            if (n <= activeCharacter.calculateMovement() && t.isVisible()) {
                                 reachableTiles.add(t);
                                 if (t.getSubContent().size() > 0 && t.getSubContent().get(0) instanceof Door && !((Door) t.getSubContent().get(0)).isOpen()) {
                                     break;
@@ -436,7 +436,7 @@ public class ActionsDispatcher implements UserActionListener {
     }
 
     private void addAvailableAction(GameElement gameElement) {
-        if (gameElement instanceof Trap) {
+        if (gameElement instanceof Trap || !gameElement.getTilePosition().isVisible()) {
             return;
         }
 
@@ -517,7 +517,7 @@ public class ActionsDispatcher implements UserActionListener {
                                 if (isDamaged) {
                                     applyEffect(new DamageEffect(null, -1, 0), mGameActivity.getActiveCharacter().getTilePosition(), true);
                                 }
-                                rollFightDie(mGameActivity.getActiveCharacter(), isDamaged ? 0 : 1, 0, 1, true);
+                                rollFightDie(mGameActivity.getActiveCharacter(), isDamaged ? 0 : 1, 0, true);
 
                                 if (isDamaged || !wasRevealed) {
                                     // stop movement if not revealed or damaged
@@ -945,21 +945,21 @@ public class ActionsDispatcher implements UserActionListener {
     private void rollFightDice(FightResult fightResult, Unit target) {
         // roll attack dice
         for (int n = 0; n < mGameActivity.getActiveCharacter().getAttackAgainst(target); n++) {
-            rollFightDie(mGameActivity.getActiveCharacter(), n < fightResult.getAttackScore() ? 0 : 1, n, mGameActivity.getActiveCharacter().getAttackAgainst(target), true);
+            rollFightDie(mGameActivity.getActiveCharacter(), n < fightResult.getAttackScore() ? 0 : 1, n, true);
         }
 
         if (fightResult.getAttackScore() > 0) {
             // roll defense dice
             for (int n = 0; n < target.getDefense(); n++) {
-                rollFightDie(target, n < fightResult.getDefenseScore() ? (target instanceof Monster ? 2 : 1) : 0, n, target.getDefense(), false);
+                rollFightDie(target, n < fightResult.getDefenseScore() ? (target instanceof Monster ? 2 : 1) : 0, n, false);
             }
         }
     }
 
-    private void rollFightDie(Unit character, final int result, int dieIndex, int nbDice, boolean isAttack) {
+    private void rollFightDie(Unit character, final int result, int dieIndex, boolean isAttack) {
         final String diceSprite = isAttack ? "dice_attack.png" : "dice_defense.png";
-        final float x = character.getSprite().getX() + (2 * dieIndex - nbDice) * 6;
-        final float y = character.getSprite().getY() - 30;
+        final float x = character.getSprite().getX() + 13 * (dieIndex % 3 - 1);
+        final float y = (float) (character.getSprite().getY() - 15 * Math.floor(2 + (dieIndex) / 3));
         mGameActivity.drawAnimatedSprite(x, y, diceSprite, 20, 0.1f, 1.0f, 1, true, 1000, new OnActionExecuted() {
             @Override
             public void onActionDone(boolean success) {
