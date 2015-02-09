@@ -149,6 +149,7 @@ public class GUIManager {
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == R.id.ok_btn) {
                             Intent intent = new Intent(mGameActivity, AdventureActivity.class);
+                            mHero.reset();
                             mGameActivity.getGame().setHero(mHero);
                             intent.putExtra(Game.class.getName(), mGameActivity.getGame());
                             mGameActivity.startActivity(intent);
@@ -183,6 +184,7 @@ public class GUIManager {
             mHero.addGold(currentQuest.getReward().getGold());
         }
 
+        mHero.reset();
         game.setHero(mHero);
 
         // quest is finished go to book chooser activity

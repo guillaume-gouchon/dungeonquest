@@ -21,34 +21,41 @@ public class MonsterFactory {
         lst.add(buildSkeleton());
         lst.add(buildZombie());
         lst.add(buildMummy());
-        lst.add(buildUlag());
-        lst.add(buildKarlen());
         lst.add(buildStoneWarrior());
         return lst;
     }
 
     public static Monster getWanderingMonster() {
         Random r = new Random();
-        int random = r.nextInt(10);
+        int random = r.nextInt(18);
         switch (random) {
             case 0:
             case 1:
-                return buildGoblin();
             case 2:
+                return buildGoblin();
             case 3:
-                return buildOrc();
             case 4:
-                return buildTroll();
             case 5:
-                return buildSkeleton();
+                return buildOrc();
             case 6:
-                return buildZombie();
             case 7:
-                return buildMummy();
+                return buildTroll();
             case 8:
+            case 9:
+                return buildSkeleton();
+            case 10:
+            case 11:
+                return buildZombie();
+            case 12:
+            case 16:
+                return buildMummy();
+            case 13:
                 return buildStoneWarrior();
-            default:
+            case 14:
+            case 15:
                 return buildChaosWarrior();
+            default:
+                return buildGargoyle();
         }
     }
 
@@ -97,8 +104,19 @@ public class MonsterFactory {
         return monster;
     }
 
+    public static Monster buildVerag() {
+        Monster monster = new Monster("verag", 2, 4, 4, 4, 6);
+        return monster;
+    }
+
     public static Monster buildUlag() {
         Monster monster = new Monster("ulag", 2, 4, 5, 3, 6);
+        return monster;
+    }
+
+
+    public static Monster buildGulthor() {
+        Monster monster = new Monster("gulthor", 3, 5, 4, 2, 4);
         return monster;
     }
 

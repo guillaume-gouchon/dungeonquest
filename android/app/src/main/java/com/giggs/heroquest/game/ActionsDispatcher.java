@@ -144,7 +144,11 @@ public class ActionsDispatcher implements UserActionListener {
                         done = true;
                         if ((mGameActivity.getActiveCharacter().getRank() == Ranks.ME || mGameActivity.getActiveCharacter().getRank() == Ranks.ALLY) && mGameActivity.getActiveCharacter().getTilePosition().getSubContent().size() > 0 && mGameActivity.getActiveCharacter().getTilePosition().getSubContent().get(0) instanceof Door) {
                             // open doors
-                            ((Door) mGameActivity.getActiveCharacter().getTilePosition().getSubContent().get(0)).open();
+                            Door door = (Door) mGameActivity.getActiveCharacter().getTilePosition().getSubContent().get(0);
+                            if (!door.isOpen()) {
+                                mGameActivity.playSound("door", false);
+                            }
+                            door.open();
                             mGameActivity.updateVisibility();
                         } else if (mGameActivity.getQuest().isSafe() && mGameActivity.getActiveCharacter().getRank() == Ranks.ME && mGameActivity.getActiveCharacter().getTilePosition().getSubContent().size() > 0
                                 && mGameActivity.getActiveCharacter().getTilePosition().getSubContent().get(0) instanceof Stairs) {
@@ -513,7 +517,7 @@ public class ActionsDispatcher implements UserActionListener {
                                 boolean wasRevealed = trap.isRevealed();
                                 trap.reveal();
 
-                                boolean isDamaged = Math.random() < (1 - Math.pow(0.5, trap.getAttackDice())) / (trap.isRevealed() ? 4 : 1);
+                                boolean isDamaged = Math.random() < (1 - Math.pow(0.4, trap.getAttackDice())) / (trap.isRevealed() ? 4 : 1);
                                 if (isDamaged) {
                                     applyEffect(new DamageEffect(null, -1, 0), mGameActivity.getActiveCharacter().getTilePosition(), true);
                                 }
@@ -943,6 +947,8 @@ public class ActionsDispatcher implements UserActionListener {
     }
 
     private void rollFightDice(FightResult fightResult, Unit target) {
+        mGameActivity.playSound("dice", false);
+
         // roll attack dice
         for (int n = 0; n < mGameActivity.getActiveCharacter().getAttackAgainst(target); n++) {
             rollFightDie(mGameActivity.getActiveCharacter(), n < fightResult.getAttackScore() ? 0 : 1, n, true);

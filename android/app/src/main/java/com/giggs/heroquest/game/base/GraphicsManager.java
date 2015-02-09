@@ -34,7 +34,7 @@ public class GraphicsManager {
 
         BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(ASSETS_PATH);
 
-        List<GraphicHolder> graphicsToLoad = game.getGraphicsToLoad();
+        List<GraphicHolder> graphicsToLoad = game.getGraphicsToLoad(game.getQuest());
         for (GraphicHolder graphicHolder : graphicsToLoad) {
             loadGfx(graphicHolder);
         }

@@ -82,7 +82,7 @@ public class Game extends DatabaseResource {
         booksDone.put(quest.getId(), 1);
     }
 
-    public List<GraphicHolder> getGraphicsToLoad() {
+    public List<GraphicHolder> getGraphicsToLoad(Quest quest) {
         List<GraphicHolder> toLoad = new ArrayList<>();
 
         // load hero
@@ -101,6 +101,10 @@ public class Game extends DatabaseResource {
         // load decorations
         for (GameElement element : DecorationFactory.getAll()) {
             toLoad.add(element);
+        }
+
+        if (quest.getBoss() != null) {
+            toLoad.add(quest.getBoss());
         }
 
         toLoad.add(new SpriteHolder("dice.png", 720, 120, 6, 1));
@@ -139,6 +143,8 @@ public class Game extends DatabaseResource {
         toLoad.add("new_level");
         toLoad.add("range_attack");
         toLoad.add("search");
+        toLoad.add("door");
+        toLoad.add("dice");
 
         return toLoad;
     }

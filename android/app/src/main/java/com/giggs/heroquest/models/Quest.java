@@ -296,6 +296,14 @@ public class Quest extends StorableResource {
         }
     }
 
+    public Monster getBoss() {
+        return boss;
+    }
+
+    public Decoration getRelic() {
+        return relic;
+    }
+
     private enum ObjectsTiles {
         ENTRANCE, EXIT, DOOR, TRAP, MONSTER, DECO, BOSS, RELIC
     }

@@ -1,5 +1,8 @@
 package com.giggs.heroquest.data;
 
+import com.giggs.heroquest.activities.games.TutorialQuest;
+import com.giggs.heroquest.data.characters.MonsterFactory;
+import com.giggs.heroquest.data.dungeons.DecorationFactory;
 import com.giggs.heroquest.models.Quest;
 import com.giggs.heroquest.models.Reward;
 
@@ -29,6 +32,9 @@ public class QuestFactory {
     public static Quest buildTutorial() {
         Quest quest = new Quest.Builder(0, "tutorial", "tutorial")
                 .setAvailable(true)
+                .setBoss(MonsterFactory.buildGoblin())
+                .setRelic(DecorationFactory.buildSmallChest(new Reward("tr_gold", null, null, 10)))
+                .setActivityClass(TutorialQuest.class)
                 .build();
         return quest;
     }
@@ -47,6 +53,7 @@ public class QuestFactory {
                 .setAvailable(true)
                 .setIntro("trial_quest_intro")
                 .setOutro("trial_quest_outro")
+                .setBoss(MonsterFactory.buildVerag())
                 .build();
         return quest;
     }
@@ -54,8 +61,10 @@ public class QuestFactory {
     public static Quest buildWarlord() {
         Quest quest = new Quest.Builder(3, "warlord_quest", "warlord")
                 .setIntro("warlord_quest_intro")
-                .setOutro("warlord_questt_outro")
+                .setOutro("warlord_quest_outro")
                 .setReward(new Reward(null, null, null, 100))
+                .setBoss(MonsterFactory.buildUlag())
+                .setRelic(DecorationFactory.buildSmallChest(new Reward("tr_gold", null, null, 150)))
                 .build();
         return quest;
     }
@@ -65,6 +74,7 @@ public class QuestFactory {
                 .setIntro("magnus_quest_intro")
                 .setOutro("magnus_quest_outro")
                 .setReward(new Reward(null, null, null, 200))
+                .setBoss(MonsterFactory.buildGulthor())
                 .build();
         return quest;
     }

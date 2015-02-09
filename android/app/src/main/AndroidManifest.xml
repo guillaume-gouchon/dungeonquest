@@ -26,8 +26,7 @@
         <activity
             android:name=".activities.SplashActivity"
             android:noHistory="true"
-            android:screenOrientation="landscape">
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".activities.HomeActivity"
             android:screenOrientation="landscape" />
@@ -47,16 +46,17 @@
             android:name=".activities.games.GameActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape">
+        </activity>
+        <activity
+            android:name=".activities.games.TutorialQuest"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity-->
-        <!--android:name=".activities.games.TutorialQuest"-->
-        <!--android:configChanges="orientation|keyboardHidden|screenSize"-->
-        <!--android:screenOrientation="landscape"></activity>-->
 
         <provider
             android:name=".providers.MyContentProvider"

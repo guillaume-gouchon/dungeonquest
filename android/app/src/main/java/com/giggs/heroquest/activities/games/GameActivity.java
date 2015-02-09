@@ -80,7 +80,7 @@ public class GameActivity extends MyBaseGameActivity {
             // used fot testing only
             mGame = new Game();
             mGame.setHero(HeroFactory.buildBarbarian());
-            mGame.setQuest(QuestFactory.buildMaze());
+            mGame.setQuest(QuestFactory.buildTrial());
         }
 
         mQuest = mGame.getQuest();
@@ -456,7 +456,6 @@ public class GameActivity extends MyBaseGameActivity {
                     @Override
                     public void run() {
                         mInputManager.checkAutoScrolling(mActiveCharacter.getSprite().getX(), mActiveCharacter.getSprite().getY());
-                        Log.d(TAG, Math.abs(mCamera.getCenterX() - mActiveCharacter.getSprite().getX()) + " " + Math.abs(mCamera.getCenterY() - mActiveCharacter.getSprite().getY()));
                         if (Math.abs(mCamera.getCenterX() - mActiveCharacter.getSprite().getX()) < GameConstants.CAMERA_WIDTH / 2
                                 && Math.abs(mCamera.getCenterY() - mActiveCharacter.getSprite().getY()) < GameConstants.CAMERA_HEIGHT / 2) {
                             cancel();
@@ -526,6 +525,7 @@ public class GameActivity extends MyBaseGameActivity {
     }
 
     private void rollMovementDice() {
+        playSound("dice", false);
         int index = 0;
         for (int die : mHero.getMovementDice()) {
             rollMovementDie(die, index++);
