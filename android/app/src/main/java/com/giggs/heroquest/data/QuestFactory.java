@@ -3,6 +3,7 @@ package com.giggs.heroquest.data;
 import com.giggs.heroquest.activities.games.TutorialQuest;
 import com.giggs.heroquest.data.characters.MonsterFactory;
 import com.giggs.heroquest.data.dungeons.DecorationFactory;
+import com.giggs.heroquest.data.items.ItemFactory;
 import com.giggs.heroquest.models.Quest;
 import com.giggs.heroquest.models.Reward;
 
@@ -23,7 +24,6 @@ public class QuestFactory {
         lst.add(buildMagnus());
         lst.add(buildLegacy());
         lst.add(buildStone());
-        lst.add(buildTime());
         lst.add(buildSpirit());
         lst.add(buildBarak());
         return lst;
@@ -83,6 +83,7 @@ public class QuestFactory {
         Quest quest = new Quest.Builder(5, "legacy_quest", "legacy")
                 .setIntro("legacy_quest_intro")
                 .setOutro("legacy_quest_outro")
+                .setBoss(MonsterFactory.buildGrak())
                 .build();
         return quest;
     }
@@ -91,30 +92,26 @@ public class QuestFactory {
         Quest quest = new Quest.Builder(6, "stone_quest", "stone")
                 .setIntro("stone_quest_intro")
                 .setOutro("stone_quest_outro")
-                .build();
-        return quest;
-    }
-
-    public static Quest buildTime() {
-        Quest quest = new Quest.Builder(7, "time_quest", "time")
-                .setIntro("time_quest_intro")
-                .setOutro("time_quest_outro")
+                .setBoss(MonsterFactory.buildKarlen())
+                .setRelic(DecorationFactory.buildBookcase(new Reward("protection_talisman", null, ItemFactory.buildProtectionTalisman(), 0)))
                 .build();
         return quest;
     }
 
     public static Quest buildSpirit() {
-        Quest quest = new Quest.Builder(8, "spirit_quest", "spirit")
+        Quest quest = new Quest.Builder(7, "spirit_quest", "spirit")
                 .setIntro("spirit_quest_intro")
                 .setOutro("spirit_quest_outro")
+                .setRelic(DecorationFactory.buildStatue(new Reward("spirit_blade", null, ItemFactory.buildSpiritBlade(), 0)))
                 .build();
         return quest;
     }
 
     public static Quest buildBarak() {
-        Quest quest = new Quest.Builder(9, "barak_quest", "barak")
+        Quest quest = new Quest.Builder(8, "barak_quest", "barak")
                 .setIntro("barak_quest_intro")
                 .setOutro("barak_quest_outro")
+                .setBoss(MonsterFactory.buildWitchLord())
                 .build();
         return quest;
     }

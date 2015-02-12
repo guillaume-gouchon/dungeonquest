@@ -506,7 +506,7 @@ public class ActionsDispatcher implements UserActionListener {
                             sprite.stand();
                             Trap trap = (Trap) nextTile.getSubContent().get(0);
                             if (trap.isRevealed()
-                                    && (mGameActivity.getActiveCharacter().getIdentifier().equals(HeroFactory.buildDwarf())
+                                    && (mGameActivity.getActiveCharacter().getIdentifier().equals(HeroFactory.buildDwarf().getIdentifier())
                                     || mGameActivity.getActiveCharacter().hasItem(ItemFactory.buildToolbox()))) {
                                 Log.d(TAG, "disarm trap !");
                                 showAnimatedText(mGameActivity.getActiveCharacter(), mGameActivity.getString(R.string.disarming_trap));

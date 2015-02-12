@@ -21,6 +21,7 @@ import com.giggs.heroquest.models.items.consumables.Consumable;
 import com.giggs.heroquest.models.items.equipments.Equipment;
 import com.giggs.heroquest.models.skills.ActiveSkill;
 import com.giggs.heroquest.models.skills.Skill;
+import com.giggs.heroquest.utils.pathfinding.MathUtils;
 import com.giggs.heroquest.utils.pathfinding.MovingElement;
 
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
@@ -129,11 +130,16 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
     public int getAttackAgainst(Unit target) {
         int attack = getAttack();
 
+        if (MathUtils.calcManhattanDistance(tilePosition, target.getTilePosition()) > 1 && hasItem(ItemFactory.buildCrossbow())) {
+            return 3;
+        }
+
         // spirit blade modifier
         if (hasItem(ItemFactory.buildSpiritBlade()) &&
                 (target.getIdentifier().equals(MonsterFactory.buildSkeleton().getIdentifier())
                         || target.getIdentifier().equals(MonsterFactory.buildZombie().getIdentifier())
-                        || target.getIdentifier().equals(MonsterFactory.buildMummy().getIdentifier()))) {
+                        || target.getIdentifier().equals(MonsterFactory.buildMummy().getIdentifier())
+                        || target.getIdentifier().equals(MonsterFactory.buildWitchLord().getIdentifier()))) {
             attack++;
         }
 
@@ -267,7 +273,9 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
                                 bonus++;
                             }
                         } else {
-                            base = Math.max(base, buff.getValue());
+                            if (!equipment.getIdentifier().equals(ItemFactory.buildCrossbow())) {
+                                base = Math.max(base, buff.getValue());
+                            }
                         }
                     }
                 }
@@ -324,7 +332,7 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
     public boolean testCharacteristic(Characteristics target, int value) {
         int dice = (int) (Math.random() * 6);
         Log.d(TAG, "characteristic dice result = " + dice);
-        return dice == 1 || dice < getCharacteristic(target) - value;
+        return dice == 0 || dice < getCharacteristic(target) - value;
     }
 
     public int getBaseCharacteristic(Characteristics target) {

@@ -321,10 +321,6 @@
     <string name="stone_quest_intro">The personal Wizard of the Emperor, Karlen, has disappeared.\n\nThe Emperor fears that either he has been murdered or has succumbed to the lures of Chaos Magic. You are to find out what has happened to Karlen and, if he is alive, bring him to safety.\n\nYou will be paid 100 gold coins upon returning. Good luck !</string>
     <string name="stone_quest_outro">Whilst working on a Chaos Spell, Karlen has been turned into an evil wizard. Hopefully he is now defeated and will not be a threat to the kingdom anymore.</string>
 
-    <string name="time_quest">Race against Time</string>
-    <string name="time_quest_intro">A guide has led you into a dungeon that is rumoured to hold a great secret. He has led you down  many dark corridors and finally you find yourself in a room with three doors.\n\nSuddenly the guide puts out his torch and in the darkness you hear him laugh.\n"Farewell my Heroes, he sneers as he makes his escape.\n\nYou realize to your horror that it is a trap! You must escape or perish in this dark forgotten hole.</string>
-    <string name="time_quest_outro">Well, finally safe... Let\'s find this traitor !</string>
-
     <string name="spirit_quest">Quest for the Spirit Blade</string>
     <string name="spirit_quest_intro">The Witch Lord has been awaken. He will pose a most serious threat to the Emperor in the coming war.\n\nThe Witch Lord must be destroyed before he can bring his army of Undead to attack the forces of the Emperor. You must first find the Spirit Blade, for only this ancient weapon can harm him.\n\nThe Spirit Blade was forged  by the Dwarves of the World Edge Mountains and cooled in the Elven fountain of Lebin. The sword now lies in an ancient ruined temple and you must recover it...</string>
     <string name="spirit_quest_outro">Good job, let\'s now destroy the Witch Lord ! The Spirit Blade may help...</string>

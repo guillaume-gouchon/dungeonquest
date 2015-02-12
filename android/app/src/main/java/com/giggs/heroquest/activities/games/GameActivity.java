@@ -80,7 +80,7 @@ public class GameActivity extends MyBaseGameActivity {
             // used fot testing only
             mGame = new Game();
             mGame.setHero(HeroFactory.buildBarbarian());
-            mGame.setQuest(QuestFactory.buildTrial());
+            mGame.setQuest(QuestFactory.buildMagnus());
         }
 
         mQuest = mGame.getQuest();
@@ -142,8 +142,13 @@ public class GameActivity extends MyBaseGameActivity {
 
             Set<Tile> tiles = MathUtils.getAdjacentNodes(mQuest.getTiles(), mQuest.getEntranceTile(), 2, true, mHero);
             Iterator<Tile> iterator = tiles.iterator();
+            Tile tile;
             for (Unit unit : mHeroes) {
-                mQuest.addGameElement(unit, iterator.next());
+                do {
+                    tile = iterator.next();
+                }
+                while (tile.getSubContent().size() > 0 && tile.getSubContent().get(0) instanceof Door);
+                mQuest.addGameElement(unit, tile);
             }
         }
 
@@ -201,6 +206,14 @@ public class GameActivity extends MyBaseGameActivity {
     public void removeElement(GameElement gameElement) {
         Log.d(TAG, "removing element");
         gameElement.destroy();
+        if (gameElement instanceof Ally) {
+            for (Item item : mHero.getItems()) {
+                if (item instanceof Mercenary && item.getIdentifier().equals(gameElement.getIdentifier())) {
+                    mHero.getItems().remove(item);
+                    break;
+                }
+            }
+        }
         mQuest.removeElement(gameElement);
         mGUIManager.updateQueue(mActiveCharacter, mQuest);
         super.removeElement(gameElement.getSprite(), false);
@@ -350,17 +363,12 @@ public class GameActivity extends MyBaseGameActivity {
                     return;
                 }
 
-                // add new enemies / remove characters
+                // update heroes
+                mHeroes = new ArrayList<>();
+                mHeroes.add(mHero);
                 for (GameElement element : mQuest.getObjects()) {
-                    if (element instanceof Ally && !mHeroes.contains(element)) {
+                    if (element instanceof Ally && !((Ally) element).isDead()) {
                         mHeroes.add((Unit) element);
-                    } else if (element instanceof Ally && ((Ally) element).isDead()) {
-                        mHeroes.remove(element);
-                    }
-
-                    if (element instanceof Unit && element.getTilePosition() == null) {
-                        removeElement(element);
-                        break;
                     }
                 }
 

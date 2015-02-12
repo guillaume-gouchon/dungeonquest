@@ -44,23 +44,6 @@ public class Hero extends Unit {
         gold += goldAmount;
     }
 
-    private int getInitialSkillPoints() {
-        switch (heroType) {
-            case STR:
-                return 1;
-            case DEX:
-                return 2;
-            case SPI:
-                return 3;
-            case STR_DEX:
-                return 1;
-            case STR_SPI:
-                return 2;
-            default:
-                return 2;
-        }
-    }
-
     @Override
     public void initNewTurn() {
         super.initNewTurn();

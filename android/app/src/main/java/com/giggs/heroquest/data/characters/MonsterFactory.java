@@ -120,8 +120,26 @@ public class MonsterFactory {
         return monster;
     }
 
+    public static Monster buildGrak() {
+        Monster monster = new Monster("grak", 2, 4, 4, 3, 6);
+        return monster;
+    }
+
     public static Monster buildKarlen() {
-        Monster monster = new Monster("karlen", 3, 2, 3, 3, 6);
+        Monster monster = new Monster("karlen", 3, 2, 3, 8, 4);
+        monster.getSkills().add(SkillFactory.buildTerror());
+        monster.getSkills().add(SkillFactory.buildFireWrath());
+        monster.getSkills().add(SkillFactory.buildFireWrath());
+        monster.getSkills().add(SkillFactory.buildRockSkin());
+        return monster;
+    }
+
+    public static Monster buildWitchLord() {
+        Monster monster = new Monster("karlen", 5, 4, 6, 10, 4);
+        monster.getSkills().add(SkillFactory.buildNightmare());
+        monster.getSkills().add(SkillFactory.buildSleep());
+        monster.getSkills().add(SkillFactory.buildFireWrath());
+        monster.getSkills().add(SkillFactory.buildFireWrath());
         return monster;
     }
 
