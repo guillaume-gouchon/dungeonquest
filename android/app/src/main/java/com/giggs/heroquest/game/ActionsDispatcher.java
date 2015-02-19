@@ -947,8 +947,6 @@ public class ActionsDispatcher implements UserActionListener {
     }
 
     private void rollFightDice(FightResult fightResult, Unit target) {
-        mGameActivity.playSound("dice", false);
-
         // roll attack dice
         for (int n = 0; n < mGameActivity.getActiveCharacter().getAttackAgainst(target); n++) {
             rollFightDie(mGameActivity.getActiveCharacter(), n < fightResult.getAttackScore() ? 0 : 1, n, true);

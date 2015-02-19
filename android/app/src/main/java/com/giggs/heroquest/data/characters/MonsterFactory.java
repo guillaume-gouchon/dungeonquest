@@ -32,28 +32,28 @@ public class MonsterFactory {
             case 0:
             case 1:
             case 2:
-                return buildGoblin();
             case 3:
+                return buildGoblin();
             case 4:
             case 5:
-                return buildOrc();
             case 6:
             case 7:
-                return buildTroll();
+                return buildOrc();
             case 8:
             case 9:
-                return buildSkeleton();
+                return buildTroll();
             case 10:
             case 11:
-                return buildZombie();
+                return buildSkeleton();
             case 12:
-            case 16:
-                return buildMummy();
             case 13:
-                return buildStoneWarrior();
+                return buildZombie();
             case 14:
+                return buildMummy();
             case 15:
                 return buildChaosWarrior();
+            case 16:
+                return buildStoneWarrior();
             default:
                 return buildGargoyle();
         }

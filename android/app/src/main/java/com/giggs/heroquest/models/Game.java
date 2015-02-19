@@ -144,7 +144,6 @@ public class Game extends DatabaseResource {
         toLoad.add("range_attack");
         toLoad.add("search");
         toLoad.add("door");
-        toLoad.add("dice");
 
         return toLoad;
     }

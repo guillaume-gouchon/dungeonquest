@@ -533,7 +533,6 @@ public class GameActivity extends MyBaseGameActivity {
     }
 
     private void rollMovementDice() {
-        playSound("dice", false);
         int index = 0;
         for (int die : mHero.getMovementDice()) {
             rollMovementDie(die, index++);

@@ -15,8 +15,8 @@ android {
         applicationId "com.giggs.heroquest"
         minSdkVersion 9
         targetSdkVersion 21
-        versionCode 101
-        versionName "3.0.0"
+        versionCode 102
+        versionName "3.0.1"
     }
     buildTypes {
         release {
