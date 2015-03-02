@@ -147,6 +147,13 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
             attack++;
         }
 
+        for (Effect buff : buffs) {
+            if (buff instanceof CamouflageEffect) {
+                attack++;
+                break;
+            }
+        }
+
         return attack;
     }
 
@@ -156,15 +163,6 @@ public abstract class Unit extends GameElement implements MovingElement<Tile> {
 
     public FightResult attack(Unit target) {
         FightResult fightResult;
-
-        // remove invisibility
-        for (Effect buff : buffs) {
-            if (buff instanceof CamouflageEffect) {
-                buffs.remove(buff);
-                updateSprite();
-                break;
-            }
-        }
 
         Random random;
         int attackScore = 0;

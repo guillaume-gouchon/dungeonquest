@@ -8,15 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giggs.heroquest.R;
 import com.giggs.heroquest.activities.AdventureActivity;
 import com.giggs.heroquest.activities.games.GameActivity;
-import com.giggs.heroquest.game.GameConstants;
 import com.giggs.heroquest.models.Game;
-import com.giggs.heroquest.utils.ApplicationUtils;
 
 public class StoryFragment extends DialogFragment implements View.OnClickListener {
 
@@ -28,8 +25,6 @@ public class StoryFragment extends DialogFragment implements View.OnClickListene
     /**
      * UI
      */
-    private Runnable mStormEffect;
-    private ImageView mStormsBg;
     private TextView mStoryTV;
 
     @Override
@@ -53,8 +48,6 @@ public class StoryFragment extends DialogFragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.dialog_fragment_story, container, false);
 
-        mStormsBg = (ImageView) layout.findViewById(R.id.storms);
-
         // retrieve story content
         Bundle args = getArguments();
         int storyResource = args.getInt(ARGUMENT_STORY);
@@ -73,18 +66,6 @@ public class StoryFragment extends DialogFragment implements View.OnClickListene
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mStormEffect = ApplicationUtils.addStormBackgroundAtmosphere(mStormsBg, GameConstants.BG_ANIMATION_ALPHA_FROM, GameConstants.BG_ANIMATION_ALPHA_TO);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mStormsBg.removeCallbacks(mStormEffect);
-    }
-
-    @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
         if (mIsOutro) {
@@ -92,7 +73,7 @@ public class StoryFragment extends DialogFragment implements View.OnClickListene
             intent.putExtra(Game.class.getName(), ((GameActivity) getActivity()).getGame());
             getActivity().startActivity(intent);
             getActivity().finish();
-        } else {
+        } else if (getActivity() != null) {
             ((GameActivity) getActivity()).showGame();
         }
     }

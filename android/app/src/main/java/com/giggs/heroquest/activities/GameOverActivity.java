@@ -9,6 +9,7 @@ import com.giggs.heroquest.MyActivity;
 import com.giggs.heroquest.R;
 import com.giggs.heroquest.data.QuestFactory;
 import com.giggs.heroquest.models.Game;
+import com.giggs.heroquest.providers.MyContentProvider;
 
 public class GameOverActivity extends MyActivity implements View.OnClickListener {
 
@@ -23,6 +24,9 @@ public class GameOverActivity extends MyActivity implements View.OnClickListener
 
         mGame = (Game) getIntent().getSerializableExtra(Game.class.getName());
         mGame.setQuest(QuestFactory.getAll().get(mGame.getQuest().getId()));
+
+        // save game
+        getContentResolver().insert(MyContentProvider.URI_GAMES, mGame.toContentValues());
     }
 
     private void setupUI() {

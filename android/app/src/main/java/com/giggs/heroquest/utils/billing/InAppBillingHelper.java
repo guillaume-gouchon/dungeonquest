@@ -63,9 +63,11 @@ public class InAppBillingHelper {
             int responseCode = response.getInt(RESPONSE_CODE_KEY);
             if (responseCode == RESPONSE_SUCCESS) {
                 ArrayList<String> ownedItems = response.getStringArrayList(RESPONSE_PURCHASE_ITEMS_KEY);
-                for (String productId : ownedItems) {
-                    if (itemProductId.equals(productId)) {
-                        return true;
+                if (ownedItems != null) {
+                    for (String productId : ownedItems) {
+                        if (itemProductId.equals(productId)) {
+                            return true;
+                        }
                     }
                 }
             }

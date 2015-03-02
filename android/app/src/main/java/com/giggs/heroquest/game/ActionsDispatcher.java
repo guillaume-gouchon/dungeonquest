@@ -29,6 +29,7 @@ import com.giggs.heroquest.models.dungeons.decorations.Searchable;
 import com.giggs.heroquest.models.dungeons.decorations.Stairs;
 import com.giggs.heroquest.models.dungeons.traps.Trap;
 import com.giggs.heroquest.models.effects.BuffEffect;
+import com.giggs.heroquest.models.effects.CamouflageEffect;
 import com.giggs.heroquest.models.effects.DamageEffect;
 import com.giggs.heroquest.models.effects.Effect;
 import com.giggs.heroquest.models.effects.InvocationEffect;
@@ -221,6 +222,15 @@ public class ActionsDispatcher implements UserActionListener {
                             animateFight(mGameActivity.getActiveCharacter(), target, fightResult, new OnActionExecuted() {
                                 @Override
                                 public void onActionDone(boolean success) {
+                                    // remove invisibility
+                                    for (Effect buff : mGameActivity.getActiveCharacter().getBuffs()) {
+                                        if (buff instanceof CamouflageEffect) {
+                                            mGameActivity.getActiveCharacter().getBuffs().remove(buff);
+                                            mGameActivity.getActiveCharacter().updateSprite();
+                                            break;
+                                        }
+                                    }
+
                                     if (target.isDead()) {
                                         if (mGameActivity.getActiveCharacter().getRank() == Ranks.ME) {
                                             ((Hero) mGameActivity.getActiveCharacter()).addFrag(target.getIdentifier());
@@ -242,7 +252,6 @@ public class ActionsDispatcher implements UserActionListener {
                             });
                         }
                     }, 600);
-
                 } else {
                     mGameActivity.nextTurn();
                 }

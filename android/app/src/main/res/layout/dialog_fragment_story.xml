@@ -2,22 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_cave">
 
-    <ImageView
-        android:id="@+id/storms"
+    <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/bg_home"
-        android:tint="#cc000000" />
+        android:tint="#44000000" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
-        android:overScrollMode="never"
-        android:background="@drawable/bg_home_flash">
+        android:overScrollMode="never">
 
         <com.giggs.heroquest.views.CustomTextView
             style="@style/StoryText"
@@ -27,7 +25,6 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp" />
     </ScrollView>
-
 
     <com.giggs.heroquest.views.CustomButton
         android:id="@+id/start_button"

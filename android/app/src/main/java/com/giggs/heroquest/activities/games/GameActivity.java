@@ -391,13 +391,13 @@ public class GameActivity extends MyBaseGameActivity {
                                 drawAnimatedSprite(mActiveCharacter.getTilePosition().getTileX(), mActiveCharacter.getTilePosition().getTileY(), effect.getSpriteName(), 50, GameConstants.ANIMATED_SPRITE_ALPHA, 1.0f, 0, true, 100, null);
                             }
                             // test if character is still invisible
-                            for (GameElement element : mQuest.getObjects()) {
+                            for (GameElement element : mQuest.getQueue()) {
                                 if (element instanceof Monster) {
                                     // test if the monster sees invisible character depending on the distance
                                     double distance = MathUtils.calcManhattanDistance(element.getTilePosition(), mActiveCharacter.getTilePosition());
                                     Log.d(TAG, "distance to invisible character = " + distance);
-                                    if (distance == 1 || ((Unit) element).testCharacteristic(Characteristics.SPIRIT, (int) (effect.getValue() + distance))) {
-                                        // character is not hidden anymore
+                                    if (((Unit) element).testCharacteristic(Characteristics.SPIRIT, (int) (effect.getValue() + distance / 2))) {
+                                        Log.d(TAG, "character is not invisible anymore");
                                         isHidden = false;
                                         mActiveCharacter.getBuffs().remove(effect);
                                         // animate end of invisibility
